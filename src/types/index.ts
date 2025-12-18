@@ -94,3 +94,35 @@ export interface ViewProps {
   data?: any;
 }
 
+
+//=============新加入
+
+// 登录相关类型
+export interface LoginCredentials {
+  account: string;
+  password: string;
+  captcha?: string;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  message?: string;
+  token?: string;
+  user?: {
+    id: string;
+    account: string;
+    email?: string;
+    avatar?: string;
+    points?: number;
+    level?: number;
+  };
+  expiresIn?: number;
+}
+
+export interface ApiError {
+  code: number;
+  message: string;
+  details?: any;
+}
+
+ 
