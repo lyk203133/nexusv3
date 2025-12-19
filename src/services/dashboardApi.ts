@@ -126,6 +126,9 @@ export interface DashboardStats {
   monthlyProfit: number;
 }
 
+
+
+
 export interface TodayStats {
   buy: number;
   sell: number;

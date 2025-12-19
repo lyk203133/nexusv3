@@ -26,7 +26,7 @@ const LoginView: React.FC<ViewProps> = ({ navigate, t, lang, setLang }) => {
     } catch (err) {
       console.error('获取验证码失败:', err);
       // 模拟一个验证码（实际开发中应从API获取）
-       setCaptchaId(0);
+       setCaptchaId('0');
       setCaptchaImage('data:image/svg+xml;base64,' + btoa(`
         <svg width="120" height="40" xmlns="http://www.w3.org/2000/svg">
           <rect width="120" height="40" fill="#1e293b"/>
@@ -158,7 +158,7 @@ const LoginView: React.FC<ViewProps> = ({ navigate, t, lang, setLang }) => {
             placeholder={t.login.accPlaceholder} 
             value={account}
             onChange={(e) => setAccount(e.target.value)}
-            disabled={loading}
+            //disabled={loading}
           />
           
           <InputField 
@@ -167,7 +167,7 @@ const LoginView: React.FC<ViewProps> = ({ navigate, t, lang, setLang }) => {
             placeholder={t.login.passPlaceholder} 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
+            //disabled={loading}
           />
           
           {/* 验证码输入区域 */}
@@ -179,8 +179,8 @@ const LoginView: React.FC<ViewProps> = ({ navigate, t, lang, setLang }) => {
                 placeholder={t.login.captchaPlaceholder}
                 value={captcha}
                 onChange={(e) => setCaptcha(e.target.value)}
-                disabled={loading}
-                className="flex-1"
+                //disabled={loading}
+                //className="flex-1"
               />
               
               {/* 验证码图片 */}

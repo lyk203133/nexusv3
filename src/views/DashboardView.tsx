@@ -22,7 +22,9 @@ const DEFAULT_TODAY_STATS = {
   buy: 3200,
   sell: 1200,
   buyRate: '+5.2%',
-  sellStatus: 'Active'
+  sellStatus: 'Active',
+  transactionCount: 0,
+  successRate: 0
 };
 
 const DashboardView: React.FC<ViewProps> = ({ navigate, t, lang, userInfo }) => {
@@ -338,7 +340,7 @@ const DashboardView: React.FC<ViewProps> = ({ navigate, t, lang, userInfo }) => 
               {loading.dashboard ? (
                 <div className="h-6 w-20 bg-slate-700 rounded animate-pulse"></div>
               ) : (
-                `+${todayStats.buy.amount.toLocaleString()}`
+                `+${todayStats.buy.toLocaleString()}`
               )}
             </h3>
             <div className="flex items-center text-[10px] text-emerald-500/80">
@@ -353,7 +355,7 @@ const DashboardView: React.FC<ViewProps> = ({ navigate, t, lang, userInfo }) => 
               {loading.dashboard ? (
                 <div className="h-6 w-20 bg-slate-700 rounded animate-pulse"></div>
               ) : (
-                `-${todayStats.sell.amount.toLocaleString()}`
+                `-${todayStats.sell.toLocaleString()}`
               )}
             </h3>
             <div className="flex items-center text-[10px] text-rose-400/80">
@@ -515,7 +517,7 @@ const DashboardView: React.FC<ViewProps> = ({ navigate, t, lang, userInfo }) => 
               quickActions.map(action => (
                 <button 
                   key={action.id}
-                  onClick={() => navigate(action.route)}
+                  onClick={() => {}}
                   disabled={!action.enabled}
                   className={`flex flex-col items-center justify-center p-3 rounded-lg transition-colors border shadow-lg ${
                     action.enabled 

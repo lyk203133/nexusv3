@@ -1,6 +1,8 @@
 export interface UserInfo {
+  id:number | 0;
   nickname: string;
   avatar: string | null;
+  verified:boolean | false
 }
 
 export interface TransactionItem {

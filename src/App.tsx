@@ -31,8 +31,10 @@ export default function App() {
   const [navData, setNavData] = useState<any>(null); 
   const [lang, setLang] = useState<Language>('zh-TW');
   const [userInfo, setUserInfo] = useState<UserInfo>({
+    id:0,
     nickname: 'Player_99',
-    avatar: null
+    avatar: null,
+    verified:false
   });
 
   const navigate = (view: ViewName, data: any = null) => {
