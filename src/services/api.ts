@@ -42,7 +42,7 @@ api.interceptors.response.use(
 export const authApi = {
   // 登录
   login: async (credentials: { account: string; password: string; captcha?: string,captchaId?:string }) => {
-    return api.post('/auth.php', credentials);
+    return api.post('/auth/login', credentials);
   },
 
   // 注册
@@ -62,7 +62,7 @@ export const authApi = {
 
   // 获取验证码
   getCaptcha: async () => {
-    return api.get('/captcha.php');
+    return api.get('/auth/captcha');
   },
 
   // 验证验证码

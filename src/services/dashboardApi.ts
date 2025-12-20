@@ -6,7 +6,7 @@ export const dashboardApi = {
    * 获取仪表板统计数据
    */
   getDashboardStats: async () => {
-    return api.get('/dashboard/stats.php');
+    return api.get('/dashboard/stats');
   },
 
   /**
@@ -17,7 +17,7 @@ export const dashboardApi = {
     sortType?: 'time' | 'amount';
     sortDirection?: 'asc' | 'desc';
   }) => {
-    return api.get('/dashboard/platforms.php', { params });
+    return api.get('/dashboard/platforms', { params });
   },
 
   /**
@@ -28,7 +28,7 @@ export const dashboardApi = {
     sortType?: 'time' | 'amount';
     sortDirection?: 'asc' | 'desc';
   }) => {
-    return api.get('/dashboard/merchants.php', { params });
+    return api.get('/dashboard/merchants', { params });
   },
 
   /**
@@ -39,21 +39,21 @@ export const dashboardApi = {
     sortType?: 'time' | 'amount';
     sortDirection?: 'asc' | 'desc';
   }) => {
-    return api.get('/dashboard/members.php', { params });
+    return api.get('/dashboard/members', { params });
   },
 
   /**
    * 获取用户资产信息
    */
   getUserAssets: async () => {
-    return api.get('/dashboard/assets.php');
+    return api.get('/dashboard/assets');
   },
 
   /**
    * 获取今日交易统计
    */
   getTodayStats: async () => {
-    return api.get('/dashboard/today-stats.php');
+    return api.get('/dashboard/today-stats');
   },
 
   /**
@@ -64,14 +64,14 @@ export const dashboardApi = {
     page?: number;
     limit?: number;
   }) => {
-    return api.get('/dashboard/trade-history.php', { params });
+    return api.get('/dashboard/trade-history', { params });
   },
 
   /**
    * 获取快速操作数据
    */
   getQuickActions: async () => {
-    return api.get('/dashboard/quick-actions.php');
+    return api.get('/dashboard/quick-actions');
   },
 };
 
