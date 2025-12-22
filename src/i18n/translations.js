@@ -35,6 +35,14 @@ export const TRANSLATIONS = {
       loginBtn: "登入",
       register: "註冊帳號",
       forgotPass: "忘記密碼？",
+      loading: '登录中...',
+      success: '登录成功',
+      failed: '登录失败',
+      welcomeBack: '欢迎回来！',
+      networkError: '网络错误，请检查连接',
+      validation: {
+        allFieldsRequired: '请填写所有字段'
+      }
     },
     forgot: {
       verifyTitle: "驗證身分",
