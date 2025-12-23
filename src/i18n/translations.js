@@ -122,6 +122,8 @@ export const TRANSLATIONS = {
         amount: '按金额排序',
         time: '按时间排序'
       },
+      buySuccess:'購買成功',
+      buySuccessMessage:'購買成功'
     },
     trade: {
       buyTitle: "購買點數",

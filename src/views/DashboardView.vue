@@ -418,8 +418,8 @@ async function handleBuy(item) {
     if (response.data.success) {
       showToast({
         type: 'success',
-        title: t.dashboard.buySuccess,
-        message: t.dashboard.buySuccessMessage
+        title: response.data.message,
+        message: response.data.message
       })
       
       // 刷新数据
