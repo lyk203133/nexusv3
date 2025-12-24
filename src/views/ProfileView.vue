@@ -314,11 +314,11 @@ async function confirmLogout() {
     authStore.logout()
     
     // 显示退出成功提示
-    showToast({
+    /*showToast({
       type: 'success',
       title: t.value.profile.logoutSuccess,
       message: t.value.profile.logoutSuccessMessage
-    })
+    })*/
     
     // 跳转到登录页
     router.push('/login')

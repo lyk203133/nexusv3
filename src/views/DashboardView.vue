@@ -57,7 +57,7 @@
           <div class="bg-slate-800 rounded-xl p-3 border border-slate-700 shadow-lg relative overflow-hidden group">
             <p class="text-slate-400 text-[10px] font-bold mb-1">{{ t.dashboard.avail }}</p>
             <h3 class="text-lg font-mono font-bold text-blue-400 mb-2 tracking-tight">
-              {{ dashboardData.assetBalance?.toLocaleString() || '0' }}
+              {{ dashboardData.wallet?.balance.toLocaleString() || '0' }}
             </h3>
             <div class="flex items-center text-[10px] text-slate-500">
               <Coins :size="10" class="mr-1 text-yellow-500" />
@@ -81,7 +81,7 @@
             </h3>
             <div class="flex items-center text-[10px] text-rose-400/80">
               <TrendingDown :size="10" class="mr-1" />
-              {{ dashboardData.todayStats?.sellStatus || '正常' }}
+              {{ dashboardData.todayStats?.sellRate || '0' }}
             </div>
           </div>
         </div>
@@ -325,7 +325,7 @@ const processedList = computed(() => {
 
 // Methods
 function canAfford(item) {
-  return item.type === 'buy' ? dashboardData.value.points.available >= item.amount : true
+  return item.type === 'buy' ? dashboardData.value.wallet.balance >= item.amount : true
 }
 
 function getBadgeText(bonus) {
@@ -350,7 +350,7 @@ async function fetchDashboardData() {
   error.value = ''
 
   try {
-    const response = await api.get('/dashboard')
+    const response = await api.get('/wallet')
     
     if (response.data.success) {
       dashboardData.value = response.data.data

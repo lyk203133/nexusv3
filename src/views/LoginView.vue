@@ -122,11 +122,11 @@ async function handleLogin() {
 
     if (success) {
       // 登录成功，显示提示并跳转
-      showToast({
+      /*showToast({
         type: 'success',
         title: t.value.login.success,
         message: t.value.login.welcomeBack
-      })
+      })*/
       
       // 跳转到首页或仪表板
       router.push('/dashboard')
