@@ -320,7 +320,7 @@ function validateAmount() {
   } else if (numAmount > maxAmount.value) {
     amountError.value = t.value.mall.errors.maxAmount.replace('{max}', maxAmount.value)
   } else if (numAmount > userBalance.value) {
-    amountError.value = t.value.mall.errors.insufficientBalance
+    //amountError.value = t.value.mall.errors.insufficientBalance
   } else {
     amountError.value = ''
   }
