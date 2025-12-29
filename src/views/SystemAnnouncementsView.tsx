@@ -1,13 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, CheckCheck, Clock, Info, Check } from 'lucide-react';
 import { ViewProps } from '../types';
 import { MOCK_ANNOUNCEMENTS } from '../constants/mockData';
 import { Announcement } from '../types';
+import api from '../services/api';
 
 const SystemAnnouncementsView: React.FC<ViewProps> = ({ navigate, t, lang }) => {
   const [announcements, setAnnouncements] = useState<Announcement[]>(MOCK_ANNOUNCEMENTS);
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  
+
+  //從 API 取得公告
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const res = await api.get("/announcement/getAnnouncements"); 
+        setAnnouncements(res.data); // 假設 API 回傳陣列
+      } catch (error) {
+        console.error("取得公告失敗:", error);
+      } 
+    };
+    fetchAnnouncements();
+  }, []);
+
   const markAllRead = () => setAnnouncements(prev => prev.map(a => ({ ...a, isRead: true })));
   const markOneRead = (id: number, e: React.MouseEvent) => { 
     e.stopPropagation(); 
@@ -23,20 +37,20 @@ const SystemAnnouncementsView: React.FC<ViewProps> = ({ navigate, t, lang }) => 
           </button>
           <h2 className="text-white font-bold text-lg">{t.announce.title}</h2>
         </div>
-        <button onClick={markAllRead} className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-slate-700 rounded-full">
+        {/* <button onClick={markAllRead} className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-slate-700 rounded-full">
           <CheckCheck size={20} />
-        </button>
+        </button> */}
       </div>
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 no-scrollbar">
         {announcements.map((item) => (
           <div 
             key={item.id} 
             onClick={() => setExpandedId(expandedId === item.id ? null : item.id)} 
-            className={`relative bg-slate-800 border ${item.isRead ? 'border-slate-800' : 'border-emerald-500/50'} rounded-xl p-4 transition-all cursor-pointer hover:bg-slate-700/50`}
+            className={`relative bg-slate-800 border ${!item.isRead ? 'border-slate-800' : 'border-emerald-500/50'} rounded-xl p-4 transition-all cursor-pointer hover:bg-slate-700/50`}
           >
-            {!item.isRead && <div className="absolute top-4 right-4 w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>}
+            {item.isRead && <div className="absolute top-4 right-4 w-2 h-2 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>}
             <div className="pr-6">
-              <h3 className={`font-bold text-sm mb-1 ${item.isRead ? 'text-slate-300' : 'text-white'}`}>
+              <h3 className={`font-bold text-sm mb-1 ${!item.isRead ? 'text-slate-300' : 'text-white'}`}>
                 {lang === 'zh-TW' ? item.title.zh : (lang === 'vi-VN' ? item.title.vi : item.title.en)}
               </h3>
               <div className="flex items-center text-[10px] text-slate-500 mb-2">
@@ -52,7 +66,7 @@ const SystemAnnouncementsView: React.FC<ViewProps> = ({ navigate, t, lang }) => 
                 <Info size={10} className="mr-1" />
                 {expandedId === item.id ? t.announce.clickCollapse : t.announce.clickExpand}
               </span>
-              {!item.isRead && (
+              {/* {!item.isRead && (
                 <button 
                   onClick={(e) => markOneRead(item.id, e)} 
                   className="flex items-center text-[10px] bg-emerald-900/30 text-emerald-400 px-2 py-1 rounded hover:bg-emerald-900/50 border border-emerald-500/20"
@@ -60,7 +74,7 @@ const SystemAnnouncementsView: React.FC<ViewProps> = ({ navigate, t, lang }) => 
                   <Check size={10} className="mr-1" />
                   {t.announce.markRead}
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         ))}
