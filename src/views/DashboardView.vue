@@ -468,15 +468,15 @@ async function handleSell(item) {
     })
     
     if (response.data.success) {
-      showToast({
+      /*showToast({
         type: 'success',
         title: t.value.dashboard.sellSuccess,
         message: t.value.dashboard.sellSuccessMessage
-      })
+      })*/
       
       // 刷新数据
-      //fetchDashboardData()
-      //fetchTradingList()
+      fetchDashboardData()
+      fetchTradingList()
       
       // 跳转到交易页面
       router.push({
