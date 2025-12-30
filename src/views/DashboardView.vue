@@ -184,7 +184,7 @@
                 v-if="item.type === 'sell'"
                 variant="primary" 
                 class="w-20 h-9 text-xs" 
-                @click="handleBuy(item)"
+                @click="handleSell(item)"
                 :loading="buyLoading && selectedItemId === item.id"
               >
                 {{ t.dashboard.actions.buy }}
@@ -193,14 +193,14 @@
                 <NeonButton 
                   variant="danger" 
                   class="w-20 h-9 text-xs" 
-                  @click="handleSell(item)"
+                  @click="handleBuy(item)"
                   :disabled="!canAfford(item)"
                   :loading="sellLoading && selectedItemId === item.id"
                 >
                   {{ t.dashboard.actions.sell }}
                 </NeonButton>
                 <span v-if="!canAfford(item)" class="text-[10px] text-rose-500">
-                  {{ t.dashboard.actions.need }} {{ item.amount.toLocaleString() }}
+                  {{ t.dashboard.actions.need }} {{ item.amount_points.toLocaleString() }}
                 </span>
               </template>
             </div>
@@ -325,7 +325,7 @@ const processedList = computed(() => {
 
 // Methods
 function canAfford(item) {
-  return item.type === 'buy' ? dashboardData.value.wallet.balance >= item.amount : true
+  return item.type === 'buy' ? dashboardData.value.wallet.balance >= item.amount_points : true
 }
 
 function getBadgeText(bonus) {
