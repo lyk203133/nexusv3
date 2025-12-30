@@ -365,7 +365,7 @@ async function handleApply() {
       amount: parseFloat(amount.value),
       memo: memo.value.trim(),
       currency: 'TWD',
-      itemId:'Buy001'
+      itemId:'1'
     })
     
     if (response.data.success) {

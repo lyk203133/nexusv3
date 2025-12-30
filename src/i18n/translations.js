@@ -128,10 +128,12 @@ export const TRANSLATIONS = {
         time: '按时间排序'
       },
       buySuccess:'購買成功',
-      buySuccessMessage:'購買成功'
+      buySuccessMessage:'購買成功',
+      sellSuccess:'賣出成功',
+      sellSuccessMessage:'賣出成功',
     },
     trade: {
-       timeLeft: '剩余时间',
+      timeLeft: '剩余时间',
       bankCode: '银行代码',
       bankAcc: '银行账号',
       amount: '支付金额',
@@ -169,6 +171,8 @@ export const TRANSLATIONS = {
       withdrawTime: "到帳時間：1-3 個工作日",
       withdrawFee: "手續費：100 點數/筆",
       confirmWithdraw: "立即提現",
+      withdrawSubmitted:"申请提现通知",
+      withdrawSuccessMessage:"賣出點數成功，请耐心等待配單"
     },
     mall: {
       title: '积分充值',
@@ -199,8 +203,8 @@ export const TRANSLATIONS = {
       
       errors: {
         invalidNumber: '请输入有效的数字',
-        minAmount: '最低充值金额为 {min} P',
-        maxAmount: '最高充值金额为 {max} P',
+        minAmount: '最低金额为 {min} P',
+        maxAmount: '最高金额为 {max} P',
         insufficientBalance: '余额不足',
         invalidAmount: '金额无效',
         pleaseCheckAmount: '请检查输入的金额',

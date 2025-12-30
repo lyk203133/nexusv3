@@ -282,11 +282,11 @@ function validateAmount() {
   }
   
   if (isNaN(numAmount)) {
-    amountError.value = t.wallet.errors.invalidNumber
+    amountError.value = t.value.mall.errors.invalidNumber
   } else if (numAmount < minWithdraw.value) {
-    amountError.value = t.wallet.errors.minAmount.replace('{min}', minWithdraw.value.toLocaleString())
+    amountError.value = t.value.mall.errors.minAmount.replace('{min}', minWithdraw.value.toLocaleString())
   } else if (numAmount > userBalance.value) {
-    amountError.value = t.wallet.errors.insufficientBalance
+    amountError.value = t.value.mall.errors.insufficientBalance
   } else {
     amountError.value = ''
   }
@@ -402,18 +402,19 @@ async function submitWithdraw() {
   try {
     const withdrawData = {
       amount: parseFloat(amount.value),
+      itemId:2,
       fee: calculateFee(),
       receive_amount: calculateReceiveAmount(),
       payment_account_id: paymentAccounts.value.length ? selectedAccountId.value : null
     }
     
-    const response = await post('/withdraw/submit', withdrawData)
+    const response = await post('/trading/sell', withdrawData)
     
     if (response.data.success) {
       showToast({
         type: 'success',
-        title: t.wallet.withdrawSubmitted,
-        message: t.wallet.withdrawSuccessMessage
+        title: t.value.wallet.withdrawSubmitted,
+        message: t.value.wallet.withdrawSuccessMessage
       })
       
       // Close dialog and navigate back
@@ -422,8 +423,8 @@ async function submitWithdraw() {
     } else {
       showToast({
         type: 'error',
-        title: t.wallet.withdrawFailed,
-        message: response.data.message || t.common.requestFailed
+        title: t.value.wallet.withdrawFailed,
+        message: response.data.message || t.value.common.requestFailed
       })
     }
   } catch (error) {

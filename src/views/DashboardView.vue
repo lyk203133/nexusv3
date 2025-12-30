@@ -170,7 +170,7 @@
                 <span class="text-[10px] text-slate-500 font-mono ml-1">{{ item.time }}</span>
               </div>
               <div class="flex items-center">
-                <span class="text-xl font-mono font-bold text-white tracking-tighter">{{ item.amount.toLocaleString() }}</span>
+                <span class="text-xl font-mono font-bold text-white tracking-tighter">{{ item.amount_points?.toLocaleString() }}</span>
                 <span class="text-xs text-slate-500 ml-1 mt-2">P</span>
               </div>
               <div v-if="item.bonus" class="flex mt-1">
@@ -412,15 +412,15 @@ async function handleBuy(item) {
   try {
     const response = await post('/trading/buy', {
       itemId: item.id,
-      amount: item.amount
+      amount: item.amount_points
     })
     
     if (response.data.success) {
-      showToast({
+      /*showToast({
         type: 'success',
         title: response.data.message,
         message: response.data.message
-      })
+      })*/
       
       // 刷新数据
       fetchDashboardData()
@@ -464,19 +464,19 @@ async function handleSell(item) {
   try {
     const response = await post('/trading/sell', {
       itemId: item.id,
-      amount: item.amount
+      amount: item.amount_points
     })
     
     if (response.data.success) {
       showToast({
         type: 'success',
-        title: t.dashboard.sellSuccess,
-        message: t.dashboard.sellSuccessMessage
+        title: t.value.dashboard.sellSuccess,
+        message: t.value.dashboard.sellSuccessMessage
       })
       
       // 刷新数据
-      fetchDashboardData()
-      fetchTradingList()
+      //fetchDashboardData()
+      //fetchTradingList()
       
       // 跳转到交易页面
       router.push({
@@ -486,7 +486,7 @@ async function handleSell(item) {
     } else {
       showToast({
         type: 'error',
-        title: t.dashboard.sellFailed,
+        title: t.value.dashboard.sellFailed,
         message: response.data.message || t.common.requestFailed
       })
     }
@@ -494,7 +494,7 @@ async function handleSell(item) {
     console.error('Sell error:', err)
     showToast({
       type: 'error',
-      title: t.dashboard.sellFailed,
+      title: t.value.dashboard.sellFailed,
       message: err.message || t.common.networkError
     })
   } finally {
