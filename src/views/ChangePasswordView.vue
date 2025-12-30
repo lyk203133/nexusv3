@@ -42,6 +42,7 @@ import { ArrowLeft, Lock } from 'lucide-vue-next'
 import InputField from '@/components/InputField.vue'
 import NeonButton from '@/components/NeonButton.vue'
 import { useTranslation } from '@/composables/useTranslation'
+import { post } from '@/utils/api'
 
 const router = useRouter()
 const { t } = useTranslation()
@@ -50,11 +51,26 @@ const oldPass = ref('')
 const newPass = ref('')
 const confirmPass = ref('')
 
-function handleSave() {
+async function handleSave() {
   if (!oldPass.value || !newPass.value || !confirmPass.value) return
   if (newPass.value !== confirmPass.value) return alert(t.value.security.errorMismatch)
-  alert(t.value.security.successMsg)
-  router.push('/security-center')
+
+  try {
+    const response = await post('/user/reset-password',{
+      oldPass: oldPass.value,
+      newPass: newPass.value,
+      confirmPass: confirmPass.value
+    })
+
+    console.log(response)
+    if (response.data.success) {
+      alert(t.value.security.successMsg)
+      router.push('/security-center')
+    }
+  } catch (err) {
+    alert(err.response?.data?.message);
+  }
+
 }
 </script>
 
