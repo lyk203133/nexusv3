@@ -109,7 +109,7 @@
               @click="filterType = type"
               :class="`pb-1 border-b-2 transition-colors ${filterType === type ? 'text-emerald-400 border-emerald-400' : 'text-slate-500 border-transparent hover:text-slate-300'}`"
             >
-              {{ type === 'all' ? t.common.all : (type === 'buy' ? t.dashboard.filter.buy : t.dashboard.filter.sell) }}
+              {{ type === 'all' ? t.common.all : (type === 'buy' ? t.dashboard.filter.buy : t.dashboard.filter.sell) }}  
             </button>
           </div>
           <div class="flex bg-slate-800 rounded-md p-0.5">
@@ -181,10 +181,10 @@
             </div>
             <div class="flex flex-col items-end gap-2">
               <NeonButton 
-                v-if="item.type === 'sell'"
+                v-if="item.type === 'SELL'"
                 variant="primary" 
                 class="w-20 h-9 text-xs" 
-                @click="handleSell(item)"
+                @click="handleBuy(item)"
                 :loading="buyLoading && selectedItemId === item.id"
               >
                 {{ t.dashboard.actions.buy }}
@@ -193,7 +193,7 @@
                 <NeonButton 
                   variant="danger" 
                   class="w-20 h-9 text-xs" 
-                  @click="handleBuy(item)"
+                  @click="handleSell(item)"
                   :disabled="!canAfford(item)"
                   :loading="sellLoading && selectedItemId === item.id"
                 >
@@ -304,9 +304,9 @@ const processedList = computed(() => {
 
   // Filter by type
   if (filterType.value === 'buy') {
-    list = list.filter(item => item.type === 'sell')
+    list = list.filter(item => item.type === 'SELL')
   } else if (filterType.value === 'sell') {
-    list = list.filter(item => item.type === 'buy')
+    list = list.filter(item => item.type === 'BUY')
   }
 
   // Sort
