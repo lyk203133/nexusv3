@@ -39,13 +39,45 @@
           v-model="password"
           :disabled="loading"
         />
-        <InputField 
-          :icon="Key" 
-          :isSecure="true" 
-          :placeholder="t.login.captchaPlaceholder" 
-          v-model="captcha"
-          :disabled="loading"
+        <div class="relative">
+    <InputField 
+      :icon="Key" 
+      :isSecure="false" 
+      :placeholder="t.login.captchaPlaceholder" 
+      v-model="captcha"
+      :disabled="loading"
+    />
+    <!-- 驗證碼圖片 -->
+    <div class="absolute right-0 top-0 h-full flex items-center pr-3">
+      <button 
+        type="button"
+        @click="refreshCaptcha"
+        class="flex items-center justify-center w-24 h-full"
+        :disabled="loading"
+      >
+        <!-- 驗證碼圖片 -->
+        <img 
+          v-if="captchaImageUrl"
+          :src="captchaImageUrl"
+          alt="驗證碼"
+          class="w-full h-10 object-cover rounded border border-slate-700 hover:border-emerald-500 transition-colors"
+          @error="handleCaptchaError"
         />
+        <!-- 加載中或錯誤狀態 -->
+        <div 
+          v-else
+          class="w-full h-10 bg-slate-800 border border-slate-700 rounded flex items-center justify-center"
+        >
+          <template v-if="captchaLoading">
+            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-500"></div>
+          </template>
+          <template v-else>
+            <RefreshCw :size="16" class="text-slate-500" />
+          </template>
+        </div>
+      </button>
+    </div>
+  </div>
         <NeonButton 
           fullWidth 
           @click="handleLogin"
@@ -76,7 +108,7 @@
 </template>
 
 <script setup>
-import { ref, computed ,watch} from 'vue'
+import { ref, computed ,watch,onMounted,onUnmounted} from 'vue'
 import { useRouter } from 'vue-router'
 import { User, Lock, Key, Shield } from 'lucide-vue-next'
 import InputField from '@/components/InputField.vue'
@@ -85,6 +117,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/auth'
 import { showToast } from '@/utils/notification'
+import { api } from '@/utils/api'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -93,6 +126,9 @@ const { t, lang, setLang } = useTranslation()
 const account = ref('')
 const password = ref('')
 const captcha = ref('')
+const captchaImageUrl = ref('')
+const captchaLoading = ref(false)
+const captchaKey = ref('')
 const loading = ref(false)
 const errorMessage = ref('')
 
@@ -100,6 +136,66 @@ const errorMessage = ref('')
 const isFormValid = computed(() => {
   return account.value.trim() && password.value.trim() && captcha.value.trim()
 })
+
+// 獲取驗證碼圖片的方法
+async function fetchCaptcha() {
+  captchaLoading.value = true
+  try {
+    // 假設 API 端點是 /api/captcha
+    const response = await api.get('/auth/captcha', {
+      //responseType: 'blob', // 重要：需要設置為 blob 來接收圖片
+      params: {
+        t: Date.now() // 加上時間戳避免緩存
+      }
+    })
+    
+    // 將 blob 轉換為 URL
+    //const url = URL.createObjectURL(response.data)
+    captchaImageUrl.value = response.data.data.captchaImage
+    captchaKey.value = response.data.data.id
+    console.log('captchaImageUrl',captchaImageUrl.value)
+    
+    // 如果有需要，從 response headers 獲取驗證碼 key
+    // captchaKey.value = response.headers['x-captcha-key']
+    
+  } catch (err) {
+    console.error('Failed to fetch captcha:', err)
+    showToast({
+      type: 'error',
+      title: t.value.common.error,
+      message: t.value.login.captchaLoadFailed || '驗證碼載入失敗'
+    })
+  } finally {
+    captchaLoading.value = false
+  }
+}
+
+// 刷新驗證碼
+function refreshCaptcha() {
+  if (captchaLoading.value) return
+  
+  // 清理之前的 URL
+  if (captchaImageUrl.value) {
+    URL.revokeObjectURL(captchaImageUrl.value)
+    captchaImageUrl.value = ''
+  }
+  
+  // 重新獲取
+  fetchCaptcha()
+  
+  // 清空輸入的驗證碼
+  captcha.value = ''
+}
+
+// 處理圖片載入錯誤
+function handleCaptchaError() {
+  captchaImageUrl.value = ''
+  showToast({
+    type: 'error',
+    title: t.value.common.error,
+    message: t.value.login.captchaLoadFailed || '驗證碼圖片載入失敗'
+  })
+}
 
 async function handleLogin() {
   // 表单验证
@@ -117,7 +213,8 @@ async function handleLogin() {
     const success = await authStore.login({
       account: account.value.trim(),
       password: password.value,
-      captcha: captcha.value.trim()
+      captcha: captcha.value.trim(),
+      captchaKey:captchaKey.value.trim()
     })
 
     if (success) {
@@ -153,4 +250,15 @@ function clearError() {
 watch(account, clearError)
 watch(password, clearError)
 watch(captcha, clearError)
+
+onMounted(() => {
+  fetchCaptcha()
+})
+
+// 在組件卸載時清理 URL
+onUnmounted(() => {
+  if (captchaImageUrl.value) {
+    URL.revokeObjectURL(captchaImageUrl.value)
+  }
+})
 </script>
