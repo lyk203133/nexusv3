@@ -165,8 +165,10 @@ async function fetchCaptcha() {
       title: t.value.common.error,
       message: t.value.login.captchaLoadFailed || '驗證碼載入失敗'
     })
+     
   } finally {
     captchaLoading.value = false
+    
   }
 }
 

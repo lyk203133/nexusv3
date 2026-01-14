@@ -360,7 +360,7 @@ const displayName = computed(() => {
   return userInfo.value.nickname || 
          userInfo.value.username || 
          userInfo.value.name || 
-         t.profile.defaultName
+         t.profile?.defaultName
 })
 
 const defaultAvatar = computed(() => {
