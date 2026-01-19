@@ -8,6 +8,7 @@ export function showToast(options) {
     window.toast[type](message)
   } else {
     // 简单的浏览器提示
-    alert(`${title}: ${message}`)
+    //alert(`${title}: ${message}`)
+    alert(`${message}`)
   }
 }
