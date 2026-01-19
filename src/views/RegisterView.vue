@@ -187,7 +187,26 @@
             </button>
 
           </div>
-          <InputField :icon="FileText" :placeholder="t.register.bankName" v-model="formData.bankName" />
+          <!--InputField :icon="FileText" :placeholder="t.register.bankName" v-model="formData.bankName" /-->
+          <div style="margin-bottom: 10px;">
+            <label class="text-xs text-slate-400 mb-1 block">{{ t.register.bankName }}</label>
+            <select 
+              v-model="formData.bankName"
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white"
+            >
+              <option value="VIB">VIB</option>
+              <option value="PG BANK">PG BANK</option>
+              <option value="VTB">VTB</option>
+              <option value="MB">MB</option>
+              <option value="VCB">VCB</option>
+              <option value="MSB">MSB</option>
+              <option value="ACB">ACB</option>
+              <option value="SEA">SEA</option>
+              <option value="EIB">EIB</option>
+              <option value="OCB">OCB</option>
+              <option value="VIKKI ">VIKKI</option>
+            </select>
+          </div>
           <InputField :icon="User" :placeholder="t.register.accountName" v-model="formData.accountName" />
           <InputField :icon="FileText" :placeholder="t.register.bankAcc" v-model="formData.bankAcc" />
         </section>
