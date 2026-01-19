@@ -166,7 +166,7 @@
             <div class="flex flex-col gap-1 pl-2">
               <div class="flex items-center gap-2">
                 <span class="text-white font-bold text-sm">{{ item.name }}</span>
-                <div class="flex text-yellow-500 text-[10px]">★ {{ item.rating }}</div>
+                <div v-if="item.is_star" class="flex text-yellow-500 text-[10px]">★ {{ item.rating }}</div>
                 <span class="text-[10px] text-slate-500 font-mono ml-1">{{ item.time }}</span>
               </div>
               <div class="flex items-center">
