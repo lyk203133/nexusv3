@@ -553,9 +553,8 @@ async function handleSubmit() {
       })
 
       // 更新本地數據
-      accountInfo.value = response.data.data.account
+      accountInfo.value = response.data.data
       accountInfo.value.status = 'pending' // 提交後變為審核中
-      
       // 退出編輯模式
       isEditing.value = false
     } else {
