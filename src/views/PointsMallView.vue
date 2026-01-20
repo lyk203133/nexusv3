@@ -140,9 +140,9 @@
         <!-- QR Code -->
         <Card class="flex flex-col items-center mb-6">
           <div class="w-48 h-48 bg-white p-2 rounded-lg mb-4">
-            <div v-if="orderData.qrCode" class="w-full h-full flex items-center justify-center">
+            <div v-if="orderData.payment_qr_url" class="w-full h-full flex items-center justify-center">
               <img 
-                :src="'data:image/png;base64,'+orderData.qrCode" 
+                :src="'data:image/png;base64,'+orderData.payment_qr_url" 
                 alt="Payment QR Code" 
                 class="w-full h-full object-contain"
               />
