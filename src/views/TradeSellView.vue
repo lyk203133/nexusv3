@@ -21,10 +21,64 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft } from 'lucide-vue-next'
 import NeonButton from '@/components/NeonButton.vue'
 import { useTranslation } from '@/composables/useTranslation' 
- 
+import { api } from '@/utils/api'
+
+const route = useRoute()
+const router = useRouter()
 const { t } = useTranslation()
+
+// 定時器變數
+let timer = null
+
+// Get order ID from route
+const orderId = route.query.id
+
+// 獲取狀態的函數
+async function checkStatus() {
+  
+  try {
+    const response = await api.get(`/orders?id=${orderId}`)
+    
+    if (response.data.success && response.data.data.status == 2) {
+      alert('交易成功')
+      router.push('/dashboard')
+      
+    } 
+  } catch (err) {
+    console.error('Fetch order error:', err)
+  } finally {
+    // 無論成功或失敗，都設定下一次 10 秒後的執行
+    // 這樣可以保證在組件還掛載時持續執行
+    startPolling()
+  }
+}
+
+// 開始輪詢
+const startPolling = () => {
+  // 清除舊的避免重複
+  if (timer) clearTimeout(timer)
+  
+  timer = setTimeout(() => {
+    checkStatus()
+  }, 10000) // 10000 毫秒 = 10 秒
+}
+
+onMounted(() => {
+  // 組件掛載後立即執行第一次檢查
+  checkStatus()
+})
+
+onUnmounted(() => {
+  // 組件卸載時務必清除定時器，防止記憶體洩漏與背景請求
+  if (timer) {
+    clearTimeout(timer)
+    timer = null
+  }
+})
 </script>
 
