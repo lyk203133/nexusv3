@@ -43,8 +43,8 @@
         <div class="w-48 h-48 bg-white p-2 rounded-lg mb-4">
           <div class="w-full h-full bg-slate-900 flex items-center justify-center relative overflow-hidden">
             <!-- QR Code Placeholder -->
-            <div v-if="order.qr_code_url" class="w-full h-full">
-              <img :src="order.qr_code_url" alt="QR Code" class="w-full h-full object-contain" />
+            <div v-if="order.payment_qr_url" class="w-full h-full">
+              <img :src="order.payment_qr_url" alt="QR Code" class="w-full h-full object-contain" />
             </div>
             <div v-else class="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-1 p-2 opacity-80">
               <div 
@@ -53,7 +53,7 @@
                 :class="`bg-black ${Math.random() > 0.5 ? 'opacity-100' : 'opacity-0'}`"
               />
             </div>
-            <div v-if="!order.qr_code_url" class="z-10 bg-white p-1 rounded">
+            <div v-if="!order.payment_qr_url" class="z-10 bg-white p-1 rounded">
               <Wallet class="text-black" />
             </div>
           </div>
