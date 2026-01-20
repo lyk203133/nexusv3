@@ -346,7 +346,8 @@ export const TRANSLATIONS = {
     account: {
       title: "收款帳戶管理",
       status: { verified: "已認證", pending: "審核中" },
-      pendingDesc: "您的變更正在審核中。審核通過前將繼續使用舊帳戶。",
+      //pendingDesc: "您的變更正在審核中。審核通過前將繼續使用舊帳戶。",
+      pendingDesc: "您的變更正在審核中。",
       bankName: "銀行名稱",
       accountName: "姓名",
       accNo: "銀行帳號",

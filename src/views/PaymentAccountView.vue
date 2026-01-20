@@ -91,14 +91,14 @@
             {{ accountInfo.id ? t.account.edit : t.account.add }}
           </NeonButton>
           
-          <NeonButton 
+          <!--NeonButton 
             v-if="accountInfo.status === 'verified'" 
             variant="danger" 
             class="w-24"
             @click="handleDelete"
           >
             <Trash2 :size="16" />
-          </NeonButton>
+          </NeonButton-->
         </div>
 
         <!-- Edit Form -->
