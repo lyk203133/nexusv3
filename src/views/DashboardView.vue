@@ -613,10 +613,7 @@ async function confirmSellWithPassword() {
       closePasswordModal()
       
       // 跳转到交易页面
-      router.push({
-        name: 'trade-sell',
-        params: { item: JSON.stringify(item) }
-      })
+      router.push('/trade-sell?id='+item.id)
     } else {
       showToast({
         type: 'error',
