@@ -310,7 +310,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch,defineExpose } from 'vue'
 import { useRouter } from 'vue-router'
 import { 
   Bell, 
@@ -396,6 +396,19 @@ const processedList = computed(() => {
 })
 
 // Methods
+
+const refresh = async () => {
+  console.log('刷新订单页面')
+  fetchDashboardData()
+  fetchTradingList()
+}
+
+// 将 refresh 方法暴露给父组件
+defineExpose({
+  refresh
+})
+
+
 function canAfford(item) {
   return item.type === 'buy' ? dashboardData.value.wallet.balance >= item.amount_points : true
 }
