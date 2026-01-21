@@ -179,11 +179,11 @@
             </div>
             <div>
               <span class="text-slate-500">{{ t.common.amount }}:</span>
-              <span class="ml-2 font-mono font-bold text-white">{{ (tx.amount_points || 0).toLocaleString() }}</span>
+              <span class="ml-2 font-mono font-bold text-white">{{ (tx.amount || 0).toLocaleString() }}</span>
             </div>
             <div v-if="tx.fee">
               <span class="text-slate-500">{{ t.history.fee }}:</span>
-              <span class="ml-2 font-mono text-rose-400">-{{ tx.fee.toLocaleString() }}</span>
+              <span class="ml-2 font-mono text-rose-400">-{{ tx.fees.toLocaleString() }}</span>
             </div>
             <div v-if="tx.bonus">
               <span class="text-slate-500">{{ t.history.bonus }}:</span>

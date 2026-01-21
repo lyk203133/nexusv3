@@ -170,7 +170,7 @@
                 <span class="text-[10px] text-slate-500 font-mono ml-1">{{ item.time }}</span>
               </div>
               <div class="flex items-center">
-                <span class="text-xl font-mono font-bold text-white tracking-tighter">{{ item.amount_points?.toLocaleString() }}</span>
+                <span class="text-xl font-mono font-bold text-white tracking-tighter">{{ item.amount?.toLocaleString() }}</span>
                 <span class="text-xs text-slate-500 ml-1 mt-2">VND</span>
               </div>
               <div v-if="item.bonus" class="flex mt-1">
