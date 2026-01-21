@@ -232,10 +232,12 @@ async function handleLogin() {
     } else {
       // 登录失败，显示错误信息
       errorMessage.value = authStore.error || t.value.login.failed
+      await fetchCaptcha()
     }
   } catch (error) {
     console.error('Login error:', error)
     errorMessage.value = t.value.login.networkError
+    await fetchCaptcha()
   } finally {
     loading.value = false
   }
