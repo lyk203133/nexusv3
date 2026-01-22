@@ -252,7 +252,7 @@
               <div>
                 <span class="text-slate-500">{{ t.common.amount }}:</span>
                 <span class="ml-2 font-mono font-bold text-emerald-400">
-                  {{ (selectedItemForSell.amount_points || 0).toLocaleString() }}
+                  {{ (selectedItemForSell.amount || 0).toLocaleString() }}
                 </span>
               </div>
               
