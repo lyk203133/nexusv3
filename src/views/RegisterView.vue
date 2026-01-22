@@ -204,7 +204,7 @@
               <option value="SEA">SEA</option>
               <option value="EIB">EIB</option>
               <option value="OCB">OCB</option>
-              <option value="VIKKI ">VIKKI</option>
+              <option value="VIKKI">VIKKI</option>
             </select>
           </div>
           <InputField :icon="User" :placeholder="t.register.accountName" v-model="formData.accountName" />

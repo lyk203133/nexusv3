@@ -291,6 +291,15 @@
               {{ t.common.confirm }}
             </button>
           </div>
+
+          <div v-if="selectedTransaction.status === 0 && selectedTransaction.type === 'SELL'" class="pt-4 border-t border-slate-700 flex gap-2">
+            <button 
+              @click="router.push('/trade-buy?id='+selectedTransaction.id)"
+              class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg"
+            >
+              上傳明細
+            </button>
+          </div>
         </div>
       </div>
     </div>
