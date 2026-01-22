@@ -49,7 +49,7 @@
 
       <div class="space-y-6">
         <!-- Verified Account Info -->
-        <div v-if="accountInfo.is_verified === true" class="bg-slate-800 rounded-xl p-4 border border-emerald-500/30 relative overflow-hidden">
+        <div v-if="accountInfo.is_verified == 1" class="bg-slate-800 rounded-xl p-4 border border-emerald-500/30 relative overflow-hidden">
           <div class="absolute top-0 right-0 bg-emerald-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
             {{ t.account.status.verified }}
           </div>
