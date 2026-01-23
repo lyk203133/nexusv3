@@ -345,7 +345,7 @@ export const TRANSLATIONS = {
     },
     account: {
       title: "收款帳戶管理",
-      status: { verified: "已認證", pending: "審核中" },
+      status: { verified: "已認證", pending: "審核中", rejected: "已拒絕" },
       //pendingDesc: "您的變更正在審核中。審核通過前將繼續使用舊帳戶。",
       pendingDesc: "您的變更正在審核中。",
       bankName: "銀行名稱",
@@ -356,7 +356,8 @@ export const TRANSLATIONS = {
       qr: "收款 QR Code",
       qrHint: "必須包含 24/7 轉帳代碼",
       submit: "提交審核",
-      edit: "修改資料"
+      edit: "修改資料",
+      add: "新增"
     },
     service: {
       title: "客服中心",
