@@ -117,7 +117,7 @@
       </Card>
       
       <!-- Upload Receipt Section -->
-      <div class="mb-4">
+      <div class="mb-4" v-if="order.status < 2">
         <label class="block text-slate-300 text-sm font-bold mb-2">{{ t.trade.uploadReceipt }}</label>
         
         <!-- Preview Uploaded Image -->
@@ -149,14 +149,27 @@
           class="hidden"
         />
       </div>
+      <!-- 订单完成状态显示框 -->
+      <div v-else-if="order.status == 2" class="mb-4">
+        <div class="border border-emerald-500 bg-emerald-500/10 rounded-lg p-4 text-center">
+          <div class="flex flex-col items-center justify-center">
+            <!-- 可以添加一个完成图标 -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-lg font-bold text-emerald-300 mb-1">{{ t.trade.txSuccess }}</h3>
+            <p class="text-slate-300 text-sm">{{ t.trade.txSuccess }}</p>
+          </div>
+        </div>
+      </div>
       
       <!-- Confirm Button -->
       <NeonButton 
         fullWidth 
         @click="handleComplete"
-        :disabled=" order.status !== 0"
+        :disabled=" order.status !== 2"
       >
-        {{ t.trade.confirmPaid }}{{ order.status }}
+        {{ t.trade.confirmPaid }}
       </NeonButton>
     </div>
   </div>
@@ -188,10 +201,10 @@ let timer = null
 
 // Get order ID from route
 const orderId = route.query.id
-
+let intervalId = null;
 // Methods
-async function fetchOrder() {
-  loading.value = true
+async function fetchOrder(isloading = true) {
+  if(isloading)loading.value = true
   error.value = ''
   
   try {
@@ -213,7 +226,7 @@ async function fetchOrder() {
     console.error('Fetch order error:', err)
     error.value = err.response?.data?.message || err.message || t.value.common.networkError
   } finally {
-    loading.value = false
+    if(isloading)loading.value = false
   }
 }
 
@@ -339,7 +352,11 @@ async function handleComplete() {
       })
        router.push('/dashboard')
       // Refresh order data
-      fetchOrder()
+      if(intervalId)clearInterval(intervalId)
+      setInterval(async ()=>{
+          await fetchOrder(false)
+      },5000);
+      
     } else {
       showToast({
         type: 'error',
@@ -373,8 +390,12 @@ function dataURLtoBlob(dataURL) {
 }
 
 // Lifecycle
-onMounted(() => {
-  fetchOrder()
+onMounted(async () => {
+  await fetchOrder()
+  if(intervalId)clearInterval(intervalId)
+    setInterval(async ()=>{
+        await fetchOrder(false)
+    },3000);
   
   // Start timer
   timer = setInterval(() => {
