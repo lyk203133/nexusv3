@@ -91,6 +91,7 @@
       </div>
 
       <div v-else class="animate-in fade-in slide-in-from-bottom duration-300 space-y-6">
+        
         <div class="space-y-4">
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ t.account.bankName }}</label>
@@ -98,8 +99,10 @@
               <option v-for="bank in bankOptions" :key="bank" :value="bank">{{ bank }}</option>
             </select>
           </div>
+
           <InputField :icon="User" :placeholder="t.account.accountName" v-model="formData.account_name" required />
           <InputField :icon="CreditCard" :placeholder="t.account.accNo" v-model="formData.account_number" required />
+          
           <div class="grid grid-cols-2 gap-4">
             <InputField :icon="Hash" :placeholder="t.account.bankCode" v-model="formData.bank_code" class="col-span-1" />
             <InputField :icon="MapPin" :placeholder="t.account.branchName" v-model="formData.branch_name" class="col-span-1" />
@@ -110,11 +113,13 @@
           <p class="text-xs text-slate-400 mb-3">{{ t.account.cardUpload }} <span class="text-rose-400">*</span></p>
           <div class="grid grid-cols-2 gap-4">
             <div v-for="type in ['card_front', 'card_back', 'qr_code']" :key="type">
-              <label class="block text-xs text-slate-400 mb-2">{{ t.account[type] || type }}</label>
+              <label v-if="type === 'card_front'" class="block text-xs text-slate-400 mb-2">{{ t.account.cardFront }}</label>
+              <label v-if="type === 'card_back'" class="block text-xs text-slate-400 mb-2">{{ t.account.cardBack }}</label>
+              <label v-if="type === 'qr_code'" class="block text-xs text-slate-400 mb-2">{{ t.account.qr }}</label>
               <input type="file" :ref="el => setFileRef(el, type)" accept="image/*" @change="handleFileUpload(type, $event)" class="hidden" />
               <button 
                 @click="triggerFileClick(type)" 
-                :class="`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-slate-900 transition-all ${previews[type] ? 'border-emerald-500 text-emerald-400' : 'border-slate-600 text-slate-400'}`"
+                :class="`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-slate-900 transition-all ${uploads[type] ? 'border-emerald-500 text-emerald-400' : 'border-slate-600 text-slate-400'}`"
               >
                 <img v-if="previews[type]" :src="previews[type]" class="w-full h-full object-cover rounded-lg" />
                 <template v-else>
@@ -255,16 +260,47 @@ async function handleSubmit() {
     if (uploads.value.card_back) fd.append('card_back', uploads.value.card_back)
     if (uploads.value.qr_code) fd.append('qr_code', uploads.value.qr_code)
 
-    const url = editingId.value ? `/payment-account-update?id=${editingId.value}` : '/payment-account-update'
-    const response = await api.post(url, fd)
+
+    let response
+    if (editingId.value) {
+      // 更新現有帳戶
+      response = await api.post(`/payment-account-update?id=${editingId.value}`, fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    } else {
+      // 創建新帳戶
+      response = await api.post('/payment-account-update', fd, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+    }
 
     if (response.data.success) {
-      showToast({ type: 'success', message: t.value.account.submitSuccess })
+      showToast({
+        type: 'success',
+        title: t.value.account.submitSuccess,
+        message: response.data.message || t.value.account.submitSuccessMessage
+      })
+
       isEditing.value = false
       fetchAccountList()
+    } else {
+      showToast({
+        type: 'error',
+        title: t.value.account.submitFailed,
+        message: response.data.message || t.value.common.requestFailed
+      })
     }
   } catch (err) {
-    showToast({ type: 'error', message: err.response?.data?.message || t.value.common.networkError })
+    console.error('Submit account error:', err)
+    showToast({
+      type: 'error',
+      title: t.value.account.submitFailed,
+      message: err.response?.data?.message || err.message || t.value.common.networkError
+    })
   } finally {
     submitting.value = false
   }
