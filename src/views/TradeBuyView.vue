@@ -167,7 +167,7 @@
       <NeonButton 
         fullWidth 
         @click="handleComplete"
-        :disabled=" order.status !== 2"
+         
       >
         {{ t.trade.confirmPaid }}
       </NeonButton>
