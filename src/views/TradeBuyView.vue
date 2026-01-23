@@ -323,6 +323,10 @@ function removeReceipt() {
 }
 
 async function handleComplete() {
+  if(order.value.status == 2){
+    router.push('/dashboard')
+    return;
+  }
   if (!receiptImage.value) {
     showToast({
       type: 'error',
@@ -355,6 +359,7 @@ async function handleComplete() {
       if(intervalId)clearInterval(intervalId)
       setInterval(async ()=>{
           await fetchOrder(false)
+          if(order.value.status == 1)clearInterval(intervalId)
       },5000);
       
     } else {
@@ -395,6 +400,8 @@ onMounted(async () => {
   if(intervalId)clearInterval(intervalId)
     setInterval(async ()=>{
         await fetchOrder(false)
+    
+        if(order.value.status == 2)clearInterval(intervalId)
     },3000);
   
   // Start timer
