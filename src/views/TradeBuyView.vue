@@ -417,6 +417,7 @@ onMounted(async () => {
 
 onUnmounted(() => {
   if (timer) clearInterval(timer)
+  if (intervalId) clearInterval(intervalId)
 })
 </script>
 
