@@ -90,7 +90,7 @@
         <div class="mb-4">
           <div class="flex p-1 bg-slate-800 rounded-lg">
             <button 
-              v-for="tab in ['platform', 'merchant', 'member']" 
+              v-for="tab in ['merchant', 'member']" 
               :key="tab"
               @click="handleTabChange(tab)"
               :class="`flex-1 py-2 text-xs font-bold rounded-md transition-all ${activeTab === tab ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-500 hover:text-slate-300'}`"
