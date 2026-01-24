@@ -310,7 +310,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch,defineExpose } from 'vue'
+import { ref, computed, onMounted, watch,defineExpose, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { 
   Bell, 
@@ -457,8 +457,8 @@ async function fetchDashboardData() {
   }
 }
 
-async function fetchTradingList() {
-  tradingLoading.value = true
+async function fetchTradingList(isLoading = true) {
+  if(isLoading)tradingLoading.value = true
 
   try {
     const response = await api.get('/trading/list', {
@@ -484,7 +484,7 @@ async function fetchTradingList() {
       message: err.message || t.common.networkError
     })
   } finally {
-    tradingLoading.value = false
+    if(isLoading)tradingLoading.value = false
   }
 }
 
@@ -698,6 +698,7 @@ function handleSort(type) {
 }
 
 // Lifecycle
+let intervalId = null
 onMounted(() => {
   if (!authStore.isAuthenticated) {
     router.push('/login')
@@ -706,6 +707,15 @@ onMounted(() => {
   
   fetchDashboardData()
   fetchTradingList()
+
+  intervalId=setInterval(()=>{
+    fetchTradingList(false)
+  },5000)
+
+})
+
+onUnmounted(()=>{
+  if(intervalId)clearInterval(intervalId)
 })
 
 // Watch for tab changes

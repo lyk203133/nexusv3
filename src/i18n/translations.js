@@ -107,11 +107,11 @@ export const TRANSLATIONS = {
         member: "會員專區"
       },
       filter: {
-        buy: "我要買進",
+        buy: "我要買入",
         sell: "我要賣出"
       },
       actions: {
-        buy: "購買",
+        buy: "買入",
         sell: "出售",
         locked: "餘額不足",
         need: "需持有"
