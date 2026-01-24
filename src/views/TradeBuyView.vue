@@ -239,8 +239,8 @@ function formatTime(seconds) {
 function formatAmount(amount) {
   if (!amount) return '0'
   return parseFloat(amount).toLocaleString('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
   })
 }
 
