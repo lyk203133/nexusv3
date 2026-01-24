@@ -3,7 +3,9 @@ import { ref } from 'vue'
 
 export const useAppStore = defineStore('app', () => {
   // Language state
-  const lang = ref('zh-TW')
+  // 初始化時：優先讀取緩存 
+  const savedLang = localStorage.getItem('app_lang')  
+  const lang = ref(savedLang || 'zh-TW')
   
   // User info
   const userInfo = ref({
@@ -32,6 +34,8 @@ export const useAppStore = defineStore('app', () => {
   // Methods
   function setLang(newLang) {
     lang.value = newLang
+    // 同步到本地儲存
+    localStorage.setItem('app_lang', newLang)
   }
 
   function updateUserInfo(info) {
