@@ -569,8 +569,16 @@ function getTypeText(type) {
 }
 
 // Lifecycle
+let intervalId = null;
 onMounted(() => {
   fetchTransactions(true)
+  intervalId = setInterval(async ()=>{
+    await fetchTransactions(false)
+  },5000)
+})
+
+onUnmounted(()=>{
+  if(intervalId)clearInterval(intervalId);
 })
 
 // Optional: Auto-refresh when page becomes visible
