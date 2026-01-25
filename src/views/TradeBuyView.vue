@@ -73,7 +73,7 @@
           <svg v-else class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
           </svg>
-          {{ isSaving ? '保存中...' : '保存到相册' }}
+          {{ isSaving ? 'save...' : t.common.save }}
         </button>
         
         <!-- Order Details -->
@@ -84,10 +84,10 @@
             <span class="text-white font-mono">{{ order.payment.bank_name || '--' }}</span>
           </div>
           
-          <div class="flex justify-between text-sm">
+          <!--div class="flex justify-between text-sm">
             <span class="text-slate-400">{{ t.trade.bankCode }}</span>
             <span class="text-white font-mono">{{ order.payment.bank_code || '--' }}</span>
-          </div>
+          </div-->
           
           <div class="flex justify-between text-sm">
             <span class="text-slate-400">{{ t.trade.bankAcc }}</span>
@@ -121,7 +121,7 @@
             </div>
             
             <div v-if="order.created_at" class="flex justify-between text-sm">
-              <span class="text-slate-400">{{ t.history.createTime }}</span>
+              <span class="text-slate-400">{{ t.trade.createAt }}</span>
               <span class="text-slate-300">{{ formatDateTime(order.created_at) }}</span>
             </div>
             
@@ -294,16 +294,9 @@ function getStatusColor(status) {
 }
 
 function getStatusText(status) {
-  const statusMap = {
-    pending: t.value.mall.status.pending,
-    paid: t.value.mall.status.paid,
-    completed: t.value.mall.status.completed,
-    expired: t.value.mall.status.expired,
-    cancelled: t.value.mall.status.cancelled,
-    failed: t.value.mall.status.failed
-  }
-  return statusMap[status] || status
+  return t.value.mall.status[status] || status
 }
+ 
 
 function triggerFileInput() {
   fileInput.value.click()
@@ -573,5 +566,19 @@ onUnmounted(() => {
   -webkit-user-select: all;
   -moz-user-select: all;
   -ms-user-select: all;
+}
+
+.save-btn {
+  @apply inline-flex items-center justify-center bg-gradient-to-r from-green-500 to-green-600 
+         text-white font-medium py-2.5 px-6 rounded-lg hover:from-green-600 hover:to-green-700 
+         transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
+         shadow-md hover:shadow-lg w-48;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .save-btn {
+    @apply w-full max-w-xs py-3;
+  }
 }
 </style>
