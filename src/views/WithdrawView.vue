@@ -57,8 +57,7 @@
             {{ t.dashboard.avail }}：<span class="text-blue-400 font-mono">{{ userBalance.toLocaleString() }}</span>
           </p>
         </div>
-        
-        <!-- Quick Amounts -->
+<!-- Quick Amounts -->
         <div class="flex gap-3">
           <button 
             v-for="(val, idx) in quickAmounts" 
@@ -71,6 +70,20 @@
             {{ formatQuickAmount(val) }}
           </button>
         </div>
+        <div class="space-y-2">
+          <label class="text-slate-400 text-xs font-bold">{{ t.trade.memo }}</label>
+          <input 
+            type="text" 
+            :placeholder="t.wallet.placeholder" 
+            class="w-full bg-slate-800 border border-slate-700 rounded-xl py-4 px-4 text-white text-lg font-mono focus:border-blue-500 focus:outline-none transition-colors" 
+            v-model="remark"
+            
+          />
+          
+         
+        </div>
+        
+        
         
         <!-- Calculation Summary -->
         <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 space-y-3">
@@ -232,6 +245,7 @@ const loading = ref(false)
 const submitting = ref(false)
 const amount = ref('')
 const amountError = ref('')
+const remark = ref('')
 const showConfirmDialog = ref(false)
 
 // Configuration
@@ -403,7 +417,7 @@ async function submitWithdraw() {
     const withdrawData = {
       amount: parseFloat(amount.value),
       type:'SELL',
-      remark:'會員提現點數',
+      remark:remark.value,
       fee: calculateFee(),
       receive_amount: calculateReceiveAmount(),
       payment_account_id: paymentAccounts.value.length ? selectedAccountId.value : null
