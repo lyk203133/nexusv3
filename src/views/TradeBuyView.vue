@@ -108,7 +108,7 @@
           <!-- Order Reference/Memo -->
           <div class="bg-slate-900 p-2 rounded text-center">
             <span class="text-slate-500 text-xs block mb-1">{{ t.trade.memo }}</span>
-            <span class="text-rose-500 font-mono font-bold text-lg select-all">{{ order.reference_code || order.memo || 'TX9988' }}</span>
+            <span class="text-rose-500 font-mono font-bold text-lg select-all">{{ order.remark || order.payment.content || 'TX9988' }}</span>
           </div>
           
           <!-- Order Status & Info -->

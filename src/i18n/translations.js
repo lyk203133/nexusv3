@@ -103,8 +103,8 @@ export const TRANSLATIONS = {
       todaySell: "今日賣出",
       tabs: {
         platform: "平台專區",
-        merchant: "商戶專區",
-        member: "會員專區"
+        merchant: "買入",
+        member: "賣出"
       },
       filter: {
         buy: "我要買入",
