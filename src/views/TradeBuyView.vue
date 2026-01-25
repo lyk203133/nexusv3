@@ -433,7 +433,7 @@ const saveQRCode = async () => {
  
     try {
       // 方法2：使用 canvas 处理（处理跨域）
-      await downloadViaCanvas();
+      await downloadDirect();
       
     } catch (canvasError) {
       console.error('Canvas 方法也失败:', canvasError);
