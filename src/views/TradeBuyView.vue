@@ -44,7 +44,7 @@
           <div class="w-full h-full bg-slate-900 flex items-center justify-center relative overflow-hidden">
             <!-- QR Code Placeholder -->
             <div v-if="order.payment_qr_url" class="w-full h-full">
-              <img :src="order.payment_qr_url" alt="QR Code" class="w-full h-full object-contain"  ref="qrImage" />
+              <img :src="order.payment_qr_url" alt="QR Code"  crossorigin="anonymous" class="w-full h-full object-contain"  ref="qrImage" />
             </div>
             <div v-else class="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-1 p-2 opacity-80">
               <div 
@@ -433,7 +433,7 @@ const saveQRCode = async () => {
  
     try {
       // 方法2：使用 canvas 处理（处理跨域）
-      await downloadDirect();
+      await downloadViaCanvas();
       
     } catch (canvasError) {
       console.error('Canvas 方法也失败:', canvasError);
