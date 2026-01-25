@@ -108,7 +108,7 @@
       <!-- 会员中心 -->
       <div class="mx-4 bg-slate-900 rounded-xl overflow-hidden mb-4">
         <p class="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Member Center</p>
-        <MenuItem :icon="Users" :label="t.profile.referral" @click="$router.push('/referral-center')" />
+        <!--MenuItem :icon="Users" :label="t.profile.referral" @click="$router.push('/referral-center')" /-->
         <MenuItem :icon="Crown" :label="t.profile.membership" @click="$router.push('/membership')" />
       </div>
 

@@ -44,7 +44,7 @@
           <div class="w-full h-full bg-slate-900 flex items-center justify-center relative overflow-hidden">
             <!-- QR Code Placeholder -->
             <div v-if="order.payment_qr_url" class="w-full h-full">
-              <img :src="order.payment_qr_url" alt="QR Code" class="w-full h-full object-contain" />
+              <img :src="order.payment_qr_url" alt="QR Code" class="w-full h-full object-contain"  ref="qrImage" />
             </div>
             <div v-else class="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-1 p-2 opacity-80">
               <div 
@@ -58,6 +58,23 @@
             </div>
           </div>
         </div>
+
+        <!-- 保存按钮 -->
+        <button 
+          v-if="order.payment_qr_url "
+          @click="saveQRCode"
+          class="save-btn"
+          :disabled="isSaving"
+        >
+          <svg v-if="isSaving" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <svg v-else class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+          </svg>
+          {{ isSaving ? '保存中...' : '保存到相册' }}
+        </button>
         
         <!-- Order Details -->
         <div class="w-full space-y-3">
@@ -202,6 +219,15 @@ let timer = null
 // Get order ID from route
 const orderId = route.query.id
 let intervalId = null;
+
+
+const qrImage = ref(null);
+const isSaving = ref(false);
+const isLoading = ref(true);
+const imageLoaded = ref(false);
+const imageError = ref(false);
+const saveFailed = ref(false);
+
 // Methods
 async function fetchOrder(isloading = true) {
   if(isloading)loading.value = true
@@ -393,6 +419,117 @@ function dataURLtoBlob(dataURL) {
   
   return new Blob([u8arr], { type: mime })
 }
+
+// 保存二维码的主要方法
+const saveQRCode = async () => {
+  if (!order.value.payment_qr_url  ) {
+    alert('二维码未加载完成');
+    return;
+  }
+  
+  isSaving.value = true;
+  saveFailed.value = false;
+  
+ 
+    try {
+      // 方法2：使用 canvas 处理（处理跨域）
+      await downloadViaCanvas();
+      
+    } catch (canvasError) {
+      console.error('Canvas 方法也失败:', canvasError);
+      
+      
+    }
+    finally {
+      isSaving.value = false;
+    }
+  }
+
+// 方法1：直接下载（适用于支持 CORS 的第三方）
+const downloadDirect = () => {
+  return new Promise((resolve, reject) => {
+    const link = document.createElement('a');
+    link.href = order.value.payment_qr_url;
+    link.download = `qrcode_${Date.now()}.png`;
+    link.target = '_blank'; // 新窗口打开，避免页面跳转
+    
+    // 添加事件监听
+    link.onclick = () => {
+      setTimeout(() => {
+        resolve();
+      }, 100);
+    };
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // 如果 2 秒后还没触发点击事件，认为失败
+    setTimeout(() => {
+      reject(new Error('下载超时'));
+    }, 2000);
+  });
+};
+
+// 方法2：通过 canvas 处理（处理跨域和图片处理）
+const downloadViaCanvas = () => {
+  return new Promise((resolve, reject) => {
+    if (!qrImage.value) {
+      reject(new Error('图片元素不存在'));
+      return;
+    }
+    
+    const img = qrImage.value;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // 设置 canvas 尺寸为图片原始尺寸或固定尺寸
+    const width = img.naturalWidth || 300;
+    const height = img.naturalHeight || 300;
+    
+    canvas.width = width;
+    canvas.height = height;
+    
+    // 先绘制白色背景
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 设置图片平滑处理
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
+    try {
+      // 尝试绘制图片
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // 转换为 data URL
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('无法生成图片文件'));
+          return;
+        }
+        
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `payment_qrcode_${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // 清理 URL 对象
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+          resolve();
+        }, 100);
+        
+      }, 'image/png', 1.0); // 最高质量
+      
+    } catch (error) {
+      reject(new Error(`Canvas 绘制失败: ${error.message}`));
+    }
+  });
+};
 
 // Lifecycle
 onMounted(async () => {
