@@ -175,6 +175,7 @@ export const TRANSLATIONS = {
       txSuccess: "交易成功",
       txSuccessDesc: "資金已入帳，點數已扣除",
       backHome: "返回主頁",
+      saveQR:"長按QR圖片保存相冊"
     },
     wallet: {
       title: "我的錢包",
@@ -524,6 +525,14 @@ export const TRANSLATIONS = {
       bankCode: 'Bank Code',
       bankAcc: 'Bank Account',
       amount: 'Payment Amount',
+      "bankName": "Tên ngân hàng",
+      "bankCode": "Bank code",
+      "bankAcc": "Bank account number",
+      "accountName": "Account name",
+      "memo": "Payment note / Message (Please enter required)",
+      "timeLeft": "Time left",
+      "createAt": "Time of creation",
+      "expiresAt": "Expiration time",
       paymentMethod: 'Payment Method',
       paymentNote: 'Payment Note (Mandatory)',
       uploadReceipt: 'Upload Receipt',
@@ -551,6 +560,8 @@ export const TRANSLATIONS = {
       txSuccess: "Trade Successful",
       txSuccessDesc: "Funds received, points deducted",
       backHome: "Back to Home",
+      saveQR: "Long press the QR image to save the album"
+      
     },
     wallet: {
       title: "My Wallet",
@@ -929,6 +940,7 @@ export const TRANSLATIONS = {
       txSuccess: "Giao dịch thành công",
       txSuccessDesc: "Tiền đã vào tài khoản, điểm đã được trừ",
       backHome: "Quay lại trang chủ",
+      saveQR:"Bấm giữ QR để lưu vào bộ sưu tập"
     },
     wallet: {
       title: "Ví của tôi",

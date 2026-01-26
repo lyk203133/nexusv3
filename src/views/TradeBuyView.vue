@@ -62,7 +62,7 @@
         <!-- 保存按钮 -->
         <button 
           v-if="order.payment_qr_url "
-          @click="saveQRCode"
+           
           class="save-btn"
           :disabled="isSaving"
         >
@@ -73,7 +73,7 @@
           <svg v-else class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
           </svg>
-          {{ isSaving ? 'save...' : t.common.save }}
+          {{ isSaving ? 'save...' : t.trade.saveQR }}
         </button>
         
         <!-- Order Details -->
@@ -108,7 +108,7 @@
           <!-- Order Reference/Memo -->
           <div class="bg-slate-900 p-2 rounded text-center">
             <span class="text-slate-500 text-xs block mb-1">{{ t.trade.memo }}</span>
-            <span class="text-rose-500 font-mono font-bold text-lg select-all">{{ order.remark || order.payment.content || 'TX9988' }}</span>
+            <span class="text-rose-500 font-mono font-bold text-lg select-all">{{ order.payment_ref_code || order.payment.content || 'TX9988' }}</span>
           </div>
           
           <!-- Order Status & Info -->
