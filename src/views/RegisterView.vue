@@ -306,7 +306,13 @@ function refreshCaptcha() {
 }
 
 async function handleGetSms() {
-  if (!formData.value.phone) return alert('請輸入手機號碼')
+  if (!formData.value.phone) {
+    showToast({
+      type: 'error',
+      message: '請輸入手機號碼'
+    })
+    return
+  }
   if (isClick.value) {
     return
   }
@@ -322,7 +328,10 @@ async function handleGetSms() {
       isClick.value = false
       if (response.data.success) {
         countdown.value = 60
-        alert('驗證碼已發送')
+        showToast({
+          type: 'success',
+          message: '驗證碼已發送'
+        })
         timer = setInterval(() => {
           if (countdown.value > 0) {
             countdown.value--
@@ -333,7 +342,10 @@ async function handleGetSms() {
       }
     } catch (err) {
       isClick.value = false
-      alert(err.response?.data?.message);
+      showToast({
+        type: 'error',
+        message: err.response?.data?.message
+      })
     }
 
 
@@ -343,25 +355,53 @@ async function handleGetSms() {
 
 async function handleNextStep() {
   if (captchaInput.value.toUpperCase() !== generatedCaptcha.value) {
-    return alert(t.value.register.errCaptcha)
+    showToast({
+      type: 'error',
+      message: t.value.register.errCaptcha
+    })
+    return
   }
   if (!formData.value.smsCode) {
-    return alert(t.value.register.errSms)
+    showToast({
+      type: 'error',
+      message: t.value.register.errSms
+    })
+    return
   }
   if (!formData.value.account) {
-    return alert('請輸入帳號')
+    showToast({
+      type: 'error',
+      message: '請輸入帳號'
+    })
+    return
   }
   if (!formData.value.password) {
-    return alert('請輸入密碼')
+    showToast({
+      type: 'error',
+      message: '請輸入密碼'
+    })
+    return
   }
   if (!formData.value.phone) {
-    return alert('請輸入手機號碼')
+    showToast({
+      type: 'error',
+      message: '請輸入手機號碼'
+    })
+    return
   }
   if (!formData.value.smsCode) {
-    return alert('請輸入簡訊驗證碼')
+    showToast({
+      type: 'error',
+      message: '請輸入簡訊驗證碼'
+    })
+    return
   }
   if (!formData.value.txPass) {
-    return alert('請輸入交易密碼')
+    showToast({
+      type: 'error',
+      message: '請輸入交易密碼'
+    })
+    return
   }
   if (isClick.value) {
     return
@@ -375,7 +415,10 @@ async function handleNextStep() {
       step.value = 2
     }
   } catch (err) {
-    alert(err.response?.data?.message);
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message
+    })
   }
   isClick.value = false
   
@@ -459,28 +502,60 @@ async function handleSubmit() {
   }
 
   if (!formData.value.bankName) {
-    return alert('請輸入銀行名稱')
+    showToast({
+      type: 'error',
+      message: '請輸入銀行名稱'
+    })
+    return
   }
   if (!formData.value.accountName) {
-    return alert('請輸入姓名')
+    showToast({
+      type: 'error',
+      message: '請輸入姓名'
+    })
+    return
   }
   if (!formData.value.bankAcc) {
-    return alert('請輸入銀行帳號')
+    showToast({
+      type: 'error',
+      message: '請輸入銀行帳號'
+    })
+    return
   }
   if (!uploads.value.card_front) {
-    return alert('請上傳身分證件正面')
+    showToast({
+      type: 'error',
+      message: '請上傳身分證件正面'
+    })
+    return
   } 
   if (!uploads.value.card_back) {
-    return alert('請上傳身分證件反面')
+    showToast({
+      type: 'error',
+      message: '請上傳身分證件反面'
+    })
+    return
   }
   if (!uploads.value.bank_front) {
-    return alert('請上傳銀行帳戶正面')
+    showToast({
+      type: 'error',
+      message: '請上傳銀行帳戶正面'
+    })
+    return
   }
   if (!uploads.value.bank_back) {
-    return alert('請上傳銀行帳戶反面')
+    showToast({
+      type: 'error',
+      message: '請上傳銀行帳戶反面'
+    })
+    return
   }
   if (!uploads.value.qr_upload) {
-    return alert('請上傳收款 QR Code')
+    showToast({
+      type: 'error',
+      message: '請上傳收款 QR Code'
+    })
+    return
   }
   if (isClick.value) {
     return
@@ -515,13 +590,19 @@ async function handleSubmit() {
 
     isClick.value = false
     if (response.data.success) {
-      alert('註冊成功');
+      showToast({
+        type: 'success',
+        message: '註冊成功'
+      })
       router.push('/login')
     }
   } catch (err) {
     isClick.value = false
     console.log(err)
-    alert(err.response?.data?.message);
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message
+    })
   }
 }
 

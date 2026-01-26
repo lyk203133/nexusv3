@@ -43,6 +43,7 @@ import InputField from '@/components/InputField.vue'
 import NeonButton from '@/components/NeonButton.vue'
 import { useTranslation } from '@/composables/useTranslation'
 import { post } from '@/utils/api'
+import { showToast } from '@/utils/notification'
 
 const router = useRouter()
 const { t } = useTranslation()
@@ -53,7 +54,13 @@ const confirmPin = ref('')
 
 async function handleSave() {
   if (!oldPin.value || !newPin.value || !confirmPin.value) return
-  if (newPin.value !== confirmPin.value) return alert(t.value.security.errorMismatch)
+  if (newPin.value !== confirmPin.value) {
+    showToast({
+      type: 'error',
+      message: t.value.security.errorMismatch
+    })
+    return
+  } 
 
   try {
     const response = await post('/user/reset-transaction-password',{
@@ -64,11 +71,17 @@ async function handleSave() {
 
     console.log(response)
     if (response.data.success) {
-      alert(t.value.security.successMsg)
+      showToast({
+        type: 'success',
+        message: t.value.security.successMsg
+      })
       router.push('/security-center')
     }
   } catch (err) {
-    alert(err.response?.data?.message);
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message
+    })
   }
 }
 </script>
