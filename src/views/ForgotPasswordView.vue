@@ -77,6 +77,8 @@ import { ArrowLeft, Smartphone, Mail, Lock } from 'lucide-vue-next'
 import InputField from '@/components/InputField.vue'
 import NeonButton from '@/components/NeonButton.vue'
 import { useTranslation } from '@/composables/useTranslation'
+import { showToast } from '@/utils/notification'
+import { post } from '@/utils/api'
 
 const router = useRouter()
 const { t } = useTranslation()
@@ -87,6 +89,7 @@ const smsCode = ref('')
 const newPass = ref('')
 const confirmPass = ref('')
 const countdown = ref(0)
+const isClick = ref(false)
 
 let timer = null
 
@@ -94,29 +97,109 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
 })
 
-function handleGetSms() {
-  if (!phone.value) return alert('Please enter phone number')
-  countdown.value = 60
-  alert('Verification code sent: 888888')
-  timer = setInterval(() => {
-    if (countdown.value > 0) {
-      countdown.value--
-    } else {
-      clearInterval(timer)
+async function handleGetSms() {
+  if (!phone.value) {
+    showToast({
+      type: 'error',
+      message: '請輸入手機號碼'
+    })
+    return
+  }
+  if (isClick.value) {
+    return
+  }
+  isClick.value = true
+  if (countdown.value === 0) {
+    
+    try {
+      const response = await post('/auth/send-sms', {
+        'phone': phone.value,
+        'type': 'forget-password'
+      })
+
+      isClick.value = false
+      if (response.data.success) {
+        countdown.value = 60
+        showToast({
+          type: 'success',
+          message: '驗證碼已發送'
+        })
+        timer = setInterval(() => {
+          if (countdown.value > 0) {
+            countdown.value--
+          } else {
+            clearInterval(timer)
+          }
+        }, 1000)
+      }
+    } catch (err) {
+      isClick.value = false
+      showToast({
+        type: 'error',
+        message: err.response?.data?.message
+      })
     }
-  }, 1000)
+
+
+    
+  }
 }
 
-function handleVerify() {
-  if (smsCode.value !== '888888') return alert(t.value.forgot.errSms)
-  step.value = 2
+async function handleVerify() {
+  if (isClick.value) {
+    return
+  }
+  isClick.value = true
+  try {
+    const response = await post('/auth/forget-password-verify', {
+      'phone': phone.value,
+      'smsCode': smsCode.value
+    })
+
+    console.log(response)
+    if (response.data.success) {
+      step.value = 2
+    }
+  } catch (err) {
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message
+    })
+  }
+  isClick.value = false
 }
 
-function handleReset() {
+async function handleReset() {
   if (!newPass.value || !confirmPass.value) return
-  if (newPass.value !== confirmPass.value) return alert(t.value.forgot.errMatch)
-  alert(t.value.common.success)
-  router.push('/login')
+  if (newPass.value !== confirmPass.value) {
+    showToast({
+      type: 'error',
+      message: t.value.forgot.errMatch
+    })
+    return
+  }
+
+  try {
+    const response = await post('/auth/reset-password',{
+      phone: phone.value,
+      newPass: newPass.value,
+      confirmPass: confirmPass.value
+    })
+
+    console.log(response)
+    if (response.data.success) {
+      showToast({
+        type: 'success',
+        message: t.value.common.success
+      })
+      router.push('/login')
+    }
+  } catch (err) {
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message
+    })
+  }
 }
 </script>
 
