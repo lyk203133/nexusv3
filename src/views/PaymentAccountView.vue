@@ -200,21 +200,21 @@ async function handleSetDefault(id) {
   // 如果已經是預設，就不重複請求
   const target = accountList.value.find(item => item.id === id)
   if (!target || target.is_default == 1 || target.is_verified != 1) {
-    if (target?.is_verified != 1) showToast({ type: 'error', message: '只有已驗證的卡片能設為當前使用' })
+    if (target?.is_verified != 1) showToast({ type: 'error', message: t.value.account.verify_can_use })
     return
   }
 
   try {
     const res = await api.post('/payment-account-default', { id })
     if (res.data.success) {
-      showToast({ type: 'success', message: '已切換當前使用卡片' })
+      showToast({ type: 'success', message: t.value.account.success })
       // 前端直接更新狀態，減少閃爍
       accountList.value.forEach(item => {
         item.is_default = (item.id === id ? 1 : 0)
       })
     }
   } catch (err) {
-    showToast({ type: 'error', message: '設定失敗' })
+    showToast({ type: 'error', message: t.value.account.error })
   }
 }
 
@@ -250,7 +250,50 @@ function handleFileUpload(type, event) {
   previews.value[type] = URL.createObjectURL(file)
 }
 
+// 1. 強制轉大寫並去除越南語聲調
+const normalizeName = (str) => {
+  if (!str) return '';
+  let res = str.toUpperCase();
+  res = res.replace(/[ÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴ]/g, "A");
+  res = res.replace(/[ÈÉẸẺẼÊỀẾỆỂỄ]/g, "E");
+  res = res.replace(/[ÌÍỊỈĨ]/g, "I");
+  res = res.replace(/[ÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠ]/g, "O");
+  res = res.replace(/[ÙÚỤỦŨƯỪỨỰỬỮ]/g, "U");
+  res = res.replace(/[ỲÝỴỶỸ]/g, "Y");
+  res = res.replace(/Đ/g, "D");
+  res = res.replace(/[^A-Z\s]/g, ""); // 僅保留英文字母與空格
+  return res.replace(/\s+/g, " ").trim();
+};
+
+// 2. 檢查帳號是否為 8-15 位純數字
+const isValidAcc = (acc) => /^[0-9]{8,15}$/.test(acc);
+
 async function handleSubmit() {
+  // A. 自動校正姓名格式 (自動幫會員轉大寫去聲調)
+  const originalName = formData.value.account_name;
+  const fixedName = normalizeName(originalName);
+  formData.value.account_name = fixedName;
+
+  // B. 檢查帳號位數
+  if (!isValidAcc(formData.value.account_number)) {
+    showToast({
+      type: 'error',
+      title: 'Validation Error',
+      message: t.value.account.account_number_error
+    });
+    return; // 攔截，不發送 API
+  }
+
+  // C. 檢查姓名是否有效 (至少包含姓與名)
+  if (!fixedName.includes(' ')) {
+    showToast({
+      type: 'error',
+      title: 'Validation Error',
+      message: t.value.account.account_name_error
+    });
+    return; // 攔截
+  }
+  
   if (!isFormValid.value) return
   submitting.value = true
   try {

@@ -249,6 +249,7 @@ import InputField from '@/components/InputField.vue'
 import NeonButton from '@/components/NeonButton.vue'
 import { useTranslation } from '@/composables/useTranslation'
 import { post } from '@/utils/api'
+import { showToast } from '@/utils/notification'
 
 const router = useRouter()
 const { t } = useTranslation()
@@ -413,7 +414,50 @@ function handleFileUpload(type, event) {
 
 }
 
+// 1. 強制轉大寫並去除越南語聲調
+const normalizeName = (str) => {
+  if (!str) return '';
+  let res = str.toUpperCase();
+  res = res.replace(/[ÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴ]/g, "A");
+  res = res.replace(/[ÈÉẸẺẼÊỀẾỆỂỄ]/g, "E");
+  res = res.replace(/[ÌÍỊỈĨ]/g, "I");
+  res = res.replace(/[ÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠ]/g, "O");
+  res = res.replace(/[ÙÚỤỦŨƯỪỨỰỬỮ]/g, "U");
+  res = res.replace(/[ỲÝỴỶỸ]/g, "Y");
+  res = res.replace(/Đ/g, "D");
+  res = res.replace(/[^A-Z\s]/g, ""); // 僅保留英文字母與空格
+  return res.replace(/\s+/g, " ").trim();
+};
+
+// 2. 檢查帳號是否為 8-15 位純數字
+const isValidAcc = (acc) => /^[0-9]{8,15}$/.test(acc);
+
 async function handleSubmit() {
+  // A. 自動校正姓名格式 (自動幫會員轉大寫去聲調)
+  const originalName = formData.value.accountName;
+  const fixedName = normalizeName(originalName);
+  formData.value.accountName = fixedName;
+
+  // B. 檢查帳號位數
+  if (!isValidAcc(formData.value.bankAcc)) {
+    showToast({
+      type: 'error',
+      title: 'Validation Error',
+      message: t.value.account.account_number_error
+    });
+    return; // 攔截，不發送 API
+  }
+
+  // C. 檢查姓名是否有效 (至少包含姓與名)
+  if (!fixedName.includes(' ')) {
+    showToast({
+      type: 'error',
+      title: 'Validation Error',
+      message: t.value.account.account_name_error
+    });
+    return; // 攔截
+  }
+
   if (!formData.value.bankName) {
     return alert('請輸入銀行名稱')
   }
