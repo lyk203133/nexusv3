@@ -196,8 +196,10 @@ import NeonButton from '@/components/NeonButton.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import MenuItem from '@/components/MenuItem.vue'
 import { useTranslation } from '@/composables/useTranslation'
+import { api, post } from '@/utils/api'
 import { useAuthStore } from '@/stores/auth'
 import { showToast } from '@/utils/notification'
+import axios from 'axios'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -225,6 +227,10 @@ const displayName = computed(() => {
          userInfo.value.username || 
          userInfo.value.name || 
          t.value.profile.defaultName
+})
+
+const userName = computed(()=>{
+  return userInfo.value.username
 })
 
 const defaultAvatar = computed(() => {
@@ -312,6 +318,9 @@ async function confirmLogout() {
   loading.value = true
   
   try {
+    const response = await api.get('/auth/logout-app?username='+userInfo.value.username)
+    console.log(response);
+
     // 调用认证存储的 logout 方法
     authStore.logout()
     
@@ -321,9 +330,11 @@ async function confirmLogout() {
       title: t.value.profile.logoutSuccess,
       message: t.value.profile.logoutSuccessMessage
     })*/
+    //讓app登出
     
+   
     // 跳转到登录页
-    router.push('/login')
+    //router.push('/login')
   } catch (error) {
     console.error('Logout error:', error)
     showToast({
