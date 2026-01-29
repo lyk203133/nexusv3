@@ -6,7 +6,7 @@
       </button>
       <div class="flex-1">
         <h2 class="text-white font-bold text-lg">
-          {{ isEditing ? (editingId ? '編輯' : t.account.add) : t.account.title }}
+          {{ isEditing ? (editingId ? '編輯' : t.account.add) : t.profile.account }}
         </h2>
       </div>
       <button 
@@ -36,32 +36,20 @@
         <div 
           v-for="item in accountList" 
           :key="item.id" 
-          @click="handleSetDefault(item.id)"
           :class="[
-            'bg-slate-800 rounded-xl p-4 border transition-all cursor-pointer relative overflow-hidden',
-            item.is_default == 1 ? 'border-emerald-500 ring-1 ring-emerald-500/50 shadow-lg shadow-emerald-500/10' : 'border-slate-700'
+            'bg-slate-800 rounded-xl p-4 border transition-all cursor-pointer relative overflow-hidden ',
+             'border-slate-700'
           ]"
         >
-          <div v-if="item.is_default == 1" class="absolute top-0 right-0 bg-emerald-500 p-1 rounded-bl-lg">
-            <Check :size="14" class="text-black font-bold" />
+          
+          <div v-if="item.is_verified == 1" class="absolute top-0 right-0 bg-emerald-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
+            {{ t.account.status.verified }}
           </div>
-
-          <template v-else>
-            <div v-if="item.is_verified == 1" class="absolute top-0 right-0 bg-emerald-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
-              {{ t.account.status.verified }}
-            </div>
-            <div v-else-if="item.is_verified == -1" class="absolute top-0 right-0 bg-red-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
-              {{ t.account.status.rejected }}
-            </div>
-            <div v-if="item.is_verified == 0" class="absolute top-0 right-0 bg-gray-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
-              {{ t.account.status.pending }}
-            </div>
-          </template>
-
-          <div class="flex items-center gap-3 mb-4">
-            <div>
-              <p v-if="item.is_default == 1" class="text-[10px] text-emerald-500 font-bold uppercase tracking-wider">使用中</p>
-            </div>
+          <div v-else-if="item.is_verified == -1" class="absolute top-0 right-0 bg-red-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
+            {{ t.account.status.rejected }}
+          </div>
+          <div v-if="item.is_verified == 0" class="absolute top-0 right-0 bg-gray-500 text-black text-[10px] font-bold px-2 py-1 rounded-bl-lg">
+            {{ t.account.status.pending }}
           </div>
 
           <div class="mb-4">

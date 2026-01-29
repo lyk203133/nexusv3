@@ -103,6 +103,8 @@
         <p class="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">{{ t.profile.groupTrans }}</p>
         <MenuItem :icon="FileText" :label="t.profile.record" @click="$router.push('/transaction-history')" />
         <MenuItem :icon="CreditCard" :label="t.profile.account" @click="$router.push('/payment-account')" />
+        <MenuItem :icon="CreditCard" :label="t.profile.receiveAccount" @click="$router.push('/receive-payment-account')" />
+        <MenuItem :icon="CreditCard" :label="t.profile.payAccount" @click="$router.push('/pay-payment-account')" />
       </div>
       
       <!-- 会员中心 -->

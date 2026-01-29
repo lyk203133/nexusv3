@@ -92,7 +92,19 @@ const router = createRouter({
       path: '/payment-account',
       name: 'payment-account',
       component: () => import('@/views/PaymentAccountView.vue'),
-      meta: { requiresAuth: true, title: '支付账户' }
+      meta: { requiresAuth: true, title: '銀行账户' }
+    },
+    {
+      path: '/receive-payment-account',
+      name: 'receive-payment-account',
+      component: () => import('@/views/ReceivePaymentAccountView.vue'),
+      meta: { requiresAuth: true, title: '收款账户' }
+    },
+    {
+      path: '/pay-payment-account',
+      name: 'pay-payment-account',
+      component: () => import('@/views/PayPaymentAccountView.vue'),
+      meta: { requiresAuth: true, title: '付款账户' }
     },
     {
       path: '/customer-service',
