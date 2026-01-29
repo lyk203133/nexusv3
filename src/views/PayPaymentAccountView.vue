@@ -184,7 +184,7 @@ async function fetchAccountList() {
   if (!authStore.isAuthenticated) return router.push('/login')
   loading.value = true
   try {
-    const response = await api.get('/payment-accounts')
+    const response = await api.get('/payment-accounts?type=pay')
     if (response.data.success) {
       accountList.value = Array.isArray(response.data.data) ? response.data.data : []
     }
