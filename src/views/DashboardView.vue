@@ -114,8 +114,8 @@
           </div>
           <div class="flex gap-3 text-xs font-bold">
             <div class="text-xs font-bold" style="position:absolute;display: flex;flex-direction: column;margin-top: -.5rem;margin-left: -2rem;">
-              <div style="display: flex;align-items: center;"><input type="checkbox" />自動配單</div>
-              <label class="bank-balance">當前餘額:0</label>
+              <div style="display: flex;align-items: center;"><input v-model="dashboardData.autofit" @change="changeAutoFit" type="checkbox" />自動配單</div>
+              <label class="bank-balance">當前餘額: {{ bank_balance }}</label>
             </div>
           </div>
           <div class="flex bg-slate-800 rounded-md p-0.5">
@@ -357,6 +357,7 @@ const buyLoading = ref(false)
 const sellLoading = ref(false)
 const selectedItemId = ref(null)
 const unreadNotifications = ref(0)
+const bank_balance = ref(0)
 
 // Computed
 const userInfo = computed(() => {
@@ -492,6 +493,20 @@ async function fetchTradingList(isLoading = true) {
     })
   } finally {
     if(isLoading)tradingLoading.value = false
+  }
+}
+
+async function fetchBankBalance() {
+
+  try {
+    const response = await api.get('/dashboard/bank-balance')
+    
+    if (response.data.success) {
+      bank_balance.value = response.data.data
+    }
+  } catch (err) {
+    console.error('Trading list fetch error:', err)
+  } finally {
   }
 }
 
@@ -704,8 +719,34 @@ function handleSort(type) {
   }
 }
 
+async function changeAutoFit() {
+
+  
+  try {
+    const response = await post('/user/change-autofit', {
+      autofit: dashboardData.value.autofit,
+    })
+    
+    if (response.data.success) {
+    } else {
+      showToast({
+        type: 'error',
+        message: response.data.message 
+      })
+    }
+  } catch (err) {
+    console.error('Sell error:', err)
+    showToast({
+      type: 'error',
+      message: err.response?.data?.message || err.message || t.value.common.networkError
+    })
+  } finally {
+  }
+}
+
 // Lifecycle
 let intervalId = null
+let intervalId2 = null
 onMounted(() => {
   if (!authStore.isAuthenticated) {
     router.push('/login')
@@ -714,15 +755,20 @@ onMounted(() => {
   
   fetchDashboardData()
   fetchTradingList()
+  fetchBankBalance()
 
   intervalId=setInterval(()=>{
     fetchTradingList(false)
   },5000)
 
+  intervalId2=setInterval(()=>{
+    fetchBankBalance(false)
+  },10000)
 })
 
 onUnmounted(()=>{
   if(intervalId)clearInterval(intervalId)
+  if(intervalId2)clearInterval(intervalId2)
 })
 
 // Watch for tab changes
