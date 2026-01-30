@@ -112,6 +112,12 @@
               {{ type === 'all' ? t.common.all : (type === 'buy' ? t.dashboard.filter.buy : t.dashboard.filter.sell) }}  
             </button>
           </div>
+          <div class="flex gap-3 text-xs font-bold">
+            <div class="text-xs font-bold" style="position:absolute;display: flex;flex-direction: column;margin-top: -.5rem;margin-left: -2rem;">
+              <div style="display: flex;align-items: center;"><input type="checkbox" />自動配單</div>
+              <label class="bank-balance">當前餘額:0</label>
+            </div>
+          </div>
           <div class="flex bg-slate-800 rounded-md p-0.5">
             <button 
               @click="handleSort('amount')" 
@@ -323,7 +329,8 @@ import {
   Megaphone, 
   ArrowUpDown, 
   Clock,
-  RefreshCw
+  RefreshCw,
+  Check
 } from 'lucide-vue-next'
 import Card from '@/components/Card.vue'
 import NeonButton from '@/components/NeonButton.vue'
