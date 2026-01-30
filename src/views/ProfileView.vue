@@ -334,7 +334,7 @@ async function confirmLogout() {
     
    
     // 跳转到登录页
-    //router.push('/login')
+    router.push('/login')
   } catch (error) {
     console.error('Logout error:', error)
     showToast({
