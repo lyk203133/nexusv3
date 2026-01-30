@@ -14,7 +14,86 @@
 </template>
 
 <script setup>
-// No additional logic needed
+import { onMounted, onUnmounted } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { api } from '@/utils/api'
+
+const authStore = useAuthStore()
+let heartbeatTimer = null
+
+// 心跳刷新函数
+async function refreshAuthToken() {
+  const refreshToken = authStore.refreshToken
+  
+  if (!refreshToken) {
+    console.log('🟡 无 refresh token，跳过刷新')
+    return
+  }
+
+  try {
+    console.log('🔄 正在刷新 token...')
+    
+    const response = await api.post('/auth/refresh', {
+      refresh_token: refreshToken
+    }, {
+      headers: {
+        Authorization: null // 不发送原 token
+      }
+    })
+
+    if (response.data.success) {
+      const { token: newToken, refresh_token: newRefreshToken, user: userData } = response.data.data
+      
+      // 更新 store 中的 token
+      authStore.token = newToken
+      authStore.refreshToken = newRefreshToken
+      
+      // 保存到 localStorage
+      localStorage.setItem('auth_token', newToken)
+      localStorage.setItem('refresh_token', newRefreshToken)
+      
+      // 更新 api 默认头部
+      api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`
+      
+      console.log('✅ Token 刷新成功')
+    } else {
+      console.log('⚠️ Token 刷新失败:', response.data.message)
+    }
+  } catch (error) {
+    console.log('❌ 刷新 token 出错:', error.message)
+  }
+}
+
+// 启动心跳
+function startHeartbeat() {
+  // 每分钟检查一次是否需要刷新
+  heartbeatTimer = setInterval(() => {
+    if (authStore.isAuthenticated) {
+      refreshAuthToken()
+    }
+  }, 15000) // 15秒
+}
+
+// 停止心跳
+function stopHeartbeat() {
+  if (heartbeatTimer) {
+    clearInterval(heartbeatTimer)
+    heartbeatTimer = null
+  }
+}
+
+// 初始化
+onMounted(() => {
+  // 如果用户已登录，启动心跳
+  if (authStore.isAuthenticated) {
+    startHeartbeat()
+  }
+})
+
+// 清理
+onUnmounted(() => {
+  stopHeartbeat()
+})
 </script>
 
 <style scoped>
@@ -28,4 +107,3 @@
   opacity: 0;
 }
 </style>
-
