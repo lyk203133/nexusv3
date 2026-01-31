@@ -251,14 +251,14 @@
           </div>
           
           <!-- Selected Item Info -->
-          <div v-if="selectedItemForSell" class="mb-6 p-4 bg-slate-900/50 rounded-lg">
+          <div v-if="selectedItem" class="mb-6 p-4 bg-slate-900/50 rounded-lg">
            
             
             <div class="grid grid-cols-2 gap-3 text-sm">
               <div>
                 <span class="text-slate-500">{{ t.common.amount }}:</span>
                 <span class="ml-2 font-mono font-bold text-emerald-400">
-                  {{ (selectedItemForSell.amount || 0).toLocaleString() }}
+                  {{ (selectedItem.amount || 0).toLocaleString() }}
                 </span>
               </div>
               
@@ -271,12 +271,20 @@
               {{ t.dashboard.enterPassword }}
             </label>
             <div class="relative">
-              <input
+              <!--input
                 v-model="password"
                 type="password"
                 placeholder="請輸入交易密碼"
                 class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white pr-10"
                 :disabled="passwordLoading"
+                @keyup.enter="confirmSellWithPassword"
+              /-->
+              <InputField 
+                :icon="Lock" 
+                :isSecure="true" 
+                :placeholder="請輸入交易密碼" 
+                v-model="password"
+                :disabled="loading"
                 @keyup.enter="confirmSellWithPassword"
               />
               <div class="absolute right-3 top-3">
@@ -298,7 +306,20 @@
               {{ t.common.cancel }}
             </button>
             <button
+              v-if="passwordType === 'SELL'"
               @click="confirmSellWithPassword"
+              :disabled="!password.trim() || passwordLoading"
+              class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span v-if="passwordLoading" class="flex items-center justify-center">
+                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                {{ t.common.processing }}
+              </span>
+              <span v-else>{{ t.common.confirm }}</span>
+            </button>
+            <button
+              v-else-if="passwordType === 'BUY'"
+              @click="confirmBuyWithPassword"
               :disabled="!password.trim() || passwordLoading"
               class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
@@ -338,6 +359,7 @@ import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/auth'
 import { api, post } from '@/utils/api'
 import { showToast } from '@/utils/notification'
+import InputField from '@/components/InputField.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -513,76 +535,37 @@ async function fetchBankBalance() {
 async function handleBuy(item) {
   if (buyLoading.value) return
   
-  selectedItemId.value = item.id
-  buyLoading.value = true
-
-  try {
-    const response = await post('/trading/buy', {
-      itemId: item.id,
-      amount: item.amount_points
-    })
-    
-    if (response.data.success) {
-      /*showToast({
-        type: 'success',
-        title: response.data.message,
-        message: response.data.message
-      })*/
-      
-      // 刷新数据
-      fetchDashboardData()
-      fetchTradingList()
-      
-      // 跳转到交易页面
-      router.push('/trade-buy?id='+item.id)
-    } else {
-      showToast({
-        type: 'error',
-        title: t.dashboard.buyFailed,
-        message: response.data.message || t.common.requestFailed
-      })
-    }
-  } catch (err) {
-    console.error('Buy error:', err)
-    showToast({
-      type: 'error',
-      title: 'error',
-      message:  err?.response?.data?.message
-    })
-  } finally {
-    buyLoading.value = false
-    selectedItemId.value = null
-    /*router.push({
-        name: 'trade-buy/'+item.id,
-        params: { item: JSON.stringify(item) }
-      })*/
-  }
+  // 顯示密碼輸入彈窗
+  showPasswordModalPanel(item, 'BUY')
 }
 
 async function handleSell(item) {
   if (sellLoading.value || !canAfford(item)) return
   
   // 顯示密碼輸入彈窗
-  showPasswordModalPanel(item)
+  showPasswordModalPanel(item, 'SELL')
 }
 
 // 新增密碼驗證相關狀態和方法
 const showPasswordModal = ref(false)
 const password = ref('')
 const passwordLoading = ref(false)
-const selectedItemForSell = ref(null)
+const selectedItem = ref(null)
+const passwordType = ref('')
 
-function showPasswordModalPanel(item) {
-  selectedItemForSell.value = item
+function showPasswordModalPanel(item, type = 'SELL') {
+  selectedItem.value = item
   password.value = ''
   showPasswordModal.value = true
+  passwordType.value = type
 }
 
 function closePasswordModal() {
   showPasswordModal.value = false
   password.value = ''
-  selectedItemForSell.value = null
+  selectedItem.value = null
   passwordLoading.value = false
+  passwordType.value = ''
 }
 
 async function confirmSellWithPassword() {
@@ -611,7 +594,7 @@ async function confirmSellWithPassword() {
   passwordLoading.value = true
   
   try {
-    const item = selectedItemForSell.value
+    const item = selectedItem.value
     
     // 可以先發送一個密碼驗證請求，或者直接發送交易請求
     const response = await post('/trading/sell', {
@@ -655,6 +638,71 @@ async function confirmSellWithPassword() {
   }
 }
 
+async function confirmBuyWithPassword() {
+  if (!password.value.trim()) {
+    showToast({
+      type: 'error',
+      title: '交易提示',
+      message: '交易密碼錯誤'
+    })
+    return
+  }
+
+  try{
+  const response = await post('/user/check-trade-password', {
+      password: password.value.trim() 
+    })
+  }catch(ex){
+    showToast({
+        type: 'error',
+        title: t.value.dashboard.checkTradePassword || '交易提醒',
+        message: ex.response.data.message
+      })
+    return
+  }
+  
+  passwordLoading.value = true
+  
+  try {
+    const item = selectedItem.value
+
+    const response = await post('/trading/buy', {
+      itemId: item.id,
+      amount: item.amount_points
+    })
+    
+    if (response.data.success) {
+      /*showToast({
+        type: 'success',
+        title: response.data.message,
+        message: response.data.message
+      })*/
+      
+      // 刷新数据
+      fetchDashboardData()
+      fetchTradingList()
+      
+      // 跳转到交易页面
+      router.push('/trade-buy?id='+item.id)
+      
+    } else {
+      showToast({
+        type: 'error',
+        title: t.dashboard.buyFailed,
+        message: response.data.message || t.common.requestFailed
+      })
+    }
+  } catch (err) {
+    console.error('Buy error:', err)
+    showToast({
+      type: 'error',
+      title: 'error',
+      message:  err?.response?.data?.message
+    })
+  } finally {
+    passwordLoading.value = false
+  }
+}
 
 async function handleSellX(item) {
   if (sellLoading.value || !canAfford(item)) return
