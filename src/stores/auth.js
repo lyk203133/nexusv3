@@ -35,12 +35,12 @@ export const useAuthStore = defineStore('auth', () => {
     if (!expirationTime) return
     
     // 在 token 过期前 1 分钟刷新
-    const refreshTime = expirationTime -  60 * 1000 - Date.now()
+    const refreshTime = expirationTime -  15 * 1000 - Date.now()
     
     if (refreshTime > 0) {
       refreshTimer.value = setTimeout(async () => {
         await refreshAuthToken()
-      }, 60000)
+      }, 15000)
     }
   }
 

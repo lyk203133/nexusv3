@@ -84,14 +84,16 @@ function stopHeartbeat() {
 
 // 初始化
 onMounted(() => {
+  console.log('onMounted')
   // 如果用户已登录，启动心跳
   if (authStore.isAuthenticated) {
-    startHeartbeat()
+    //startHeartbeat()
   }
 })
 
 // 清理
 onUnmounted(() => {
+  console.log('stop heartbeat')
   stopHeartbeat()
 })
 </script>
