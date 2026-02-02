@@ -56,7 +56,7 @@
         <div class="grid grid-cols-3 gap-3 mb-6 mt-2">
           <div class="bg-slate-800 rounded-xl p-3 border border-slate-700 shadow-lg relative overflow-hidden group">
             <p class="text-slate-400 text-[10px] font-bold mb-1">{{ t.dashboard.avail }}</p>
-            <h3 class="text-lg font-mono font-bold text-blue-400 mb-2 tracking-tight">
+            <h3 class="text-lg font-mono font-bold text-blue-400 mb-2 tracking-tight" style="word-wrap: break-word;">
               {{ dashboardData.wallet?.balance.toLocaleString() || '0' }}
             </h3>
             <div class="flex items-center text-[10px] text-slate-500">
