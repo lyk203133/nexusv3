@@ -26,10 +26,10 @@
             </div>
           </div>
         </div>
-        <div @click="$router.push('/notifications')" class="relative p-2 bg-slate-800 rounded-full border border-slate-700 cursor-pointer hover:bg-slate-700 transition-colors">
+        <!--div @click="$router.push('/notifications')" class="relative p-2 bg-slate-800 rounded-full border border-slate-700 cursor-pointer hover:bg-slate-700 transition-colors">
           <Bell :size="20" class="text-slate-300" />
           <span v-if="unreadNotifications > 0" class="absolute top-1 right-1 w-2.5 h-2.5 bg-rose-500 rounded-full border border-slate-900"></span>
-        </div>
+        </div-->
       </div>
     </div>
 

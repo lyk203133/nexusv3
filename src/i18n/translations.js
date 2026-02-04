@@ -333,10 +333,10 @@ export const TRANSLATIONS = {
         bonus: "交易紅利"
       },
       levels: {
-        bronze: "青銅會員",
-        silver: "白銀會員",
-        gold: "黃金會員",
-        platinum: "白金會員"
+        bronze: "銅牌會員",
+        silver: "銀牌會員",
+        gold: "金牌會員",
+        platinum: "鑽石會員"
       }
     },
     announce: {
