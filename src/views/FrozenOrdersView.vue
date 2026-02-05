@@ -146,14 +146,14 @@
           v-for="tx in transactions" 
           :key="tx.id"
           class="bg-slate-800 p-4 rounded-xl mb-3 border border-slate-700/50 hover:border-slate-600 transition-colors cursor-pointer"
-          @click="showTransactionDetail(tx)"
+          
         >
           <div class="flex justify-between items-start mb-3">
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-xs font-mono text-emerald-400">{{ tx.order_no || tx.id }}</span>
-                <span class="text-xs text-slate-500 px-2 py-0.5 bg-slate-900/50 rounded">
-                  {{ tx.target_type || 'N/A' }}
+                <span class="text-xs font-mono text-emerald-400" @click="copySymbol(tx.order_no)">{{ tx.order_no || tx.id }}</span>
+                <span class="text-xs text-slate-500 px-2 py-0.5 bg-slate-900/50 rounded" @click="copySymbol(tx.order_no)">
+                  📋
                 </span>
               </div>
               <p class="text-xs text-slate-500 mt-1">{{ formatDate(tx.created_at) }}</p>
@@ -586,6 +586,21 @@ if (typeof document !== 'undefined') {
       fetchTransactions(true)
     }
   })
+}
+
+function copySymbol(symbol) {
+  navigator.clipboard.writeText(symbol)
+    .then(() => alert('copy: ' + symbol))
+    .catch(err => {
+      // 降級方案
+      const textArea = document.createElement('textarea');
+      textArea.value = symbol;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('copy: ' + symbol);
+    });
 }
 </script>
 

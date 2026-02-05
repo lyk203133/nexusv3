@@ -238,7 +238,8 @@ export const TRANSLATIONS = {
         1: '处理中',
         2: '已完成',
         4: '已过期',
-        3: '已取消'
+        3: '已取消',
+        5: '異常單'
       }
     },
     history: {
@@ -631,7 +632,8 @@ export const TRANSLATIONS = {
         1: 'Processing',
         2: 'Completed',
         4: 'Expired',
-        3: 'Cancelled'
+        3: 'Cancelled',
+        5: 'Exception'
       }
     },
     history: {
@@ -1019,7 +1021,8 @@ export const TRANSLATIONS = {
         1: 'Đang xử lý',
         2: 'Đã hoàn thành',
         4: 'Đã hết hạn',
-        3: 'Đã hủy'
+        3: 'Đã hủy',
+        5: 'bất thường'
       }
     },
     history: {
