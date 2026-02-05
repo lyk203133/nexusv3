@@ -6,7 +6,7 @@
           <ArrowLeft class="text-white" :size="20" />
         </button>
         <div>
-          <h2 class="text-white font-bold text-lg">{{ t.history.title }}</h2>
+          <h2 class="text-white font-bold text-lg">{{ t.dashboard.frozen}}</h2>
         </div>
       </div>
       <div class="flex items-center gap-2">
@@ -121,14 +121,7 @@
           <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.points }}</span>
           <span class="text-lg font-mono font-bold text-white">{{ (stats.totalAmount || 0).toLocaleString() }}</span>
         </div>
-        <div class="flex flex-col">
-          <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.fees }}</span>
-          <span class="text-lg font-mono font-bold text-rose-400">{{ (stats.totalFee || 0).toLocaleString() }}</span>
-        </div>
-        <div class="flex flex-col">
-          <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.bonus }}</span>
-          <span class="text-lg font-mono font-bold text-emerald-400">{{ (stats.totalBonus || 0).toLocaleString() }}</span>
-        </div>
+        
       </div>
       
       <!-- Transactions List -->
@@ -330,6 +323,7 @@ const selectedTransaction = ref(null)
 // Data
 const transactions = ref([])
 const stats = ref({})
+const pagination = ref({})
 const filters = ref({
   type: 'all',
   status: 'all',
@@ -347,6 +341,7 @@ async function fetchTransactions(reset = true) {
     return
   }
 
+ 
   if (reset) {
     loading.value = true
     filters.value.page = 1
@@ -354,7 +349,7 @@ async function fetchTransactions(reset = true) {
   } else {
     loadingMore.value = true
   }
-  
+ 
   error.value = ''
 
   try {
@@ -381,7 +376,7 @@ async function fetchTransactions(reset = true) {
       params.end_date = filters.value.endDate
     }
 
-    const response = await api.get('/transactions', { params })
+    const response = await api.get('/frozen-orders', { params })
     
     if (response.data.success) {
       const data = response.data.data

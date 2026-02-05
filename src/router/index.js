@@ -64,6 +64,12 @@ const router = createRouter({
       meta: { requiresAuth: true, title: '交易记录' }
     },
     {
+      path: '/frozen-orders',
+      name: 'frozen-orders',
+      component: () => import('@/views/FrozenOrdersView.vue'),
+      meta: { requiresAuth: true, title: '交易记录' }
+    },
+    {
       path: '/notifications',
       name: 'notifications',
       component: () => import('@/views/NotificationsView.vue'),

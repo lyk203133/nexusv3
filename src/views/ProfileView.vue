@@ -102,6 +102,7 @@
       <div class="mx-4 bg-slate-900 rounded-xl overflow-hidden mb-4">
         <p class="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">{{ t.profile.groupTrans }}</p>
         <MenuItem :icon="FileText" :label="t.profile.record" @click="$router.push('/transaction-history')" />
+        <MenuItem :icon="FileText" :label="t.dashboard.frozen" @click="$router.push('/frozen-orders')" />
         <MenuItem :icon="CreditCard" :label="t.profile.receiveAccount" @click="$router.push('/receive-payment-account')" />
         <MenuItem :icon="CreditCard" :label="t.profile.payAccount" @click="$router.push('/pay-payment-account')" />
       </div>
