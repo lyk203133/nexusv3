@@ -117,7 +117,7 @@
           <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.count }}</span>
           <span class="text-lg font-mono font-bold text-blue-400">{{ stats.totalCount || 0 }}</span>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col col-span-2">
           <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.points }}</span>
           <span class="text-lg font-mono font-bold text-white">{{ (stats.totalAmount || 0).toLocaleString() }}</span>
         </div>
