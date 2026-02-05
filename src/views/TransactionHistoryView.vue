@@ -181,7 +181,7 @@
               <span class="text-slate-500">{{ t.common.amount }}:</span>
               <span class="ml-2 font-mono font-bold text-white">{{ (tx.amount || 0).toLocaleString() }}</span>
             </div>
-            <div v-if="tx.fee">
+            <div v-if="1==2 && tx.fee">
               <span class="text-slate-500">{{ t.history.fee }}:</span>
               <span class="ml-2 font-mono text-rose-400">-{{ tx.fees.toLocaleString() }}</span>
             </div>
