@@ -36,6 +36,12 @@
           
           <!-- Progress Section -->
           <div class="bg-black/20 p-4 rounded-2xl border border-white/10 backdrop-blur-sm">
+             <div class="mb-3 flex justify-between items-end">
+              <div>
+                <span class="text-[10px] font-bold text-yellow-100/80 block uppercase mb-0.5">{{ t.register.inviteCodeLabel }}</span>
+                <span class="text-xl font-mono font-black text-white tracking-tight">{{ inviteCode }} </span>
+              </div>
+            </div>
             <div class="mb-3 flex justify-between items-end">
               <div>
                 <span class="text-[10px] font-bold text-yellow-100/80 block uppercase mb-0.5">{{ t.membership.expLabel }}</span>
@@ -154,6 +160,7 @@ const membershipLevels = ref([
   { level: 'platinum', name: 'platinum', limit: 'Unlimited', bonus: '0.5', color: 'text-cyan-400', border: 'border-cyan-400/50', exp: '50,000' },
 ])
 
+const inviteCode = ref({})
 const userLevel = ref({})
 
 async function fetchLevelData() {
@@ -167,6 +174,7 @@ async function fetchLevelData() {
     const response = await api.get('/user/level-data')
     
     if (response.data.success) {
+      inviteCode.value = response.data.data.inviteCode
       userLevel.value = response.data.data.userLevel
       let level = response.data.data.level
       
