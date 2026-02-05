@@ -166,7 +166,7 @@
               <p class="text-xs text-slate-500 mt-1">{{ formatDate(tx.created_at) }}</p>
             </div>
             <span :class="`px-2 py-1 rounded text-xs font-bold ${getStatusColor(tx.status)}`">
-              {{ getStatusText(tx.status) }}
+              {{ getStatusText(tx.status) }}{{ tx.status_type == 1?'🔄':'✋' }}
             </span>
           </div>
           
