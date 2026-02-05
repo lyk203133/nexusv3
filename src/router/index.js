@@ -26,6 +26,11 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue'),
       meta: { requiresAuth: false, title: '注册' }
+    },{
+      path: '/payment',
+      name: 'payment',
+      component: () => import('@/views/PaymentView.vue'),
+      meta: { requiresAuth: false, title: '收銀台' }
     },
     // ========== 需要登录认证的路由 ==========
     {
