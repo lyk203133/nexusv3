@@ -185,9 +185,9 @@
               <span class="text-slate-500">{{ t.history.fee }}:</span>
               <span class="ml-2 font-mono text-rose-400">-{{ tx.fees.toLocaleString() }}</span>
             </div>
-            <div v-if="tx.bonus">
-              <span class="text-slate-500">{{ t.history.bonus }}:</span>
-              <span class="ml-2 font-mono text-emerald-400">+{{ tx.bonus.toLocaleString() }}</span>
+            <div v-if="tx.bonus_points">
+              <span class="text-slate-500">{{ t.history.bouns }}:</span>
+              <span class="ml-2 font-mono text-emerald-400">+{{ tx.bonus_points.toLocaleString() }}</span>
             </div>
           </div>
 

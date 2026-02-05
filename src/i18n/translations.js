@@ -250,7 +250,8 @@ export const TRANSLATIONS = {
       targets: { all: "全部對象", platform: "平台", merchant: "商戶", member: "會員" },
       statuses: { all: "全部狀態", success: "交易成功", pending: "交易中", cancelled: "已取消", abnormal: "異常" },
       stats: { count: "篩選後總筆數", points: "總交易點數", fees: "總手續費", bonus: "總紅利" },
-      fee:"手續費"
+      fee:"手續費",
+      bouns:"紅利"
     },
     notification: {
       title: "通知中心",
@@ -641,7 +642,8 @@ export const TRANSLATIONS = {
       targets: { all: "All Targets", platform: "Platform", merchant: "Merchant", member: "Member" },
       statuses: { all: "All Status", success: "Successful", pending: "Pending", cancelled: "Cancelled", abnormal: "Abnormal" },
       stats: { count: "Total Count", points: "Total Points", fees: "Total Fees", bonus: "Total Bonus" },
-      fee: "Fee"
+      fee: "Fee",
+      bouns:"Bouns"
     },
     notification: {
       title: "Notifications",
@@ -1027,7 +1029,8 @@ export const TRANSLATIONS = {
       targets: { all: "Tất cả", platform: "Nền tảng", merchant: "Thương gia", member: "Thành viên" },
       statuses: { all: "Tất cả trạng thái", success: "Thành công", pending: "Đang chờ", cancelled: "Đã hủy", abnormal: "Bất thường" },
       stats: { count: "Tổng số đơn", points: "Tổng điểm", fees: "Tổng phí", bonus: "Tổng hoa hồng" },
-      fee: "Phí"
+      fee: "Phí",
+      bouns:"thưởng"
     },
     notification: {
       title: "Trung tâm thông báo",
