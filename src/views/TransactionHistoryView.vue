@@ -166,7 +166,7 @@
               <p class="text-xs text-slate-500 mt-1">{{ formatDate(tx.created_at) }}</p>
             </div>
             <span :class="`px-2 py-1 rounded text-xs font-bold ${getStatusColor(tx.status)}`">
-              {{ getStatusText(tx.status) }}
+              {{ getStatusText(tx.status) }}{{ tx.status_type == 1?'🔄':'✋' }}
             </span>
           </div>
           
@@ -181,13 +181,13 @@
               <span class="text-slate-500">{{ t.common.amount }}:</span>
               <span class="ml-2 font-mono font-bold text-white">{{ (tx.amount || 0).toLocaleString() }}</span>
             </div>
-            <div v-if="tx.fee">
+            <div v-if="1==2 && tx.fee">
               <span class="text-slate-500">{{ t.history.fee }}:</span>
               <span class="ml-2 font-mono text-rose-400">-{{ tx.fees.toLocaleString() }}</span>
             </div>
-            <div v-if="tx.bonus">
-              <span class="text-slate-500">{{ t.history.bonus }}:</span>
-              <span class="ml-2 font-mono text-emerald-400">+{{ tx.bonus.toLocaleString() }}</span>
+            <div v-if="tx.bonus_points">
+              <span class="text-slate-500">{{ t.history.bouns }}:</span>
+              <span class="ml-2 font-mono text-emerald-400">+{{ tx.bonus_points.toLocaleString() }}</span>
             </div>
           </div>
 
