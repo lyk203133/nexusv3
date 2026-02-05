@@ -9,13 +9,13 @@
           {{ isEditing ? (editingId ? '編輯' : t.account.add) : t.profile.payAccount }}
         </h2>
       </div>
-      <!--button 
+      <button 
         v-if="!isEditing && !loading" 
         @click="startCreate"
         class="bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold"
       >
         + {{ t.account.add }}
-      </button-->
+      </button>
     </div>
 
     <div v-if="loading" class="flex flex-col items-center justify-center py-12">
@@ -78,11 +78,11 @@
             <p class="text-white font-mono text-lg font-bold">{{ formatAccountNumber(item.account_number) }}</p>
           </div>
           
-          <!--div class="flex gap-4 pt-3 border-t border-slate-700/50">
+          <div class="flex gap-4 pt-3 border-t border-slate-700/50">
             <button @click.stop="startEditing(item)" class="text-emerald-400 text-xs flex items-center hover:opacity-80">
               <Edit3 :size="14" class="mr-1" /> {{ t.account.edit }}
             </button>
-          </div-->
+          </div>
 
           <p v-if="item.status === 'rejected' && item.reject_reason" class="text-[10px] text-rose-400 mt-2 italic">
             * {{ item.reject_reason }}
@@ -169,7 +169,7 @@ const editingId = ref(null)
 
 // Data
 const accountList = ref([])
-const bankOptions = ['VIB', 'PG BANK', 'VTB', 'MB', 'VCB', 'MSB', 'ACB', 'SEA', 'EIB', 'OCB', 'VIKKI']
+const bankOptions = ['SEA', 'VIKKI']
 const formData = ref({ bank_name: 'VIB', account_name: '', account_number: '', bank_code: '', branch_name: '' })
 const uploads = ref({ card_front: null, card_back: null, qr_code: null })
 const previews = ref({ card_front: '', card_back: '', qr_code: '' })
@@ -310,14 +310,14 @@ async function handleSubmit() {
     let response
     if (editingId.value) {
       // 更新現有帳戶
-      response = await api.post(`/payment-account-update?id=${editingId.value}`, fd, {
+      response = await api.post(`/payment-account-update?id=${editingId.value}&type=pay`, fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
     } else {
       // 創建新帳戶
-      response = await api.post('/payment-account-update', fd, {
+      response = await api.post('/payment-account-update?type=pay', fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
