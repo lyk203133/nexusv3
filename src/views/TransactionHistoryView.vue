@@ -192,8 +192,8 @@
           </div>
 
           <!-- Transaction Remarks -->
-          <div v-if="tx.remark" class="mt-3 pt-3 border-t border-slate-700/30">
-            <p class="text-xs text-slate-500 italic">"{{ tx.remark }}"</p>
+          <div v-if="tx.payment_ref_code" class="mt-3 pt-3 border-t border-slate-700/30">
+            <p class="text-xs text-slate-500 italic">"{{ tx.payment_ref_code }}"</p>
           </div>
         </div>
 
