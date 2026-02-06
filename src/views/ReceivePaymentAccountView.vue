@@ -95,8 +95,8 @@
         <div class="space-y-4">
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ t.account.bankName }}</label>
-            <select v-model="formData.bank_name" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:ring-emerald-500">
-              <option v-for="bank in bankOptions" :key="bank" :value="bank">{{ bank }}</option>
+            <select v-model="formData.bank_code" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:ring-emerald-500">
+              <option v-for="bank in bankOptions" :key="bank.code" :value="bank.code">{{ bank.name }}</option>
             </select>
           </div>
 
@@ -169,7 +169,54 @@ const editingId = ref(null)
 
 // Data
 const accountList = ref([])
-const bankOptions = ['PGB', 'ICB', 'MB', 'VCB', 'MSB', 'ACB', 'SEAB', 'EIB', 'OCB']
+//['PGB', 'ICB', 'MB', 'VCB', 'MSB', 'ACB', 'SEAB', 'EIB', 'OCB']
+const bankOptions = [
+    {
+        "code": "ACB",
+        "name": "ACB",
+        "bin": 970416
+    },
+    {
+        "code": "Eximbank",
+        "name": "EIB",
+        "bin": 970431
+    },
+    {
+        "code": "MBBank",
+        "name": "MB",
+        "bin": 970422
+    },
+    {
+        "code": "MSB",
+        "name": "MSB",
+        "bin": 970426
+    },
+    {
+        "code": "OCB",
+        "name": "OCB",
+        "bin": 970448
+    },
+    {
+        "code": "PGBank",
+        "name": "PGB",
+        "bin": 970430
+    },
+    {
+        "code": "SeABank",
+        "name": "SEAB",
+        "bin": 970440
+    },
+    {
+        "code": "Vietcombank",
+        "name": "VCB",
+        "bin": 970436
+    },
+    {
+        "code": "VietinBank",
+        "name": "ICB",
+        "bin": 970415
+    }
+]
 const formData = ref({ bank_name: 'VIB', account_name: '', account_number: '', bank_code: '', branch_name: '' })
 const uploads = ref({ card_front: null, card_back: null, qr_code: null })
 const previews = ref({ card_front: '', card_back: '', qr_code: '' })
@@ -276,7 +323,11 @@ async function handleSubmit() {
   const originalName = formData.value.account_name;
   const fixedName = normalizeName(originalName);
   formData.value.account_name = fixedName;
-
+  const bank_code = formData.value.bank_code;
+  const bank_name = bankOptions.find(b=>b.code == bank_code)?.name;
+  formData.value.bank_name = bank_name;
+  console.log(formData.value)
+  
   // B. 檢查帳號位數
   if (!isValidAcc(formData.value.account_number)) {
     showToast({
@@ -301,6 +352,7 @@ async function handleSubmit() {
   submitting.value = true
   try {
     const fd = new FormData()
+
     Object.keys(formData.value).forEach(key => fd.append(key, formData.value[key]))
     if (uploads.value.card_front) fd.append('card_front', uploads.value.card_front)
     if (uploads.value.card_back) fd.append('card_back', uploads.value.card_back)
