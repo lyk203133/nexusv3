@@ -250,12 +250,18 @@ function clearError() {
   }
 }
 
+function clearLogin(){
+   localStorage.removeItem('auth_token')
+   localStorage.removeItem('refresh_token')
+}
+
 // 为输入框添加监听
 watch(account, clearError)
 watch(password, clearError)
 watch(captcha, clearError)
 
 onMounted(() => {
+  clearLogin()
   fetchCaptcha()
 })
 

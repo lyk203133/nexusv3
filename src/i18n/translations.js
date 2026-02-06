@@ -98,6 +98,8 @@ export const TRANSLATIONS = {
     },
     dashboard: {
       assets: "總資產",
+      autofit:"自動配置",
+      balance: "當前餘額",
       avail: "可用餘額",
       frozen: "凍結餘額",
       todayBuy: "今日買入",
@@ -493,6 +495,8 @@ export const TRANSLATIONS = {
     },
     dashboard: {
       assets: "Total Assets",
+      autofit:"Automatic",
+      balance: "Balance",
       avail: "Available",
       frozen: "Frozen",
       todayBuy: "Buy Today",
@@ -886,6 +890,8 @@ export const TRANSLATIONS = {
     },
     dashboard: {
       assets: "Tổng tài sản",
+      autofit:"động",
+      balance:"THĂNG BẰNG",
       avail: "Số dư khả dụng",
       frozen: "Số dư đóng băng",
       todayBuy: "Mua hôm nay",

@@ -114,8 +114,8 @@
           </div>
           <div class="flex gap-3 text-xs font-bold">
             <div class="text-xs font-bold" style="position:absolute;display: flex;flex-direction: column;margin-top: -.5rem;margin-left: -2rem;">
-              <div style="display: flex;align-items: center;"><input v-model="dashboardData.autofit" @change="changeAutoFit" type="checkbox" />自動配單</div>
-              <label class="bank-balance">當前餘額: {{ bank_balance }}</label>
+              <div style="display: flex;align-items: center;"><input v-model="dashboardData.autofit" @change="changeAutoFit" type="checkbox" />{{ t.dashboard.autofit }}</div>
+              <label class="bank-balance">{{ t.dashboard.balance }}: {{ bank_balance }}</label>
             </div>
           </div>
           <div class="flex bg-slate-800 rounded-md p-0.5">
