@@ -191,20 +191,10 @@
           <div style="margin-bottom: 10px;">
             <label class="text-xs text-slate-400 mb-1 block">{{ t.register.bankName }}</label>
             <select 
-              v-model="formData.bankName"
+              v-model="formData.bank_code"
               class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white"
             >
-              <option value="VIB">VIB</option>
-              <option value="PG BANK">PG BANK</option>
-              <option value="VTB">VTB</option>
-              <option value="MB">MB</option>
-              <option value="VCB">VCB</option>
-              <option value="MSB">MSB</option>
-              <option value="ACB">ACB</option>
-              <option value="SEA">SEA</option>
-              <option value="EIB">EIB</option>
-              <option value="OCB">OCB</option>
-              <option value="VIKKI">VIKKI</option>
+              <option v-for="bank in bankOptions" :key="bank.code" :value="bank.code">{{ bank.name }}</option>
             </select>
           </div>
           <InputField :icon="User" :placeholder="t.register.accountName" v-model="formData.accountName" />
@@ -259,6 +249,54 @@ const countdown = ref(0)
 const captchaInput = ref('')
 const generatedCaptcha = ref('')
 const isClick = ref(false)
+
+const bankOptions = [
+    {
+        "code": "ACB",
+        "name": "ACB",
+        "bin": 970416
+    },
+    {
+        "code": "Eximbank",
+        "name": "EIB",
+        "bin": 970431
+    },
+    {
+        "code": "MBBank",
+        "name": "MB",
+        "bin": 970422
+    },
+    {
+        "code": "MSB",
+        "name": "MSB",
+        "bin": 970426
+    },
+    {
+        "code": "OCB",
+        "name": "OCB",
+        "bin": 970448
+    },
+    {
+        "code": "PGBank",
+        "name": "PGB",
+        "bin": 970430
+    },
+    {
+        "code": "SeABank",
+        "name": "SEAB",
+        "bin": 970440
+    },
+    {
+        "code": "Vietcombank",
+        "name": "VCB",
+        "bin": 970436
+    },
+    {
+        "code": "VietinBank",
+        "name": "ICB",
+        "bin": 970415
+    }
+]
 
 const formData = ref({
   account: '',
@@ -480,6 +518,11 @@ async function handleSubmit() {
   const originalName = formData.value.accountName;
   const fixedName = normalizeName(originalName);
   formData.value.accountName = fixedName;
+
+  const bank_code = formData.value.bank_code;
+  const bankName = bankOptions.find(b=>b.code == bank_code)?.name;
+  formData.value.bankName = bankName;
+  console.log(formData.value)
 
   // B. 檢查帳號位數
   if (!isValidAcc(formData.value.bankAcc)) {
