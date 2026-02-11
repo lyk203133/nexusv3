@@ -1,0 +1,32 @@
+import{r as h,b as x,d as e,e as o,f as t,t as a,q as f,v as m,F as k,z as w,p as b,j as F,n as p}from"./index-iIgKntgy.js";import{_ as z}from"./NeonButton-CZ20LWRa.js";import{c as n,u as j}from"./useTranslation-B4X_B--w.js";import{A as C}from"./arrow-left-X9gq9hsN.js";import{U as M}from"./upload-B8FvkRdR.js";/**
+ * @license lucide-vue-next v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const I=n("FacebookIcon",[["path",{d:"M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",key:"1jg4f8"}]]);/**
+ * @license lucide-vue-next v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const S=n("FileImageIcon",[["path",{d:"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z",key:"1rqfz7"}],["path",{d:"M14 2v4a2 2 0 0 0 2 2h4",key:"tnqrlb"}],["circle",{cx:"10",cy:"12",r:"2",key:"737tya"}],["path",{d:"m20 17-1.296-1.296a2.41 2.41 0 0 0-3.408 0L9 22",key:"wt3hpn"}]]);/**
+ * @license lucide-vue-next v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const V=n("MessageCircleIcon",[["path",{d:"M7.9 20A9 9 0 1 0 4 16.1L2 22Z",key:"vv11sd"}]]);/**
+ * @license lucide-vue-next v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const q=n("MessageSquareIcon",[["path",{d:"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",key:"1lielz"}]]);/**
+ * @license lucide-vue-next v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const $=n("SendIcon",[["path",{d:"m22 2-7 20-4-9-9-4Z",key:"1q3vgg"}],["path",{d:"M22 2 11 13",key:"nzbqef"}]]);/**
+ * @license lucide-vue-next v0.344.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const A=n("XCircleIcon",[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"m15 9-6 6",key:"1uzhvr"}],["path",{d:"m9 9 6 6",key:"z0biqf"}]]),B={class:"flex flex-col h-full bg-slate-900"},L={class:"p-4 flex items-center bg-slate-800 shadow-lg z-10"},T={class:"text-white font-bold text-lg"},U={class:"flex-1 overflow-y-auto p-5 pb-24 no-scrollbar flex flex-col"},Z={class:"flex-1 space-y-6"},H={class:"text-slate-400 text-xs"},N={class:"space-y-4"},D={class:"text-xs text-slate-500 block mb-1"},X=["placeholder"],E={class:"text-xs text-slate-500 block mb-1"},P=["placeholder"],W={class:"text-xs text-slate-500 block mb-1"},G={class:"space-y-2 mb-2"},J={class:"flex items-center gap-2 overflow-hidden"},K={class:"text-xs text-slate-300 truncate"},O=["onClick"],Q={class:"mt-8 pt-6 border-t border-slate-800"},R={class:"text-center text-xs text-slate-500 mb-4"},Y={class:"flex justify-center gap-6"},ee={class:"flex flex-col items-center gap-1 group"},te={class:"w-10 h-10 rounded-full bg-[#1877F2]/20 flex items-center justify-center group-hover:bg-[#1877F2] transition-colors"},se={class:"flex flex-col items-center gap-1 group"},le={class:"w-10 h-10 rounded-full bg-[#0088cc]/20 flex items-center justify-center group-hover:bg-[#0088cc] transition-colors"},oe={class:"flex flex-col items-center gap-1 group"},ae={class:"w-10 h-10 rounded-full bg-[#00B900]/20 flex items-center justify-center group-hover:bg-[#00B900] transition-colors"},re={class:"flex flex-col items-center gap-1 group"},ce={class:"w-10 h-10 rounded-full bg-[#0068FF]/20 flex items-center justify-center group-hover:bg-[#0068FF] transition-colors"},ve={__name:"CustomerServiceView",setup(ne){const{t:l}=j(),d=h(""),u=h(""),r=h([]);function g(){const i=`Screenshot_${r.value.length+1}.jpg`;r.value.push(i)}function _(i){r.value.splice(i,1)}function y(){if(!d.value||!u.value)return alert("Please fill all fields");alert(`${l.value.common.success}
+Attachments: ${r.value.length}`),d.value="",u.value="",r.value=[]}return(i,s)=>(p(),x("div",B,[e("div",L,[e("button",{onClick:s[0]||(s[0]=c=>i.$router.push("/profile")),class:"p-2 mr-2"},[o(t(C),{class:"text-white"})]),e("div",null,[e("h2",T,a(t(l).service.title),1)])]),e("div",U,[e("div",Z,[e("p",H,a(t(l).service.desc),1),e("div",N,[e("div",null,[e("label",D,a(t(l).service.subject),1),f(e("input",{type:"text",class:"w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-white outline-none focus:border-emerald-500",placeholder:t(l).service.placeholderSub,"onUpdate:modelValue":s[1]||(s[1]=c=>d.value=c)},null,8,X),[[m,d.value]])]),e("div",null,[e("label",E,a(t(l).service.content),1),f(e("textarea",{class:"w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-white outline-none focus:border-emerald-500 h-32 resize-none",placeholder:t(l).service.placeholderContent,"onUpdate:modelValue":s[2]||(s[2]=c=>u.value=c)},null,8,P),[[m,u.value]])]),e("div",null,[e("label",W,a(t(l).service.attachment),1),e("div",G,[(p(!0),x(k,null,w(r.value,(c,v)=>(p(),x("div",{key:v,class:"flex items-center justify-between bg-slate-800 border border-slate-700 rounded p-2 px-3"},[e("div",J,[o(t(S),{size:14,class:"text-emerald-400 flex-shrink-0"}),e("span",K,a(c),1)]),e("button",{onClick:ie=>_(v),class:"text-slate-500 hover:text-rose-400"},[o(t(A),{size:14})],8,O)]))),128))]),e("button",{onClick:g,class:"w-full h-12 border-2 border-dashed border-slate-700 rounded-lg flex items-center justify-center text-slate-400 text-xs hover:border-emerald-500 hover:text-emerald-400 transition-colors"},[o(t(M),{size:14,class:"mr-2"}),b(a(t(l).common.addFile),1)])]),o(z,{fullWidth:"",onClick:y},{default:F(()=>[b(a(t(l).service.send),1)]),_:1})])]),e("div",Q,[e("p",R,a(t(l).service.social),1),e("div",Y,[e("button",ee,[e("div",te,[o(t(I),{size:20,class:"text-[#1877F2] group-hover:text-white"})]),s[3]||(s[3]=e("span",{class:"text-[10px] text-slate-400"},"Facebook",-1))]),e("button",se,[e("div",le,[o(t($),{size:20,class:"text-[#0088cc] group-hover:text-white"})]),s[4]||(s[4]=e("span",{class:"text-[10px] text-slate-400"},"Telegram",-1))]),e("button",oe,[e("div",ae,[o(t(V),{size:20,class:"text-[#00B900] group-hover:text-white"})]),s[5]||(s[5]=e("span",{class:"text-[10px] text-slate-400"},"Line",-1))]),e("button",re,[e("div",ce,[o(t(q),{size:20,class:"text-[#0068FF] group-hover:text-white"})]),s[6]||(s[6]=e("span",{class:"text-[10px] text-slate-400"},"Zalo",-1))])])])])]))}};export{ve as default};

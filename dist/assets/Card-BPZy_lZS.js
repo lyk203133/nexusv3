@@ -1,0 +1,1 @@
+import{b as s,n as r,H as l,s as o}from"./index-iIgKntgy.js";const n={__name:"Card",props:{className:{type:String,default:""}},setup(e){return(a,t)=>(r(),s("div",{class:o(`bg-slate-800/80 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-lg ${e.className}`)},[l(a.$slots,"default")],2))}};export{n as _};
