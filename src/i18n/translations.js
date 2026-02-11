@@ -1,6 +1,6 @@
 export const TRANSLATIONS = {
   'zh-TW': {
-    appName: "NEXUS TRADER",
+    appName: "vnsypay",
     appSub: "遊戲點數交易平台",
     common: {
       confirm: "確認",
@@ -398,7 +398,7 @@ export const TRANSLATIONS = {
     }
   },
   'en-US': {
-    appName: "NEXUS TRADER",
+    appName: "vnsypay",
     appSub: "Point Trading Platform",
     common: {
       confirm: "Confirm",
@@ -793,7 +793,7 @@ export const TRANSLATIONS = {
     }
   },
   'vi-VN': {
-    appName: "NEXUS TRADER",
+    appName: "vnsypay",
     appSub: "Sàn Giao Dịch Điểm Game",
     common: {
       confirm: "Xác nhận",
