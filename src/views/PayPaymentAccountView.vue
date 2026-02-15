@@ -169,7 +169,7 @@ const editingId = ref(null)
 
 // Data
 const accountList = ref([])
-const bankOptions = [{name:'SEAB',code:'SeABank'}, {name:'Vikki',code:'Vikki'}];
+const bankOptions = [{name:'SEAB',code:'SeABank'}, {name:'Vikki',code:'Vikki'}, {name:'OCB',code:'OCB'}, {"code": "PGBank","name": "PGB"},{"code": "VietinBank","name": "ICB"}];
 const formData = ref({ bank_name: 'VIB', account_name: '', account_number: '', bank_code: '', branch_name: '' })
 const uploads = ref({ card_front: null, card_back: null, qr_code: null })
 const previews = ref({ card_front: '', card_back: '', qr_code: '' })
