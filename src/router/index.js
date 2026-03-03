@@ -121,7 +121,7 @@ const router = createRouter({
       path: '/customer-service',
       name: 'customer-service',
       component: () => import('@/views/CustomerServiceView.vue'),
-      meta: { requiresAuth: true, title: '客服中心' }
+      meta: { requiresAuth: true, title: '客服中心',externalRedirect:  import.meta.env.VITE_KEFU_URL  }
     },
     {
       path: '/referral-center',
@@ -165,8 +165,23 @@ const router = createRouter({
 
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
+
   // 获取认证状态
   const authStore = useAuthStore()
+
+  if (to.meta.externalRedirect) {
+    if(authStore.isAuthenticated){
+        const url = to.meta.externalRedirect.replace("{id}",authStore.user.id).replace("{name}",authStore.user.username)
+        window.location.href = url
+    }else{
+        const id = new Date().getTime();
+        const url = to.meta.externalRedirect.replace("{id}",id).replace("{name}",id)
+        window.location.href = url
+    }
+    return // 不需要 next()
+  }
+
+  
   
   // 设置页面标题
   if (to.meta.title) {
