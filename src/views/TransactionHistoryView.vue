@@ -67,15 +67,15 @@
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ t.history.filterStatus }}</label>
             <select 
-              v-model="filters.status"
+              v-model="filters.status" @click="changeStatus"
               class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white"
             >
               <option value="all">{{ t.common.all }}</option>
-              <option value="success">{{ t.history.statuses.success }}</option>
-              <option value="pending">{{ t.history.statuses.pending }}</option>
-              <option value="processing">{{ t.history.statuses.processing }}</option>
-              <option value="cancelled">{{ t.history.statuses.cancelled }}</option>
-              <option value="abnormal">{{ t.history.statuses.abnormal }}</option>
+              <option value="2">{{ t.mall.status[2] }}</option>
+              <option value="0">{{ t.mall.status[0] }}</option>
+              <option value="1">{{ t.mall.status[1] }}</option>
+              <option value="3">{{ t.mall.status[3] }}</option>
+              
             </select>
           </div>
           <div>
@@ -121,10 +121,10 @@
           <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.points }}</span>
           <span class="text-lg font-mono font-bold text-white">{{ (stats.totalAmount || 0).toLocaleString() }}</span>
         </div>
-        <div class="flex flex-col">
+        <!--div class="flex flex-col">
           <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.fees }}</span>
           <span class="text-lg font-mono font-bold text-rose-400">{{ (stats.totalFee || 0).toLocaleString() }}</span>
-        </div>
+        </div-->
         <div class="flex flex-col">
           <span class="text-[10px] text-slate-400 mb-1">{{ t.history.stats.bonus }}</span>
           <span class="text-lg font-mono font-bold text-emerald-400">{{ (stats.totalBonus || 0).toLocaleString() }}</span>
@@ -230,8 +230,14 @@
             </div>
             <div class="flex justify-between">
               <span class="text-slate-400">{{ t.history.orderNo }}</span>
-              <span class="text-white font-mono text-sm">{{ selectedTransaction.order_no }}</span>
-            </div>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                  <span class="text-white font-mono text-sm" style="cursor: pointer;" @click="copySymbol(selectedTransaction.order_no)">
+                      {{ selectedTransaction.order_no }}
+                  </span>
+                  <svg t="1772804837309" style="width:1rem;height: 1rem;cursor: pointer;" @click="copySymbol(selectedTransaction.order_no)" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4653" width="200" height="200"><path d="M832 128c-12.8-76.8-76.8-128-160-128h-448C102.4 0 0 102.4 0 224v448c0 76.8 57.6 140.8 128 160 12.8 76.8 76.8 128 160 128h512c89.6 0 160-70.4 160-160v-512c0-76.8-57.6-140.8-128-160zM64 672v-448C64 134.4 134.4 64 224 64h448c44.8 0 76.8 25.6 89.6 64H288C198.4 128 128 198.4 128 288v473.6c-38.4-12.8-64-44.8-64-89.6z m832 128c0 51.2-44.8 96-96 96h-512c-51.2 0-96-44.8-96-96v-512C192 236.8 236.8 192 288 192h512c51.2 0 96 44.8 96 96v512z" fill="#e6e6e6" p-id="4654"></path></svg>
+                  
+              </div>
+          </div>
             <div class="flex justify-between">
               <span class="text-slate-400">{{ t.common.type }}</span>
               <span :class="`font-bold ${getTypeColor(selectedTransaction.type)}`">
@@ -447,6 +453,11 @@ function resetFilters() {
   fetchTransactions(true)
 }
 
+function changeStatus(){
+  transactions.value = [];
+  fetchTransactions(false)
+}
+
 function showTransactionDetail(tx) {
   selectedTransaction.value = tx
   showDetailModal.value = true
@@ -591,6 +602,21 @@ if (typeof document !== 'undefined') {
       fetchTransactions(true)
     }
   })
+}
+
+function copySymbol(symbol) {
+  navigator.clipboard.writeText(symbol)
+    .then(() => alert('copy: ' + symbol))
+    .catch(err => {
+      // 降級方案
+      const textArea = document.createElement('textarea');
+      textArea.value = symbol;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('copy: ' + symbol);
+    });
 }
 </script>
 
