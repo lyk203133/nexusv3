@@ -6,7 +6,7 @@
           <ArrowLeft class="text-white" :size="20" />
         </button>
         <div>
-          <h2 class="text-white font-bold text-lg">{{ t.dashboard.frozen}}</h2>
+          <h2 class="text-white font-bold text-lg">{{ t.common.inviteBonus}}</h2>
         </div>
       </div>
       <div class="flex items-center gap-2">
@@ -19,14 +19,7 @@
           <span>{{ t.history.filter }}</span>
         </button>
         <!-- Export Button -->
-        <button 
-          @click="handleExport"
-          class="flex items-center gap-1 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-xs text-white border border-slate-600"
-          :disabled="loading"
-        >
-          <Download :size="14" />
-          <span>{{ t.history.export }}</span>
-        </button>
+         
       </div>
     </div>
 
@@ -128,53 +121,54 @@
         </div>
 
         <!-- Transactions -->
-        <div 
-          v-for="tx in transactions" 
-          :key="tx.id"
-          class="bg-slate-800 p-4 rounded-xl mb-3 border border-slate-700/50 hover:border-slate-600 transition-colors cursor-pointer"
+        <div class="bg-slate-800 rounded-xl border border-slate-700/50 overflow-hidden">
+  <!-- 表格頭 -->
+  <div class="grid grid-cols-4 gap-2 p-4 bg-slate-900/50 border-b border-slate-700/50 text-xs font-bold text-slate-400">
+    <div>{{ t.common.orderNo }}</div>
+    <div>{{ t.profile.account }}</div>
+    <div>{{ t.common.amount }}</div>
+    <div>{{ t.common.inviteBonus }}</div>
+  </div>
+  
+  <!-- 表格內容 -->
+  <div class="divide-y divide-slate-700/50">
+    <div 
+      v-for="tx in transactions" 
+      :key="tx.id"
+      class="grid grid-cols-4 gap-2 p-4 hover:bg-slate-700/30 transition-colors cursor-pointer items-center"
+    >
+      <!-- 編號 -->
+      <div>
+        <div class="flex items-center gap-4" style="word-break: break-all;">
+          <span class="text-xs font-mono text-emerald-400" @click="copySymbol(tx.order_no)">{{ tx.order_no || tx.id }}</span>
           
-        >
-          <div class="flex justify-between items-start mb-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs font-mono text-emerald-400" @click="copySymbol(tx.order_no)">{{ tx.order_no || tx.id }}</span>
-                <span class="text-xs text-slate-500 px-2 py-0.5 bg-slate-900/50 rounded" @click="copySymbol(tx.order_no)">
-                  📋
-                </span>
-              </div>
-              <p class="text-xs text-slate-500 mt-1">{{ formatDate(tx.created_at) }}</p>
-            </div>
-            <span :class="`px-2 py-1 rounded text-xs font-bold ${getStatusColor(tx.status)}`">
-              {{ getStatusText(tx.status) }}{{ tx.status_type == 1?'🔄':'✋' }}
-            </span>
-          </div>
-          
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <div>
-              <span class="text-slate-500">{{ t.common.type }}:</span>
-              <span :class="`ml-2 font-bold ${getTypeColor(tx.type)}`">
-                {{ getTypeText(tx.type) }}
-              </span>
-            </div>
-            <div>
-              <span class="text-slate-500">{{ t.common.amount }}:</span>
-              <span class="ml-2 font-mono font-bold text-white">{{ (tx.amount || 0).toLocaleString() }}</span>
-            </div>
-            <div v-if="1==2 && tx.fee">
-              <span class="text-slate-500">{{ t.history.fee }}:</span>
-              <span class="ml-2 font-mono text-rose-400">-{{ tx.fees.toLocaleString() }}</span>
-            </div>
-            <div v-if="tx.bonus_points">
-              <span class="text-slate-500">{{ t.history.bouns }}:</span>
-              <span class="ml-2 font-mono text-emerald-400">+{{ tx.bonus_points.toLocaleString() }}</span>
-            </div>
-          </div>
-
-          <!-- Transaction Remarks -->
-          <div v-if="tx.payment_ref_code" class="mt-3 pt-3 border-t border-slate-700/30">
-            <p class="text-xs text-slate-500 italic">"{{ tx.payment_ref_code }}"</p>
-          </div>
         </div>
+        <p class="text-xs text-slate-500 mt-1">{{ formatDate(tx.completed_at) }}</p>
+      </div>
+      
+      <!-- 帳號 -->
+      <div class="text-sm text-white" style="word-break: break-all;">
+        {{ tx.username || tx.target_id || '-' }}
+      </div>
+      
+      <!-- 金額 -->
+      <div style="word-break: break-all;">
+        <span class="font-mono text-emerald-400 font-bold">
+          {{ tx.amount_points.toLocaleString() }}
+        </span>
+         
+      </div>
+      
+      <!-- 邀請碼紅利 -->
+      <div style="word-break: break-all;">
+        <span class="font-mono text-emerald-400 font-bold">
+          {{ tx.inviteBonus.toLocaleString() }}
+        </span>
+       
+      </div>
+    </div>
+  </div>
+</div>
 
         <!-- Load More Button -->
         <div v-if="hasMore" class="text-center mt-4">
@@ -189,112 +183,21 @@
         </div>
       </div>
     </div>
-
-    <!-- Transaction Detail Modal -->
-    <div v-if="showDetailModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-      <div class="bg-slate-800 rounded-2xl p-6 w-full max-w-md mx-auto border border-slate-700 max-h-[80vh] overflow-y-auto">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-lg font-bold text-white">{{ t.history.transactionDetail }}</h3>
-          <button @click="showDetailModal = false" class="text-slate-400 hover:text-white">
-            <X :size="20" />
-          </button>
-        </div>
-
-        <div v-if="selectedTransaction" class="space-y-4">
-          <!-- Basic Info -->
-          <div class="space-y-3">
-            <div class="flex justify-between">
-              <span class="text-slate-400">{{ t.history.transactionId }}</span>
-              <span class="text-white font-mono text-sm">{{ selectedTransaction.transaction_id }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">{{ t.history.orderNo }}</span>
-              <span class="text-white font-mono text-sm">{{ selectedTransaction.order_no }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">{{ t.common.type }}</span>
-              <span :class="`font-bold ${getTypeColor(selectedTransaction.type)}`">
-                {{ getTypeText(selectedTransaction.type) }}
-              </span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">{{ t.history.status }}</span>
-              <span :class="`font-bold ${getStatusColor(selectedTransaction.status)}`">
-                <a :href="'trade-buy?id='+selectedTransaction.id">{{ getStatusText(selectedTransaction.status) }}</a> 
-              </span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">{{ t.history.createTime }}</span>
-              <span class="text-white">{{ formatDateTime(selectedTransaction.created_at) }}</span>
-            </div>
-          </div>
-
-          <!-- Amount Details -->
-          <div class="pt-4 border-t border-slate-700 space-y-3">
-            <div class="flex justify-between">
-              <span class="text-slate-400">{{ t.common.amount }}</span>
-              <span class="text-xl font-mono font-bold text-white">{{ (selectedTransaction.amount || 0).toLocaleString() }}</span>
-            </div>
-            <div v-if="selectedTransaction.fee" class="flex justify-between">
-              <span class="text-slate-400">{{ t.history.fee }}</span>
-              <span class="font-mono text-rose-400">-{{ selectedTransaction.fee.toLocaleString() }}</span>
-            </div>
-            <div v-if="selectedTransaction.bonus" class="flex justify-between">
-              <span class="text-slate-400">{{ t.history.bonus }}</span>
-              <span class="font-mono text-emerald-400">+{{ selectedTransaction.bonus.toLocaleString() }}</span>
-            </div>
-            <div v-if="selectedTransaction.actual_amount" class="flex justify-between pt-3 border-t border-slate-700">
-              <span class="text-slate-300">{{ t.history.actualAmount }}</span>
-              <span class="text-xl font-mono font-bold text-emerald-400">{{ selectedTransaction.actual_amount.toLocaleString() }}</span>
-            </div>
-          </div>
-
-          <!-- Additional Info -->
-          <div v-if="selectedTransaction.remark" class="pt-4 border-t border-slate-700">
-            <p class="text-slate-400 text-sm mb-2">{{ t.history.remark }}</p>
-            <p class="text-slate-300 text-sm bg-slate-900/50 p-3 rounded-lg">{{ selectedTransaction.remark }}</p>
-          </div>
-
-          <!-- Action Buttons -->
-          <div v-if="selectedTransaction.status === 'pending'" class="pt-4 border-t border-slate-700 flex gap-2">
-            <button 
-              @click="handleTransactionAction('cancel', selectedTransaction)"
-              class="flex-1 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-lg"
-            >
-              {{ t.common.cancel }}
-            </button>
-            <button 
-              @click="handleTransactionAction('confirm', selectedTransaction)"
-              class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg"
-            >
-              {{ t.common.confirm }}
-            </button>
-          </div>
-
-          <div v-if="selectedTransaction.status === 1 && selectedTransaction.type === 'SELL'" class="pt-4 border-t border-slate-700 flex gap-2">
-            <button 
-              @click="router.push('/trade-buy?id='+selectedTransaction.id)"
-              class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg"
-            >
-              上傳明細
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+ 
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft, Download, Filter, X } from 'lucide-vue-next'
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/auth'
 import { api } from '@/utils/api'
 import { showToast } from '@/utils/notification'
-
+const route = useRoute()
 const router = useRouter()
+ 
 const { t } = useTranslation()
 const authStore = useAuthStore()
 
@@ -307,6 +210,7 @@ const showDetailModal = ref(false)
 const selectedTransaction = ref(null)
 
 // Data
+const viewUserId = route.query.userId
 const transactions = ref([])
 const stats = ref({})
 const pagination = ref({})
@@ -315,8 +219,9 @@ const filters = ref({
   status: 'all',
   startDate: '',
   endDate: '',
+  viewUserId:viewUserId,
   page: 1,
-  limit: 10
+  limit: 15
 })
 const hasMore = ref(true)
 
@@ -342,7 +247,8 @@ async function fetchTransactions(reset = true) {
     // Prepare query params
     const params = {
       page: filters.value.page,
-      limit: filters.value.limit
+      limit: filters.value.limit,
+      viewUserId:viewUserId
     }
     
     // Add filters if not 'all'
@@ -362,16 +268,16 @@ async function fetchTransactions(reset = true) {
       params.end_date = filters.value.endDate
     }
 
-    const response = await api.get('/frozen-orders', { params })
+    const response = await api.get('/user/invite-code-bonus', { params })
     
     if (response.data.success) {
       const data = response.data.data
       
       if (reset) {
-        transactions.value = data.transactions || []
+        transactions.value = data.orders || []
         stats.value = data.stats || {}
       } else {
-        const combined = [...transactions.value, ...(data.transactions || [])];
+        const combined = [...transactions.value, ...(data.orders || [])];
         transactions.value = [...new Map(combined.map(item => 
           [item.id, item] // 假設每個項目有唯一 id
         )).values()];
@@ -457,83 +363,10 @@ function setToday() {
    filters.value = { ...filters.value };
 }
 
-
-function showTransactionDetail(tx) {
-  selectedTransaction.value = tx
-  showDetailModal.value = true
-}
-
-async function handleTransactionAction(action, tx) {
-  try {
-    let response
-    const data = { transaction_id: tx.id }
-    
-    if (action === 'cancel') {
-      response = await api.post('/transactions/cancel', data)
-    } else if (action === 'confirm') {
-      response = await api.post('/transactions/confirm', data)
-    }
-    
-    if (response?.data.success) {
-      showToast({
-        type: 'success',
-        title: t.value.common.success,
-        message: response.data.message || '操作成功'
-      })
-      
-      // Refresh transaction list
-      fetchTransactions(true)
-      showDetailModal.value = false
-    } else {
-      showToast({
-        type: 'error',
-        title: t.value.common.requestFailed,
-        message: response?.data.message || '操作失败'
-      })
-    }
-  } catch (err) {
-    console.error('Transaction action error:', err)
-    showToast({
-      type: 'error',
-      title: t.value.common.requestFailed,
-      message: err.response?.data?.message || t.value.common.networkError
-    })
-  }
-}
-
-async function handleExport() {
-  try {
-    const response = await api.get('/transactions/export', {
-      params: filters.value,
-      responseType: 'blob'
-    })
-    
-    // Create download link
-    const url = window.URL.createObjectURL(new Blob([response.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('download', `transactions_${new Date().toISOString().slice(0,10)}.csv`)
-    document.body.appendChild(link)
-    link.click()
-    link.remove()
-    
-    showToast({
-      type: 'success',
-      title: t.value.history.exportSuccess,
-      message: t.value.history.exportSuccessMessage
-    })
-  } catch (err) {
-    console.error('Export error:', err)
-    showToast({
-      type: 'error',
-      title: t.value.history.exportFailed,
-      message: err.response?.data?.message || t.value.common.networkError
-    })
-  }
-}
+  
 
 function handleBack() {
-  router.push('/profile')
+  router.push('/invite-code-bonus')
 }
 
 function formatDate(dateString) {
@@ -552,42 +385,13 @@ function formatDateTime(dateString) {
     minute: '2-digit'
   })
 }
-
-function getStatusColor(status) {
-  const colors = {
-    0: 'bg-emerald-900/50 text-emerald-400 border border-emerald-500/30',
-    1: 'bg-yellow-900/50 text-yellow-400 border border-yellow-500/30',
-    2: 'bg-blue-900/50 text-blue-400 border border-blue-500/30',
-    3: 'bg-slate-700 text-slate-400 border border-slate-500/30',
-    4: 'bg-rose-900/50 text-rose-400 border border-rose-500/30'
-  }
-  return colors[status] || colors.success
-}
-
-function getStatusText(status) {
-  return t.value.mall.status[status] || status
-}
-
-function getTypeColor(type) {
-  const colors = {
-    buy: 'text-emerald-400',
-    sell: 'text-rose-400',
-    deposit: 'text-blue-400',
-    withdraw: 'text-yellow-400'
-  }
-  return colors[type] || 'text-white'
-}
-
-function getTypeText(type) {
-  return t.value.history.types[type] || type
-}
-
+ 
 // Lifecycle
 let intervalId = null;
 onMounted(() => {
   fetchTransactions(true)
   intervalId = setInterval(async ()=>{
-    await fetchTransactions(false)
+    await fetchTransactions(true)
   },5000)
 })
 

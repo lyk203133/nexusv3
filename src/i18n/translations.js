@@ -3,6 +3,8 @@ export const TRANSLATIONS = {
     appName: "vnsypay",
     appSub: "遊戲點數交易平台",
     common: {
+      yesterday:"昨天",
+      today:"今天",
       confirm: "確認",
       cancel: "取消",
       back: "返回",
@@ -22,6 +24,7 @@ export const TRANSLATIONS = {
       amount: "金額",
       fee: "手續費",
       bonus: "紅利",
+      inviteBonus:"邀請碼紅利",
       target: "對象",
       orderNo: "訂單號",
       txId: "交易ID",
@@ -301,7 +304,8 @@ export const TRANSLATIONS = {
       myWallet: '我的錢包',
       accountSecurity: '账户与安全',
       changePassword: '修改密码',
-      changePin: '修改PIN码'
+      changePin: '修改PIN码',
+      account:'帳號'
     },
     security: {
       title: "安全中心",
@@ -401,6 +405,8 @@ export const TRANSLATIONS = {
     appName: "vnsypay",
     appSub: "Point Trading Platform",
     common: {
+      yesterday:"yesterday",
+      today:"today",
       confirm: "Confirm",
       cancel: "Cancel",
       back: "Back",
@@ -420,6 +426,7 @@ export const TRANSLATIONS = {
       amount: "Amount",
       fee: "Fee",
       bonus: "Bonus",
+      inviteBonus: "Invitation Code Bonus",
       target: "Target",
       orderNo: "Order No.",
       txId: "Transaction ID",
@@ -697,7 +704,8 @@ export const TRANSLATIONS = {
       myWallet: 'My Wallet',
       accountSecurity: 'Account Security',
       changePassword: 'Change Password',
-      changePin: 'Change PIN'
+      changePin: 'Change PIN',
+      account:'account'
     },
     security: {
       title: "Security",
@@ -796,6 +804,8 @@ export const TRANSLATIONS = {
     appName: "vnsypay",
     appSub: "Sàn Giao Dịch Điểm Game",
     common: {
+      yesterday: "hôm qua",
+      today: "hôm nay",
       confirm: "Xác nhận",
       cancel: "Hủy",
       back: "Quay lại",
@@ -815,6 +825,7 @@ export const TRANSLATIONS = {
       amount: "Số tiền",
       fee: "Phí",
       bonus: "Hoa hồng",
+      inviteBonus: "Thưởng mã mời",
       target: "Đối tượng",
       orderNo: "Mã đơn hàng",
       txId: "ID giao dịch",
@@ -1088,7 +1099,8 @@ export const TRANSLATIONS = {
       myWallet: 'Ví của tôi',
       accountSecurity: 'Tài khoản & Bảo mật',
       changePassword: 'Đổi mật khẩu',
-      changePin: 'Đổi mã PIN'
+      changePin: 'Đổi mã PIN',
+      account:'tài khoản'
     },
     security: {
       title: "Bảo mật",

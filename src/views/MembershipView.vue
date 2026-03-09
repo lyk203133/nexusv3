@@ -137,6 +137,18 @@
           </div>
         </div>
       </div>
+
+      <div class="p-4 mt-4">
+          <NeonButton 
+            variant="outline" 
+            fullWidth 
+            @click="handleInviteCodeBonus"
+            :loading="loading"
+            :disabled="loading"
+          >
+            <LogOut :size="16" class="mr-2" />{{ t.common.inviteBonus }}
+          </NeonButton>
+        </div>
     </div>
   </div>
 </template>
@@ -148,6 +160,7 @@ import { ArrowLeft, Award, Crown, Zap, Headphones, Star, Gift } from 'lucide-vue
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/auth'
 import { api, post } from '@/utils/api'
+import NeonButton from '@/components/NeonButton.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -195,7 +208,9 @@ async function fetchLevelData() {
   } finally {
   }
 }
-
+function handleInviteCodeBonus(){
+  router.push('/invite-code-bonus')
+}
 onMounted(() => {
   if (!authStore.isAuthenticated) {
     router.push('/login')

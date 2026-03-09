@@ -97,16 +97,28 @@
         </div>
         <div class="flex justify-end gap-2 mt-4">
           <button 
+            @click="setYesterday"
+            class="px-4 py-2 text-sm text-slate-400 hover:text-white"
+          >
+            {{ t.common.yesterday }}
+          </button>
+          <button 
+            @click="setToday"
+            class="px-4 py-2 text-sm text-slate-400 hover:text-white"
+          >
+            {{ t.common.today }}
+          </button>
+           <button 
             @click="resetFilters"
             class="px-4 py-2 text-sm text-slate-400 hover:text-white"
           >
-            {{ t.common.reset }}
+            {{ t.common.cancel }}
           </button>
           <button 
             @click="applyFilters"
             class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm rounded-lg"
           >
-            {{ t.common.apply }}
+            {{ t.common.submit }}
           </button>
         </div>
       </div>
@@ -438,10 +450,12 @@ async function loadMore() {
 
 function applyFilters() {
   showFilter.value = false
+  transactions.value =[]
   fetchTransactions(true)
 }
 
 function resetFilters() {
+  transactions.value =[]
   filters.value = {
     type: 'all',
     status: 'all',
@@ -451,6 +465,31 @@ function resetFilters() {
     limit: 10
   }
   fetchTransactions(true)
+}
+function setYesterday() {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  
+  const year = yesterday.getFullYear();
+  const month = String(yesterday.getMonth() + 1).padStart(2, '0');
+  const day = String(yesterday.getDate()).padStart(2, '0');
+  
+  filters.value.startDate = `${year}-${month}-${day}`;
+  filters.value.endDate = `${year}-${month}-${day}`;
+
+   filters.value = { ...filters.value };
+}
+
+function setToday() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  
+  filters.value.startDate = `${year}-${month}-${day}`;
+  filters.value.endDate = `${year}-${month}-${day}`;
+   filters.value = { ...filters.value };
 }
 
 function changeStatus(){

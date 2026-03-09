@@ -136,6 +136,18 @@ const router = createRouter({
       meta: { requiresAuth: true, title: '会员中心' }
     },
     {
+      path: '/invite-code-bonus',
+      name: 'invite-code-bonus',
+      component: () => import('@/views/InviteCodeBonusView.vue'),
+      meta: { requiresAuth: true, title: '邀請碼紅利' }
+    },
+     {
+      path: '/invite-code-bonus-detail',
+      name: 'invite-code-bonus-detail',
+      component: () => import('@/views/InviteCodeBonusDetailView.vue'),
+      meta: { requiresAuth: true, title: '邀請碼紅利' }
+    },
+    {
       path: '/security-center',
       name: 'security-center',
       component: () => import('@/views/SecurityCenterView.vue'),
