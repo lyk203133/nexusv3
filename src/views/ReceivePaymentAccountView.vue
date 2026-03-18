@@ -116,7 +116,7 @@
               <label v-if="type === 'card_front'" class="block text-xs text-slate-400 mb-2">{{ t.account.cardFront }}</label>
               <label v-if="type === 'card_back'" class="block text-xs text-slate-400 mb-2">{{ t.account.cardBack }}</label>
               <label v-if="type === 'qr_code'" class="block text-xs text-slate-400 mb-2">{{ t.account.qr }}</label>
-              <input type="file" :ref="el => setFileRef(el, type)" accept="image/*" @change="handleFileUpload(type, $event)" class="hidden" />
+              <input type="file" :ref="el => setFileRef(el, type)" accept="image/*, .heic, .heif" @change="handleFileUpload(type, $event)" class="hidden" />
               <button 
                 @click="triggerFileClick(type)" 
                 :class="`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-slate-900 transition-all ${uploads[type] ? 'border-emerald-500 text-emerald-400' : 'border-slate-600 text-slate-400'}`"
@@ -298,8 +298,8 @@ function handleFileUpload(type, event) {
   if (!file) return
 
   // 驗證文件類型
-  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-  const maxSize = 2 * 1024 * 1024 // 2MB
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', "image/heic", "image/heif", "image/pjpeg", "image/x-png", "image/bmp"]
+  const maxSize = 10 * 1024 * 1024 // 10MB
 
   if (!validTypes.includes(file.type)) {
     showToast({
@@ -314,7 +314,7 @@ function handleFileUpload(type, event) {
     showToast({
       type: 'error',
       title: t.value.common.uploadError || '上傳錯誤',
-      message: t.value.account.imageTooLarge || '檔案太大'
+      message: (t.value.account.imageTooLarge || '檔案太大') + ' (最大 10MB)'
     })
     return
   }

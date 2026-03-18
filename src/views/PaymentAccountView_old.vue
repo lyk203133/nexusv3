@@ -98,7 +98,7 @@
               <label v-if="type === 'card_front'" class="block text-xs text-slate-400 mb-2">{{ t.account.cardFront }}</label>
               <label v-if="type === 'card_back'" class="block text-xs text-slate-400 mb-2">{{ t.account.cardBack }}</label>
               <label v-if="type === 'qr_code'" class="block text-xs text-slate-400 mb-2">{{ t.account.qr }}</label>
-              <input type="file" :ref="el => setFileRef(el, type)" accept="image/*" @change="handleFileUpload(type, $event)" class="hidden" />
+              <input type="file" :ref="el => setFileRef(el, type)" accept="image/jpeg, image/jpg, image/png, image/gif, image/webp, image/heic, image/heif, .jpg, .jpeg, .png, .gif, .webp, .heic, .heif" @change="handleFileUpload(type, $event)" class="hidden" />
               <button 
                 @click="triggerFileClick(type)" 
                 :class="`w-full h-32 border-2 border-dashed rounded-lg flex flex-col items-center justify-center bg-slate-900 transition-all ${uploads[type] ? 'border-emerald-500 text-emerald-400' : 'border-slate-600 text-slate-400'}`"

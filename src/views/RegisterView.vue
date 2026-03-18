@@ -113,7 +113,7 @@
             <input 
               type="file" 
               ref="cardFrontInput"
-              accept="image/*" 
+              accept="image/*, .heic, .heif" 
               @change="handleFileUpload('card_front', $event)"
               class="hidden"
             />
@@ -130,7 +130,7 @@
             <input 
               type="file" 
               ref="cardBackInput"
-              accept="image/*" 
+              accept="image/*, .heic, .heif" 
               @change="handleFileUpload('card_back', $event)"
               class="hidden"
             />
@@ -155,7 +155,7 @@
             <input 
               type="file" 
               ref="bankFrontInput"
-              accept="image/*" 
+              accept="image/*, .heic, .heif" 
               @change="handleFileUpload('bank_front', $event)"
               class="hidden"
             />
@@ -172,7 +172,7 @@
             <input 
               type="file" 
               ref="bankBackInput"
-              accept="image/*" 
+              accept="image/*, .heic, .heif" 
               @change="handleFileUpload('bank_back', $event)"
               class="hidden"
             />
@@ -209,7 +209,7 @@
           <input 
               type="file" 
               ref="QRInput"
-              accept="image/*" 
+              accept="image/*, .heic, .heif" 
               @change="handleFileUpload('qr_upload', $event)"
               class="hidden"
             />
@@ -467,8 +467,8 @@ function handleFileUpload(type, event) {
   if (!file) return
 
   // 驗證文件類型
-  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-  const maxSize = 2 * 1024 * 1024 // 2MB
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', "image/heic", "image/heif", "image/pjpeg", "image/x-png", "image/bmp"]
+  const maxSize = 10 * 1024 * 1024 // 10MB
 
   if (!validTypes.includes(file.type)) {
     showToast({
@@ -483,7 +483,7 @@ function handleFileUpload(type, event) {
     showToast({
       type: 'error',
       title: t.common.uploadError,
-      message: t.account.imageTooLarge
+      message: t.account.imageTooLarge + ' (最大 10MB)'
     })
     return
   }

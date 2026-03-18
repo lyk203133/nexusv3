@@ -187,7 +187,7 @@
             <input 
               type="file" 
               id="receiptUpload" 
-              accept="image/*,.pdf" 
+              accept="image/*, .heic, .heif, .pdf" 
               @change="handleFileUpload" 
               class="hidden"
             />
@@ -458,8 +458,8 @@ async function handleFileUpload(event) {
   if (!file) return
   
   // Validate file
-  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf']
-  const maxSize = 5 * 1024 * 1024 // 5MB
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf', "image/heic", "image/heif", "image/pjpeg", "image/x-png", "image/bmp"]
+  const maxSize = 10 * 1024 * 1024 // 10MB
   
   if (!validTypes.includes(file.type)) {
     showToast({
@@ -474,7 +474,7 @@ async function handleFileUpload(event) {
     showToast({
       type: 'error',
       title: t.trade.uploadError,
-      message: t.trade.fileTooLarge
+      message: t.trade.fileTooLarge + ' (最大 10MB)'
     })
     return
   }

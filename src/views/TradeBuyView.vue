@@ -161,7 +161,7 @@
         <input 
           type="file" 
           ref="fileInput"
-          accept="image/*"
+          accept="image/*, .heic, .heif"
           @change="handleFileUpload"
           class="hidden"
         />
@@ -307,7 +307,7 @@ function handleFileUpload(event) {
   if (!file) return
   
   // Check file type
-  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', "image/heic", "image/heif", "image/pjpeg", "image/x-png", "image/bmp"]
   if (!validTypes.includes(file.type)) {
     showToast({
       type: 'error',
@@ -317,12 +317,12 @@ function handleFileUpload(event) {
     return
   }
   
-  // Check file size (max 5MB)
-  if (file.size > 5 * 1024 * 1024) {
+  // Check file size (max 10MB)
+  if (file.size > 10 * 1024 * 1024) {
     showToast({
       type: 'error',
       title: t.value.common.error,
-      message: t.value.trade.fileTooLarge
+      message: t.value.trade.fileTooLarge + ' (最大 10MB)'
     })
     return
   }

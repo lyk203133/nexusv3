@@ -35,7 +35,7 @@
               <Camera class="text-white" :size="24" />
             </div>
           </div>
-          <input type="file" ref="fileInputRef" @change="handleFileChange" hidden accept="image/*" />
+          <input type="file" ref="fileInputRef" @change="handleFileChange" hidden accept="image/*, .heic, .heif" />
         </div>
 
         <!-- Nickname Section -->
@@ -268,8 +268,8 @@ function handleFileChange(e) {
   const file = e.target.files[0]
   if (file) {
     // 验证文件类型和大小
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-    const maxSize = 2 * 1024 * 1024 // 2MB
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', "image/heic", "image/heif", "image/pjpeg", "image/x-png", "image/bmp"]
+    const maxSize = 10 * 1024 * 1024 // 10MB
     
     if (!validTypes.includes(file.type)) {
       showToast({
@@ -284,7 +284,7 @@ function handleFileChange(e) {
       showToast({
         type: 'error',
         title: t.value.profile.uploadError,
-        message: t.value.profile.imageTooLarge
+        message: t.value.profile.imageTooLarge + ' (最大 10MB)'
       })
       return
     }

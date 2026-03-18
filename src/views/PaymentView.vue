@@ -261,8 +261,8 @@ function handleFileUpload(event) {
   if (!file) return
 
   // 驗證文件類型
-  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-  const maxSize = 5 * 1024 * 1024 // 5MB
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', "image/heic", "image/heif", "image/pjpeg", "image/x-png", "image/bmp"]
+  const maxSize = 10 * 1024 * 1024 // 10MB
 
   if (!validTypes.includes(file.type)) {
     showToast({
@@ -277,7 +277,7 @@ function handleFileUpload(event) {
     showToast({
       type: 'error',
       title: t.value.common.error || '錯誤',
-      message: t.value.trade.fileTooLarge || '檔案太大'
+      message: (t.value.trade.fileTooLarge || '檔案太大') + ' (最大 10MB)'
     })
     return
   }
