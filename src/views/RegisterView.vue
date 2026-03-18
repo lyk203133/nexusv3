@@ -467,7 +467,7 @@ function handleFileUpload(type, event) {
   if (!file) return
 
   // 驗證文件類型
-  const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
   const maxSize = 2 * 1024 * 1024 // 2MB
 
   if (!validTypes.includes(file.type)) {

@@ -234,6 +234,29 @@ function resetFormData() {
 function handleFileUpload(type, event) {
   const file = event.target.files[0]
   if (!file) return
+
+  // 驗證文件類型
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+  const maxSize = 2 * 1024 * 1024 // 2MB
+
+  if (!validTypes.includes(file.type)) {
+    showToast({
+      type: 'error',
+      title: t.value.common.uploadError || '上傳錯誤',
+      message: t.value.account.invalidImageType || '不支援的圖片格式'
+    })
+    return
+  }
+
+  if (file.size > maxSize) {
+    showToast({
+      type: 'error',
+      title: t.value.common.uploadError || '上傳錯誤',
+      message: t.value.account.imageTooLarge || '檔案太大'
+    })
+    return
+  }
+
   uploads.value[type] = file
   previews.value[type] = URL.createObjectURL(file)
 }

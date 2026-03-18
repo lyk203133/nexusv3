@@ -257,7 +257,40 @@ function triggerFileInput() {
 }
 
 function handleFileUpload(event) {
-   
+  const file = event.target.files[0]
+  if (!file) return
+
+  // 驗證文件類型
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+  const maxSize = 5 * 1024 * 1024 // 5MB
+
+  if (!validTypes.includes(file.type)) {
+    showToast({
+      type: 'error',
+      title: t.value.common.error || '錯誤',
+      message: t.value.trade.invalidImageType || '不支援的圖片格式'
+    })
+    return
+  }
+
+  if (file.size > maxSize) {
+    showToast({
+      type: 'error',
+      title: t.value.common.error || '錯誤',
+      message: t.value.trade.fileTooLarge || '檔案太大'
+    })
+    return
+  }
+
+  // Create preview
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    receiptImage.value = e.target.result
+  }
+  reader.readAsDataURL(file)
+
+  // Reset file input
+  event.target.value = ''
 }
 
 function removeReceipt() {

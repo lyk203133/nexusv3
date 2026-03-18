@@ -458,7 +458,7 @@ async function handleFileUpload(event) {
   if (!file) return
   
   // Validate file
-  const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf']
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'application/pdf']
   const maxSize = 5 * 1024 * 1024 // 5MB
   
   if (!validTypes.includes(file.type)) {

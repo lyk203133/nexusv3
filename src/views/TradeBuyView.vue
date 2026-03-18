@@ -307,7 +307,8 @@ function handleFileUpload(event) {
   if (!file) return
   
   // Check file type
-  if (!file.type.startsWith('image/')) {
+  const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+  if (!validTypes.includes(file.type)) {
     showToast({
       type: 'error',
       title: t.value.common.error,

@@ -268,7 +268,7 @@ function handleFileChange(e) {
   const file = e.target.files[0]
   if (file) {
     // 验证文件类型和大小
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
     const maxSize = 2 * 1024 * 1024 // 2MB
     
     if (!validTypes.includes(file.type)) {
