@@ -89,13 +89,13 @@ function toggleExpand(id) {
 function getTitle(item) {
   if (lang.value === 'zh-TW') return item.title.zh
   if (lang.value === 'vi-VN') return item.title.vi
-  return item.title.en
+  return item.title.vi
 }
 
 function getContent(item) {
   if (lang.value === 'zh-TW') return item.content.zh
   if (lang.value === 'vi-VN') return item.content.vi
-  return item.content.en
+  return item.content.vi
 }
 
 async function fetchAnnouncements () {
