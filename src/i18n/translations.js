@@ -139,6 +139,7 @@ export const TRANSLATIONS = {
       sellSuccessMessage:'賣出成功',
     },
     trade: {
+      cashier: "收銀台",
       buyTitle: "購買點數",
       sellTitle: "出售點數",
       tips: "請在時間內完成轉帳，逾時將扣除信用分並取消紅利",
@@ -540,6 +541,7 @@ export const TRANSLATIONS = {
       sellSuccessMessage: 'Points sold successfully',
     },
     trade: {
+      cashier: "Cashier",
       buyTitle: "Buy Points",
       sellTitle: "Sell Points",
       tips: "Please complete transfer within the limit; overtime will deduct credit score.",
@@ -939,6 +941,7 @@ export const TRANSLATIONS = {
       sellSuccessMessage: 'Giao dịch bán điểm thành công',
     },
     trade: {
+      cashier: "Quầy thu ngân",
       buyTitle: "Mua điểm",
       sellTitle: "Bán điểm",
       tips: "Vui lòng chuyển khoản trong thời gian quy định, quá hạn sẽ bị trừ điểm tín nhiệm.",

@@ -4,7 +4,7 @@
       <button  class="p-2 mr-2">
          
       </button>
-      <h2 class="text-white font-bold text-lg">收銀台</h2>
+      <h2 class="text-white font-bold text-lg">{{ t.trade.cashier }}</h2>
     </div>
     
     <!-- Loading State -->
