@@ -195,26 +195,24 @@ async function fetchAccountList() {
   }
 }
 
-// 設定預設卡片邏輯
+// 切換支付卡啟用狀態（支援多張同時啟用）
 async function handleSetDefault(id) {
-  // 如果已經是預設，就不重複請求
   const target = accountList.value.find(item => item.id === id)
-  if (!target || target.is_pay == 1 || target.is_verified != 1) {
-    if (target?.is_verified != 1) showToast({ type: 'error', message: t.value.account.verify_can_use })
+  if (!target) return
+  if (target.is_verified != 1) {
+    showToast({ type: 'error', message: t.value.account.verify_can_use })
     return
   }
 
   try {
-    const res = await api.post('/payment-account-default', { 
+    const res = await api.post('/payment-account-default', {
       id: id,
       type: 'pay'
      })
     if (res.data.success) {
       showToast({ type: 'success', message: t.value.account.success })
-      // 前端直接更新狀態，減少閃爍
-      accountList.value.forEach(item => {
-        item.is_pay = (item.id === id ? 1 : 0)
-      })
+      // toggle 目標卡狀態，不影響其他卡
+      target.is_pay = target.is_pay == 1 ? 0 : 1
     }
   } catch (err) {
     showToast({ type: 'error', message: t.value.account.error })

@@ -112,11 +112,9 @@
               {{ type === 'all' ? t.common.all : (type === 'buy' ? t.dashboard.filter.buy : t.dashboard.filter.sell) }}  
             </button>
           </div>
-          <div class="flex gap-3 text-xs font-bold">
-            <div class="text-xs font-bold" style="position:absolute;display: flex;flex-direction: column;margin-top: -.5rem;margin-left: -2rem;">
-              <div style="display: flex;align-items: center;"><input v-model="dashboardData.autofit" @change="changeAutoFit" type="checkbox" />{{ t.dashboard.autofit }}</div>
-              <label class="bank-balance">{{ t.dashboard.balance }}: {{ bank_balance }}</label>
-            </div>
+          <div class="flex flex-col gap-1 text-xs font-bold">
+            <div class="flex items-center gap-1"><input v-model="dashboardData.autofit" @change="changeAutoFit" type="checkbox" />{{ t.dashboard.autofit }}</div>
+            <label class="bank-balance">{{ t.dashboard.balance }}: {{ bank_balance }}</label>
           </div>
           <div class="flex bg-slate-800 rounded-md p-0.5">
             <button 

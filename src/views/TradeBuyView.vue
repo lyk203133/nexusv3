@@ -236,9 +236,9 @@ async function fetchOrder(isloading = true) {
   try {
     const response = await api.get(`/orders?id=${orderId}`)
     
-    if (response.data.success) {
+    if (response.data.success && response.data.data) {
       order.value = response.data.data
-      
+
       // Calculate time left if expires_at is available
       if (order.value.expires_at) {
         const expires = new Date(order.value.expires_at)
