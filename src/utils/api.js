@@ -36,8 +36,10 @@ api.interceptors.response.use(
       localStorage.removeItem('auth_token')
       localStorage.removeItem('user_info')
       
-      // 如果当前不是登录页，跳转到登录页
-      if (window.location.pathname !== '/login') {
+      // 如果当前不是登录页或公开页面，跳转到登录页
+      const publicPaths = ['/login', '/payment', '/register', '/forgot-password']
+      const isPublicPath = publicPaths.some(p => window.location.pathname.startsWith(p))
+      if (!isPublicPath) {
         window.location.href = '/login'
       }
     }
