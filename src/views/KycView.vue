@@ -25,7 +25,7 @@
             <CheckCircle class="text-emerald-500" :size="32" />
           </div>
           <h3 class="text-emerald-400 font-bold text-lg mb-2">{{ t.account.status.verified }}</h3>
-          <p class="text-slate-400 text-sm">您的實名認證已通過</p>
+          <p class="text-slate-400 text-sm">{{ t.register.kycPassed }}</p>
         </div>
         
         <div v-else-if="kycInfo.status == 0" class="flex flex-col items-center">
@@ -33,7 +33,7 @@
             <Clock class="text-blue-500" :size="32" />
           </div>
           <h3 class="text-blue-400 font-bold text-lg mb-2">{{ t.account.status.pending }}</h3>
-          <p class="text-slate-400 text-sm">您的資料正在審核中，請耐心等候</p>
+          <p class="text-slate-400 text-sm">{{ t.register.kycPendingMsg }}</p>
         </div>
         
         <div v-else-if="kycInfo.status == 3" class="flex flex-col items-center">
@@ -42,7 +42,7 @@
           </div>
           <h3 class="text-rose-400 font-bold text-lg mb-2">{{ t.account.status.rejected }}</h3>
           <p v-if="kycInfo.reject_reason" class="text-rose-300 text-sm mt-2 bg-rose-500/10 p-3 rounded-lg border border-rose-500/20 text-left">
-            原因: {{ kycInfo.reject_reason }}
+            {{ t.register.kycRejectReason }}: {{ kycInfo.reject_reason }}
           </p>
         </div>
       </div>
@@ -51,7 +51,7 @@
       <div v-if="kycInfo.status == 3" class="space-y-6 animate-in fade-in slide-in-from-bottom duration-300">
         <section>
           <h3 class="text-emerald-400 text-sm font-bold mb-3 uppercase tracking-wider flex items-center">
-            <User :size="16" class="mr-2"/> 重新上傳{{ t.register.idCard }}
+            <User :size="16" class="mr-2"/> {{ t.register.kycReupload }} {{ t.register.idCard }}
           </h3>
           <div class="grid grid-cols-2 gap-4">
             <input 

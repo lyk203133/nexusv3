@@ -3,15 +3,15 @@ export const TRANSLATIONS = {
     appName: "vnsypay",
     appSub: "遊戲點數交易平台",
     common: {
-      yesterday:"昨天",
-      today:"今天",
+      yesterday: "昨天",
+      today: "今天",
       confirm: "確認",
       cancel: "取消",
       back: "返回",
       submit: "提交",
       copy: "複製",
       loading: "載入中...",
-      loadMore:"加載更多",
+      loadMore: "加載更多",
       success: "成功",
       points: "點數",
       currency: "TWD",
@@ -24,7 +24,7 @@ export const TRANSLATIONS = {
       amount: "金額",
       fee: "手續費",
       bonus: "紅利",
-      inviteBonus:"邀請碼紅利",
+      inviteBonus: "邀請碼紅利",
       target: "對象",
       orderNo: "訂單號",
       txId: "交易ID",
@@ -34,7 +34,7 @@ export const TRANSLATIONS = {
       retry: '重试',
       requestFailed: '請求失敗',
       networkError: '網絡錯誤',
- 
+
     },
     login: {
       accPlaceholder: "帳號 / 手機號",
@@ -97,11 +97,15 @@ export const TRANSLATIONS = {
       accountName: "姓名",
       bankAcc: "銀行帳號",
       errCaptcha: "圖形驗證碼錯誤",
-      errSms: "請輸入簡訊驗證碼"
+      errSms: "請輸入簡訊驗證碼",
+      kycPassed: "您的實名認證已通過",
+      kycPendingMsg: "您的資料正在審核中，請耐心等候",
+      kycRejectReason: "原因",
+      kycReupload: "重新上傳"
     },
     dashboard: {
       assets: "總資產",
-      autofit:"自動配置",
+      autofit: "自動配置",
       balance: "當前餘額",
       avail: "可用餘額",
       frozen: "凍結餘額",
@@ -133,10 +137,10 @@ export const TRANSLATIONS = {
         amount: '按金额排序',
         time: '按时间排序'
       },
-      buySuccess:'購買成功',
-      buySuccessMessage:'購買成功',
-      sellSuccess:'賣出成功',
-      sellSuccessMessage:'賣出成功',
+      buySuccess: '購買成功',
+      buySuccessMessage: '購買成功',
+      sellSuccess: '賣出成功',
+      sellSuccessMessage: '賣出成功',
     },
     trade: {
       cashier: "收銀台",
@@ -150,8 +154,8 @@ export const TRANSLATIONS = {
       amount: "轉帳金額",
       memo: "付款備註/附言 (請務必填寫)",
       timeLeft: '剩余时间',
-      createAt:'創建時間',
-      expiresAt:'到期時間',
+      createAt: '創建時間',
+      expiresAt: '到期時間',
       paymentMethod: '支付方式',
       paymentNote: '付款备注/附言 (请务必填写)',
       uploadReceipt: '上传付款凭证',
@@ -182,7 +186,7 @@ export const TRANSLATIONS = {
       txSuccess: "交易成功",
       txSuccessDesc: "資金已入帳，點數已扣除",
       backHome: "返回主頁",
-      saveQR:"長按QR圖片保存相冊"
+      saveQR: "長按QR圖片保存相冊"
     },
     wallet: {
       title: "我的錢包",
@@ -199,8 +203,8 @@ export const TRANSLATIONS = {
       withdrawTime: "到帳時間：1-3 個工作日",
       withdrawFee: "手續費：100 點數/筆",
       confirmWithdraw: "立即提現",
-      withdrawSubmitted:"申请提现通知",
-      withdrawSuccessMessage:"賣出點數成功，请耐心等待配單"
+      withdrawSubmitted: "申请提现通知",
+      withdrawSuccessMessage: "賣出點數成功，请耐心等待配單"
     },
     mall: {
       title: '积分充值',
@@ -228,7 +232,7 @@ export const TRANSLATIONS = {
       pointsAdded: '积分已添加到您的账户',
       waitingConfirmation: '等待管理员确认',
       confirmLeave: '确定要离开支付页面吗？未完成的订单将会失效。',
-      
+
       errors: {
         invalidNumber: '请输入有效的数字',
         minAmount: '最低金额为 {min} P',
@@ -238,7 +242,7 @@ export const TRANSLATIONS = {
         pleaseCheckAmount: '请检查输入的金额',
         fetchBalanceFailed: '获取余额失败'
       },
-      
+
       status: {
         0: '等待支付',
         1: '处理中',
@@ -258,8 +262,8 @@ export const TRANSLATIONS = {
       targets: { all: "全部對象", platform: "平台", merchant: "商戶", member: "會員" },
       statuses: { all: "全部狀態", success: "交易成功", pending: "交易中", cancelled: "已取消", abnormal: "異常" },
       stats: { count: "篩選後總筆數", points: "總交易點數", fees: "總手續費", bonus: "總紅利" },
-      fee:"手續費",
-      bouns:"紅利"
+      fee: "手續費",
+      bouns: "紅利"
     },
     notification: {
       title: "通知中心",
@@ -287,7 +291,7 @@ export const TRANSLATIONS = {
       zoom: "縮放",
       referral: "推廣中心",
       membership: "會員權益",
-      logoutConfirmMessage:"確認登出",
+      logoutConfirmMessage: "確認登出",
       logoutSuccess: '退出成功',
       logoutSuccessMessage: '您已成功退出登录',
       logoutError: '退出失败',
@@ -306,7 +310,7 @@ export const TRANSLATIONS = {
       accountSecurity: '账户与安全',
       changePassword: '修改密码',
       changePin: '修改PIN码',
-      account:'帳號'
+      account: '帳號'
     },
     security: {
       title: "安全中心",
@@ -406,8 +410,8 @@ export const TRANSLATIONS = {
     appName: "vnsypay",
     appSub: "Point Trading Platform",
     common: {
-      yesterday:"yesterday",
-      today:"today",
+      yesterday: "yesterday",
+      today: "today",
       confirm: "Confirm",
       cancel: "Cancel",
       back: "Back",
@@ -499,11 +503,15 @@ export const TRANSLATIONS = {
       accountName: "Full Name",
       bankAcc: "Account Number",
       errCaptcha: "Invalid captcha",
-      errSms: "Please enter SMS code"
+      errSms: "Please enter SMS code",
+      kycPassed: "Your identity verification has been passed",
+      kycPendingMsg: "Your information is under review, please be patient",
+      kycRejectReason: "Reason",
+      kycReupload: "Re-upload"
     },
     dashboard: {
       assets: "Total Assets",
-      autofit:"Automatic",
+      autofit: "Automatic",
       balance: "Balance",
       avail: "Available",
       frozen: "Frozen",
@@ -585,7 +593,7 @@ export const TRANSLATIONS = {
       txSuccessDesc: "Funds received, points deducted",
       backHome: "Back to Home",
       saveQR: "Long press the QR image to save the album"
-      
+
     },
     wallet: {
       title: "My Wallet",
@@ -660,7 +668,7 @@ export const TRANSLATIONS = {
       statuses: { all: "All Status", success: "Successful", pending: "Pending", cancelled: "Cancelled", abnormal: "Abnormal" },
       stats: { count: "Total Count", points: "Total Points", fees: "Total Fees", bonus: "Total Bonus" },
       fee: "Fee",
-      bouns:"Bouns"
+      bouns: "Bouns"
     },
     notification: {
       title: "Notifications",
@@ -707,7 +715,7 @@ export const TRANSLATIONS = {
       accountSecurity: 'Account Security',
       changePassword: 'Change Password',
       changePin: 'Change PIN',
-      account:'account'
+      account: 'account'
     },
     security: {
       title: "Security",
@@ -899,12 +907,16 @@ export const TRANSLATIONS = {
       accountName: "Họ và tên",
       bankAcc: "Số tài khoản",
       errCaptcha: "Mã hình ảnh sai",
-      errSms: "Vui lòng nhập mã SMS"
+      errSms: "Vui lòng nhập mã SMS",
+      kycPassed: "Xác minh danh tính của bạn đã được duyệt",
+      kycPendingMsg: "Thông tin của bạn đang được xét duyệt, vui lòng kiên nhẫn chờ đợi",
+      kycRejectReason: "Lý do",
+      kycReupload: "Tải lên lại"
     },
     dashboard: {
       assets: "Tổng tài sản",
-      autofit:"động",
-      balance:"THĂNG BẰNG",
+      autofit: "động",
+      balance: "THĂNG BẰNG",
       avail: "Số dư khả dụng",
       frozen: "Số dư đóng băng",
       todayBuy: "Mua hôm nay",
@@ -981,7 +993,7 @@ export const TRANSLATIONS = {
       txSuccess: "Giao dịch thành công",
       txSuccessDesc: "Tiền đã vào tài khoản, điểm đã được trừ",
       backHome: "Quay lại trang chủ",
-      saveQR:"Bấm giữ QR để lưu vào bộ sưu tập"
+      saveQR: "Bấm giữ QR để lưu vào bộ sưu tập"
     },
     wallet: {
       title: "Ví của tôi",
@@ -1056,7 +1068,7 @@ export const TRANSLATIONS = {
       statuses: { all: "Tất cả trạng thái", success: "Thành công", pending: "Đang chờ", cancelled: "Đã hủy", abnormal: "Bất thường" },
       stats: { count: "Tổng số đơn", points: "Tổng điểm", fees: "Tổng phí", bonus: "Tổng hoa hồng" },
       fee: "Phí",
-      bouns:"thưởng"
+      bouns: "thưởng"
     },
     notification: {
       title: "Trung tâm thông báo",
@@ -1103,7 +1115,7 @@ export const TRANSLATIONS = {
       accountSecurity: 'Tài khoản & Bảo mật',
       changePassword: 'Đổi mật khẩu',
       changePin: 'Đổi mã PIN',
-      account:'tài khoản'
+      account: 'tài khoản'
     },
     security: {
       title: "Bảo mật",
