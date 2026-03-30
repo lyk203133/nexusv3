@@ -26,7 +26,7 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue'),
       meta: { requiresAuth: false, title: '注册' }
-    },{
+    }, {
       path: '/payment',
       name: 'payment',
       component: () => import('@/views/PaymentView.vue'),
@@ -56,6 +56,12 @@ const router = createRouter({
       name: 'profile',
       component: () => import('@/views/ProfileView.vue'),
       meta: { requiresAuth: true, title: '个人资料' }
+    },
+    {
+      path: '/kyc',
+      name: 'kyc',
+      component: () => import('@/views/KycView.vue'),
+      meta: { requiresAuth: true, title: '實名認證' }
     },
     {
       path: '/transaction-history',
@@ -121,7 +127,7 @@ const router = createRouter({
       path: '/customer-service',
       name: 'customer-service',
       component: () => import('@/views/CustomerServiceView.vue'),
-      meta: { requiresAuth: true, title: '客服中心',externalRedirect:  import.meta.env.VITE_KEFU_URL  }
+      meta: { requiresAuth: true, title: '客服中心', externalRedirect: import.meta.env.VITE_KEFU_URL }
     },
     {
       path: '/referral-center',
@@ -141,7 +147,7 @@ const router = createRouter({
       component: () => import('@/views/InviteCodeBonusView.vue'),
       meta: { requiresAuth: true, title: '邀請碼紅利' }
     },
-     {
+    {
       path: '/invite-code-bonus-detail',
       name: 'invite-code-bonus-detail',
       component: () => import('@/views/InviteCodeBonusDetailView.vue'),
@@ -182,24 +188,24 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
   if (to.meta.externalRedirect) {
-    if(authStore.isAuthenticated){
-        const url = to.meta.externalRedirect.replace("{id}",authStore.user.id).replace("{name}",authStore.user.username)
-        window.location.href = url
-    }else{
-        const id = new Date().getTime();
-        const url = to.meta.externalRedirect.replace("{id}",id).replace("{name}",id)
-        window.location.href = url
+    if (authStore.isAuthenticated) {
+      const url = to.meta.externalRedirect.replace("{id}", authStore.user.id).replace("{name}", authStore.user.username)
+      window.location.href = url
+    } else {
+      const id = new Date().getTime();
+      const url = to.meta.externalRedirect.replace("{id}", id).replace("{name}", id)
+      window.location.href = url
     }
     return // 不需要 next()
   }
 
-  
-  
+
+
   // 设置页面标题
   if (to.meta.title) {
     document.title = `${to.meta.title} - 交易系统`
   }
-  
+
   // 检查路由是否需要认证
   if (to.meta.requiresAuth) {
     if (authStore.isAuthenticated) {

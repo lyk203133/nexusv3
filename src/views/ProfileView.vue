@@ -126,6 +126,7 @@
       <!-- 账户与安全 -->
       <div class="mx-4 bg-slate-900 rounded-xl overflow-hidden">
         <p class="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">{{ t.profile.accountSecurity }}</p>
+        <MenuItem :icon="UserCheck" :label="t.register.kycTitle" @click="$router.push('/kyc')" />
         <MenuItem :icon="Lock" :label="t.profile.changePassword" @click="$router.push('/change-password')" />
         <MenuItem :icon="Key" :label="t.profile.changePin" @click="$router.push('/change-pin')" />
         <MenuItem :icon="HelpCircle" :label="t.profile.service" @click="$router.push('/customer-service')" />
@@ -190,7 +191,8 @@ import {
   Wallet,
   Lock,
   Key,
-  HelpCircle
+  HelpCircle,
+  UserCheck
 } from 'lucide-vue-next'
 import NeonButton from '@/components/NeonButton.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
