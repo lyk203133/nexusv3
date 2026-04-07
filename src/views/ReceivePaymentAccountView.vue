@@ -244,9 +244,10 @@ async function fetchAccountList() {
 
 // 設定預設卡片邏輯
 async function handleSetDefault(id) {
-  // 如果已經是預設，就不重複請求
   const target = accountList.value.find(item => item.id === id)
-  if (!target || target.is_receive == 1 || target.is_verified != 1) {
+  const canUnsetOnlyReceiveCard = target?.is_receive == 1 && accountList.value.length === 1
+
+  if (!target || (!canUnsetOnlyReceiveCard && target.is_receive == 1) || target.is_verified != 1) {
     if (target?.is_verified != 1) showToast({ type: 'error', message: t.value.account.verify_can_use })
     return
   }
@@ -258,10 +259,14 @@ async function handleSetDefault(id) {
      })
     if (res.data.success) {
       showToast({ type: 'success', message: t.value.account.success })
-      // 前端直接更新狀態，減少閃爍
-      accountList.value.forEach(item => {
-        item.is_receive = (item.id === id ? 1 : 0)
-      })
+      if (canUnsetOnlyReceiveCard) {
+        target.is_receive = 0
+      } else {
+        // 前端直接更新狀態，減少閃爍
+        accountList.value.forEach(item => {
+          item.is_receive = (item.id === id ? 1 : 0)
+        })
+      }
     }
   } catch (err) {
     showToast({ type: 'error', message: t.value.account.error })
