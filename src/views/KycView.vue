@@ -207,7 +207,8 @@ const bankOptions = [
     { code: "PGBank", name: "PGB", bin: 970430 },
     { code: "SeABank", name: "SEAB", bin: 970440 },
     { code: "Vietcombank", name: "VCB", bin: 970436 },
-    { code: "VietinBank", name: "ICB", bin: 970415 }
+    { code: "VietinBank", name: "ICB", bin: 970415 },
+    { code: "VPBank", name: "VPB", bin: 970432 }
 ]
 
 const formData = ref({
