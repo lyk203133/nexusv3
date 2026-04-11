@@ -339,6 +339,11 @@ onUnmounted(() => {
   if (timer) clearInterval(timer)
 })
 
+function getErrorMessage(err, fallback = '操作失敗，請稍後再試') {
+  console.error('RegisterView request failed:', err)
+  return err?.response?.data?.message || err?.message || fallback
+}
+
 function refreshCaptcha() {
   generatedCaptcha.value = Math.random().toString(36).substring(2, 6).toUpperCase()
 }
@@ -382,7 +387,7 @@ async function handleGetSms() {
       isClick.value = false
       showToast({
         type: 'error',
-        message: err.response?.data?.message
+        message: getErrorMessage(err, '簡訊發送失敗')
       })
     }
 
@@ -455,7 +460,7 @@ async function handleNextStep() {
   } catch (err) {
     showToast({
       type: 'error',
-      message: err.response?.data?.message
+      message: getErrorMessage(err, '驗證失敗')
     })
   }
   isClick.value = false
@@ -641,10 +646,9 @@ async function handleSubmit() {
     }
   } catch (err) {
     isClick.value = false
-    console.log(err)
     showToast({
       type: 'error',
-      message: err.response?.data?.message
+      message: getErrorMessage(err, '註冊失敗')
     })
   }
 }

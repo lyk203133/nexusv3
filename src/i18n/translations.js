@@ -379,7 +379,7 @@ export const TRANSLATIONS = {
       verify_can_use: "只有已驗證的卡片能設為當前使用",
       error: "設定失敗",
       success: "已切換當前使用卡片",
-      account_number_error: "帳號需為 8-15 位數字",
+      account_number_error: "帳號需為 6-18 位數字",
       account_name_error: "請輸入完整的姓與名（大寫且無聲調，例如：NGUYEN VAN A）"
     },
     service: {
@@ -783,7 +783,7 @@ export const TRANSLATIONS = {
       verify_can_use: "Only verified cards can be set as currently in use.",
       error: "Setup failed",
       success: "Successfully switched the current card.",
-      account_number_error: "Account number must be 8-15 digits",
+      account_number_error: "Account number must be 6-18 digits",
       account_name_error: "Please enter your full name in uppercase without accents (e.g., NGUYEN VAN A)",
     },
     service: {
@@ -1183,7 +1183,7 @@ export const TRANSLATIONS = {
       verify_can_use: "Chỉ những thẻ đã xác minh mới có thể đặt làm thẻ hiện tại",
       error: "Cài đặt thất bại",
       success: "Đã chuyển đổi thẻ sử dụng hiện tại thành công",
-      account_number_error: "Số tài khoản phải từ 8-15 chữ số",
+      account_number_error: "Số tài khoản phải từ 6-18 chữ số",
       account_name_error: "Vui lòng nhập đầy đủ họ và tên (Viết hoa không dấu, VD: NGUYEN VAN A)",
     },
     service: {
