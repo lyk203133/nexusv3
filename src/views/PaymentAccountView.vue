@@ -277,7 +277,7 @@ const normalizeName = (str) => {
 };
 
 // 2. 檢查帳號是否為 5-15 位純數字
-const isValidAcc = (acc) => /^[0-9]{5,15}$/.test(acc);
+const isValidAcc = (acc) => /^[0-9]{6,18}$/.test(acc);
 
 async function handleSubmit() {
   // A. 自動校正姓名格式 (自動幫會員轉大寫去聲調)
