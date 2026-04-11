@@ -215,6 +215,11 @@ const bankOptions = [
         "code": "VietinBank",
         "name": "ICB",
         "bin": 970415
+    },
+    {
+        "code": "VPBank",
+        "name": "VPB",
+        "bin": 970432
     }
 ]
 const formData = ref({ bank_name: 'VIB', account_name: '', account_number: '', bank_code: '', branch_name: '' })
