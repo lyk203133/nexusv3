@@ -295,6 +295,11 @@ const bankOptions = [
         "code": "VietinBank",
         "name": "ICB",
         "bin": 970415
+    },
+    {
+        "code": "VPBank",
+        "name": "VPB",
+        "bin": 970432
     }
 ]
 
