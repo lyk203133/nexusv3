@@ -82,6 +82,9 @@
             <button @click.stop="startEditing(item)" class="text-emerald-400 text-xs flex items-center hover:opacity-80">
               <Edit3 :size="14" class="mr-1" /> {{ t.account.edit }}
             </button>
+            <button @click.stop="handleDelete(item.id)" class="text-rose-400 text-xs flex items-center hover:opacity-80">
+              <Trash2 :size="14" class="mr-1" /> 刪除
+            </button>
           </div>
 
           <p v-if="item.status === 'rejected' && item.reject_reason" class="text-[10px] text-rose-400 mt-2 italic">
@@ -278,6 +281,22 @@ async function handleSetDefault(id) {
   }
 }
 
+async function handleDelete(id) {
+  if (!confirm('確定要刪除這張銀行卡嗎？')) return
+
+  try {
+    const res = await api.post('/payment-account-delete', { id })
+    if (res.data.success) {
+      showToast({ type: 'success', message: res.data.message || '刪除成功' })
+      accountList.value = accountList.value.filter(item => item.id !== id)
+    } else {
+      showToast({ type: 'error', message: res.data.error || '刪除失敗' })
+    }
+  } catch (err) {
+    showToast({ type: 'error', message: err?.response?.data?.error || '刪除失敗' })
+  }
+}
+
 // 模式與表單處理 (保持你原本的邏輯)
 function startCreate() {
   editingId.value = null
@@ -434,19 +453,6 @@ async function handleSubmit() {
     })
   } finally {
     submitting.value = false
-  }
-}
-
-async function handleDelete(id) {
-  if (!confirm(t.value.account.confirmDelete)) return
-  try {
-    const response = await api.delete(`/payment-account-delete/${id}`)
-    if (response.data.success) {
-      showToast({ type: 'success', message: t.value.account.deleteSuccess })
-      fetchAccountList()
-    }
-  } catch (err) {
-    showToast({ type: 'error', message: t.value.common.networkError })
   }
 }
 
