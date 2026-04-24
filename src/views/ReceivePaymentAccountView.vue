@@ -223,6 +223,16 @@ const bankOptions = [
         "code": "VPBank",
         "name": "VPB",
         "bin": 970432
+    },
+    {
+        "code": "ViettelMoney",
+        "name": "VTLMONEY",
+        "bin": 971005
+    },
+    {
+        "code": "MoMo",
+        "name": "momo",
+        "bin": 971025
     }
 ]
 const formData = ref({ bank_name: 'VIB', account_name: '', account_number: '', bank_code: '', branch_name: '' })
