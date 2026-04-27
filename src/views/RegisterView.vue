@@ -240,6 +240,7 @@ import NeonButton from '@/components/NeonButton.vue'
 import { useTranslation } from '@/composables/useTranslation'
 import { post } from '@/utils/api'
 import { showToast } from '@/utils/notification'
+import { normalizeName, isValidAcc } from '@/utils/validators'
 
 const router = useRouter()
 const { t } = useTranslation()
@@ -505,23 +506,7 @@ function handleFileUpload(type, event) {
 
 }
 
-// 1. 強制轉大寫並去除越南語聲調
-const normalizeName = (str) => {
-  if (!str) return '';
-  let res = str.toUpperCase();
-  res = res.replace(/[ÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴ]/g, "A");
-  res = res.replace(/[ÈÉẸẺẼÊỀẾỆỂỄ]/g, "E");
-  res = res.replace(/[ÌÍỊỈĨ]/g, "I");
-  res = res.replace(/[ÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠ]/g, "O");
-  res = res.replace(/[ÙÚỤỦŨƯỪỨỰỬỮ]/g, "U");
-  res = res.replace(/[ỲÝỴỶỸ]/g, "Y");
-  res = res.replace(/Đ/g, "D");
-  res = res.replace(/[^A-Z\s]/g, ""); // 僅保留英文字母與空格
-  return res.replace(/\s+/g, " ").trim();
-};
 
-// 2. 檢查帳號是否為 5-15 位純數字
-const isValidAcc = (acc) => /^[0-9]{6,18}$/.test(acc);
 
 async function handleSubmit() {
   // A. 自動校正姓名格式 (自動幫會員轉大寫去聲調)
