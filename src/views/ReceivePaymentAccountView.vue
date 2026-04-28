@@ -281,31 +281,21 @@ async function fetchAccountList() {
   }
 }
 
-// 設定預設卡片邏輯
+// 設定收款卡片邏輯（支援多張同時啟用，點擊切換）
 async function handleSetDefault(id) {
   const target = accountList.value.find(item => item.id === id)
-  const canUnsetOnlyReceiveCard = target?.is_receive == 1 && accountList.value.length === 1
+  if (!target) return
 
-  if (!target || (!canUnsetOnlyReceiveCard && target.is_receive == 1) || target.is_verified != 1) {
-    if (target?.is_verified != 1) showToast({ type: 'error', message: t.value.account.verify_can_use })
+  if (target.is_verified != 1) {
+    showToast({ type: 'error', message: t.value.account.verify_can_use })
     return
   }
 
   try {
-    const res = await api.post('/payment-account-default',  { 
-      id: id,
-      type: 'receive'
-     })
+    const res = await api.post('/payment-account-default', { id, type: 'receive' })
     if (res.data.success) {
       showToast({ type: 'success', message: t.value.account.success })
-      if (canUnsetOnlyReceiveCard) {
-        target.is_receive = 0
-      } else {
-        // 前端直接更新狀態，減少閃爍
-        accountList.value.forEach(item => {
-          item.is_receive = (item.id === id ? 1 : 0)
-        })
-      }
+      target.is_receive = target.is_receive == 1 ? 0 : 1
     }
   } catch (err) {
     showToast({ type: 'error', message: t.value.account.error })
