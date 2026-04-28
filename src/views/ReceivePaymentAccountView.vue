@@ -234,6 +234,26 @@ const bankOptions = [
         "code": "MoMo",
         "name": "momo",
         "bin": 971025
+    },
+    {
+        "code": "BaoVietBank",
+        "name": "BVB",
+        "bin": 970438
+    },
+    {
+        "code": "HDBank",
+        "name": "HDB",
+        "bin": 970437
+    },
+    {
+        "code": "NCB",
+        "name": "NCB",
+        "bin": 970419
+    },
+    {
+        "code": "PVcomBank",
+        "name": "PVCB",
+        "bin": 970412
     }
 ]
 const formData = ref({ bank_name: 'VIB', account_name: '', account_number: '', bank_code: '', branch_name: '' })
