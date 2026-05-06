@@ -236,9 +236,9 @@ const bankOptions = [
         "bin": 971025
     },
     {
-        "code": "BaoVietBank",
+        "code": "VCCB",
         "name": "BVB",
-        "bin": 970438
+        "bin": 970454
     },
     {
         "code": "HDBank",
