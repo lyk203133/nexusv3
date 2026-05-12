@@ -49,52 +49,104 @@
 
     <div class="flex-1 overflow-y-auto no-scrollbar">
       <!-- Filter Panel -->
-      <div v-if="showFilter" class="bg-slate-800/80 p-4 border-b border-slate-700">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-           
+      <div v-if="showFilter" class="bg-slate-800/80 p-4 border-b border-slate-700 space-y-4">
+        <!-- Date Quick Shortcuts -->
+        <div>
+          <label class="text-xs text-slate-400 mb-2 block">{{ t.history.startDate }} / {{ t.history.endDate }}</label>
+          <div class="flex gap-2 flex-wrap">
+            <button
+              v-for="preset in datePresets"
+              :key="preset.key"
+              @click="applyDatePreset(preset.key)"
+              :class="[
+                'px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors',
+                activeDatePreset === preset.key
+                  ? 'bg-emerald-600 border-emerald-500 text-white'
+                  : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500 hover:text-white'
+              ]"
+            >
+              {{ preset.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Date Range -->
+        <div v-if="activeDatePreset === 'custom'" class="grid grid-cols-2 gap-3">
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ t.history.startDate }}</label>
-            <input 
-              type="date" 
-              v-model="filters.startDate"
-              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white"
-            />
+            <button
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-left flex items-center justify-between"
+              @click="openPicker('start')"
+            >
+              <span :class="filters.startDate ? 'text-white' : 'text-slate-500'">
+                {{ filters.startDate || '選擇日期' }}
+              </span>
+              <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </button>
           </div>
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ t.history.endDate }}</label>
-            <input 
-              type="date" 
-              v-model="filters.endDate"
-              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-white"
-            />
+            <button
+              class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-left flex items-center justify-between"
+              @click="openPicker('end')"
+            >
+              <span :class="filters.endDate ? 'text-white' : 'text-slate-500'">
+                {{ filters.endDate || '選擇日期' }}
+              </span>
+              <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </button>
           </div>
         </div>
-        <div class="flex justify-end gap-2 mt-4">
-          <button 
-            @click="setYesterday"
-            class="px-4 py-2 text-sm text-slate-400 hover:text-white"
-          >
-            {{ t.common.yesterday }}
-          </button>
-          <button 
-            @click="setToday"
-            class="px-4 py-2 text-sm text-slate-400 hover:text-white"
-          > {{ t.common.today }}
-          </button>
 
-          <button 
+        <!-- iOS-style Date Picker Sheet -->
+        <DatePickerSheet
+          v-model="pickerOpen"
+          :date="pickerTarget === 'start' ? filters.startDate : filters.endDate"
+          :title="pickerTarget === 'start' ? t.history.startDate : t.history.endDate"
+          :max-date="pickerTarget === 'start' ? (filters.endDate || todayStr) : todayStr"
+          :min-date="pickerTarget === 'end' ? (filters.startDate || undefined) : undefined"
+          @confirm="onPickerConfirm"
+        />
+
+        <!-- Actions -->
+        <div class="flex justify-end gap-2">
+          <button
             @click="resetFilters"
             class="px-4 py-2 text-sm text-slate-400 hover:text-white"
           >
             {{ t.common.cancel }}
           </button>
-          <button 
+          <button
             @click="applyFilters"
             class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm rounded-lg"
           >
             {{ t.common.confirm }}
           </button>
         </div>
+      </div>
+
+      <!-- Active date range indicator -->
+      <div
+        v-if="appliedStartDate || appliedEndDate"
+        class="flex items-center justify-between px-4 py-2 bg-emerald-900/30 border-b border-emerald-700/40"
+      >
+        <div class="flex items-center gap-2 text-xs text-emerald-300">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>
+            {{ appliedStartDate || '…' }}
+            <span class="mx-1 text-emerald-500">→</span>
+            {{ appliedEndDate || '…' }}
+          </span>
+        </div>
+        <button class="text-slate-400 hover:text-white p-0.5" @click="clearDateFilter">
+          <X :size="14" />
+        </button>
       </div>
 
       <!-- Statistics -->
@@ -289,6 +341,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, Download, Filter, X } from 'lucide-vue-next'
+import DatePickerSheet from '@/components/DatePickerSheet.vue'
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/auth'
 import { api } from '@/utils/api'
@@ -305,6 +358,26 @@ const error = ref('')
 const showFilter = ref(false)
 const showDetailModal = ref(false)
 const selectedTransaction = ref(null)
+
+// Date preset shortcuts
+const activeDatePreset = ref('')
+const appliedStartDate = ref('')
+const appliedEndDate = ref('')
+const pickerOpen = ref(false)
+const pickerTarget = ref('start')
+
+const todayStr = computed(() => {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
+})
+
+const datePresets = computed(() => [
+  { key: 'today',   label: t.value.common.today },
+  { key: 'yesterday', label: t.value.common.yesterday },
+  { key: '7days',   label: t.value.common.last7Days || '近7天' },
+  { key: '30days',  label: t.value.common.last30Days || '近30天' },
+  { key: 'custom',  label: t.value.common.custom || '自訂' },
+])
 
 // Data
 const transactions = ref([])
@@ -413,12 +486,17 @@ async function loadMore() {
 
 function applyFilters() {
   showFilter.value = false
-  transactions.value =[]
+  appliedStartDate.value = filters.value.startDate
+  appliedEndDate.value = filters.value.endDate
+  transactions.value = []
   fetchTransactions(true)
 }
 
 function resetFilters() {
-  transactions.value =[]
+  transactions.value = []
+  activeDatePreset.value = ''
+  appliedStartDate.value = ''
+  appliedEndDate.value = ''
   filters.value = {
     type: 'all',
     status: 'all',
@@ -430,31 +508,58 @@ function resetFilters() {
   fetchTransactions(true)
 }
 
-
-function setYesterday() {
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(today.getDate() - 1);
-  
-  const year = yesterday.getFullYear();
-  const month = String(yesterday.getMonth() + 1).padStart(2, '0');
-  const day = String(yesterday.getDate()).padStart(2, '0');
-  
-  filters.value.startDate = `${year}-${month}-${day}`;
-  filters.value.endDate = `${year}-${month}-${day}`;
-
-   filters.value = { ...filters.value };
+function clearDateFilter() {
+  appliedStartDate.value = ''
+  appliedEndDate.value = ''
+  activeDatePreset.value = ''
+  filters.value.startDate = ''
+  filters.value.endDate = ''
+  transactions.value = []
+  fetchTransactions(true)
 }
 
-function setToday() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  
-  filters.value.startDate = `${year}-${month}-${day}`;
-  filters.value.endDate = `${year}-${month}-${day}`;
-   filters.value = { ...filters.value };
+function openPicker(target) {
+  pickerTarget.value = target
+  pickerOpen.value = true
+}
+
+function onPickerConfirm(dateStr) {
+  if (pickerTarget.value === 'start') {
+    filters.value.startDate = dateStr
+    if (filters.value.endDate && filters.value.endDate < dateStr) {
+      filters.value.endDate = ''
+    }
+  } else {
+    filters.value.endDate = dateStr
+  }
+}
+
+function applyDatePreset(key) {
+  activeDatePreset.value = key
+  const today = new Date()
+  const fmt = (d) => {
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${y}-${m}-${day}`
+  }
+  if (key === 'today') {
+    filters.value.startDate = fmt(today)
+    filters.value.endDate = fmt(today)
+  } else if (key === 'yesterday') {
+    const y = new Date(today); y.setDate(today.getDate() - 1)
+    filters.value.startDate = fmt(y)
+    filters.value.endDate = fmt(y)
+  } else if (key === '7days') {
+    const from = new Date(today); from.setDate(today.getDate() - 6)
+    filters.value.startDate = fmt(from)
+    filters.value.endDate = fmt(today)
+  } else if (key === '30days') {
+    const from = new Date(today); from.setDate(today.getDate() - 29)
+    filters.value.startDate = fmt(from)
+    filters.value.endDate = fmt(today)
+  }
+  // 'custom' 只展開輸入，不自動設日期
 }
 
 
